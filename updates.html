@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Updates — Miscanthus Stripes</title>
+  <meta name="description" content="Field updates, research notes, and news from the Miscanthus Stripes project.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────── -->
+<nav id="nav" class="scrolled">
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/>
+      <path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/>
+      <rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/>
+    </svg>
+    Miscanthus<span class="accent"> Stripes</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="updates.html" class="active">Updates</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-mobile-close" id="nav-mobile-close">&#x2715;</button>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="updates.html">Updates</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn btn-primary btn-sm">Get in Touch</a>
+</div>
+
+<!-- ── Page Hero ─────────────────────────────────────────────── -->
+<div class="page-hero">
+  <div class="container">
+    <p class="label" data-reveal>Field Notes &amp; News</p>
+    <h1 data-reveal data-delay="1">Updates</h1>
+    <p data-reveal data-delay="2">
+      Season reports, research findings, and practical insights from the field.
+    </p>
+  </div>
+</div>
+
+<!-- ── Posts ─────────────────────────────────────────────────── -->
+<section style="padding: var(--section-py) 0;">
+  <div class="container">
+    <div class="updates-grid">
+
+      <!-- Posts list -->
+      <div>
+        <!-- Featured Post -->
+        <div class="post-card featured" data-reveal>
+          <div class="post-image">
+            <div class="post-img-placeholder gp-1" style="height:100%; width:100%;">
+              <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; opacity:0.3;">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" stroke="white" stroke-width="1.5">
+                  <path d="M30 50 V20 C30 20 18 12 14 4 C21 4 30 15 30 26 C30 15 39 4 46 4 C42 12 30 20 30 26"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-tag">Season Report</span>
+              <span>March 2025</span>
+            </div>
+            <h3><a href="#">Year Two: Root depth measurements exceed projections by 40%</a></h3>
+            <p class="excerpt">
+              Our second-season monitoring data is in. Root penetration across all
+              five pilot sites has averaged 2.1 m — significantly deeper than the
+              1.5 m we modelled at planting. What this means for erosion resistance
+              and long-term biomass yield.
+            </p>
+            <a href="#" class="post-read-more">
+              Read more
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Regular Posts -->
+        <div class="posts-list">
+          <div class="post-card" data-reveal data-delay="1">
+            <div class="post-image">
+              <div class="post-img-placeholder gp-3" style="height:100%; width:100%;"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="post-tag">Research</span>
+                <span>February 2025</span>
+              </div>
+              <h3><a href="#">New study confirms 94% sediment retention in heavy rainfall events</a></h3>
+              <p class="excerpt">
+                A collaborative study across three German research institutions
+                has published runoff data from 12 established Miscanthus strip
+                sites during the exceptional rainfall of autumn 2024.
+              </p>
+              <a href="#" class="post-read-more">
+                Read more
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="post-card" data-reveal data-delay="2">
+            <div class="post-image">
+              <div class="post-img-placeholder gp-4" style="height:100%; width:100%;"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="post-tag">Farmer Story</span>
+                <span>January 2025</span>
+              </div>
+              <h3><a href="#">Klaus's first harvest: 18 t/ha from year-two strips in Bavaria</a></h3>
+              <p class="excerpt">
+                Mixed arable farmer Klaus W. shares his first harvest experience —
+                the logistics, the yield, where the biomass went, and what he would
+                do differently at planting.
+              </p>
+              <a href="#" class="post-read-more">
+                Read more
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="post-card" data-reveal data-delay="3">
+            <div class="post-image">
+              <div class="post-img-placeholder gp-5" style="height:100%; width:100%;"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="post-tag">Policy</span>
+                <span>December 2024</span>
+              </div>
+              <h3><a href="#">CAP 2025 update: Miscanthus strips now qualify under Eco-Scheme 4</a></h3>
+              <p class="excerpt">
+                The revised Common Agricultural Policy eco-scheme guidance has
+                confirmed that permanent perennial grass buffer strips —
+                including Miscanthus — are eligible for enhanced payments from 2025.
+              </p>
+              <a href="#" class="post-read-more">
+                Read more
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="post-card" data-reveal data-delay="4">
+            <div class="post-image">
+              <div class="post-img-placeholder gp-6" style="height:100%; width:100%;"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="post-tag">Field Notes</span>
+                <span>November 2024</span>
+              </div>
+              <h3><a href="#">Planting in November: what we learned from an off-season trial</a></h3>
+              <p class="excerpt">
+                Conventional wisdom says spring planting only. We ran a controlled
+                trial with autumn rhizome planting at two sites to see whether
+                overwinter establishment is viable in Central European climates.
+              </p>
+              <a href="#" class="post-read-more">
+                Read more
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="post-card" data-reveal data-delay="1">
+            <div class="post-body" style="padding-top:1.75rem;">
+              <div class="post-meta">
+                <span class="post-tag">Biodiversity</span>
+                <span>October 2024</span>
+              </div>
+              <h3><a href="#">Overwintering insect counts: Miscanthus strips outperform wildflower margins</a></h3>
+              <p class="excerpt">
+                Transect counts in our first-year strips recorded 34 beneficial
+                insect species sheltering in standing stems through October —
+                significantly more than adjacent wildflower strips of the same width.
+              </p>
+              <a href="#" class="post-read-more">
+                Read more
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 8 H13 M9 4 L13 8 L9 12"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Load more -->
+        <div style="text-align:center; margin-top: 3rem;" data-reveal>
+          <button class="btn btn-outline">Load Earlier Posts</button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="updates-sidebar" data-reveal data-delay="2">
+
+        <!-- Newsletter -->
+        <div class="sidebar-widget">
+          <h4>Stay Updated</h4>
+          <p style="font-size:0.875rem; color:var(--text-muted); margin:0 0 1.25rem; max-width:none;">
+            Get field reports and research updates delivered to your inbox.
+            No spam — just substance.
+          </p>
+          <form class="newsletter-form" onsubmit="return false;">
+            <input type="text"  placeholder="Your name" autocomplete="name">
+            <input type="email" placeholder="Email address" autocomplete="email">
+            <button type="submit" class="btn btn-primary" style="justify-content:center;">
+              Subscribe
+            </button>
+          </form>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="sidebar-widget">
+          <h4>Recent Posts</h4>
+          <ul class="recent-posts">
+            <li>
+              <a href="#">Year Two: Root depth measurements exceed projections</a>
+              <span>March 2025</span>
+            </li>
+            <li>
+              <a href="#">94% sediment retention in heavy rainfall events</a>
+              <span>February 2025</span>
+            </li>
+            <li>
+              <a href="#">Klaus's first harvest: 18 t/ha in Bavaria</a>
+              <span>January 2025</span>
+            </li>
+            <li>
+              <a href="#">CAP 2025: Miscanthus strips qualify for Eco-Scheme 4</a>
+              <span>December 2024</span>
+            </li>
+            <li>
+              <a href="#">Planting in November — off-season trial results</a>
+              <span>November 2024</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tags -->
+        <div class="sidebar-widget">
+          <h4>Topics</h4>
+          <div class="tag-cloud">
+            <span class="tag">Season Report</span>
+            <span class="tag">Erosion</span>
+            <span class="tag">Biomass</span>
+            <span class="tag">Research</span>
+            <span class="tag">Farmer Story</span>
+            <span class="tag">Policy</span>
+            <span class="tag">Biodiversity</span>
+            <span class="tag">Harvest</span>
+            <span class="tag">Planting</span>
+            <span class="tag">Carbon</span>
+            <span class="tag">Subsidies</span>
+            <span class="tag">Field Notes</span>
+          </div>
+        </div>
+
+        <!-- CTA Card -->
+        <div class="sidebar-widget" style="background: linear-gradient(135deg, var(--g-800), var(--g-700)); border-color: var(--g-600);">
+          <h4>Got a project?</h4>
+          <p style="font-size:0.875rem; color:var(--text-muted); margin: 0.5rem 0 1.25rem; max-width:none;">
+            We'd love to feature your Miscanthus experience in a future update.
+          </p>
+          <a href="contact.html" class="btn btn-outline btn-sm" style="width:100%; justify-content:center;">
+            Share Your Story
+          </a>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:0.75rem; display:inline-flex;">
+          <svg viewBox="0 0 28 28" fill="none"><path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/><path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/><rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/></svg>
+          Miscanthus<span class="accent"> Stripes</span>
+        </a>
+        <p>Living infrastructure for the modern farm.</p>
+      </div>
+      <div class="footer-col"><h5>Site</h5><ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="updates.html">Updates</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h5>Learn</h5><ul>
+        <li><a href="#">Why Miscanthus?</a></li>
+        <li><a href="#">Erosion Guide</a></li>
+        <li><a href="#">Biomass Markets</a></li>
+      </ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul>
+        <li><a href="contact.html">Book Assessment</a></li>
+        <li><a href="contact.html">Press Enquiries</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Miscanthus Stripes. All rights reserved.</span>
+      <span>Protecting farmland, one strip at a time.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
