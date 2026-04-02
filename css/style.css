@@ -435,20 +435,20 @@ button {
   padding-top: 80px;
   padding-top: calc(80px + env(safe-area-inset-top, 0px));
   overflow: hidden;
-  padding-bottom: 60px;
-  margin-bottom: -40px;
+  padding-bottom: 40px;
+  margin-bottom: 0;
   z-index: 2;
 }
 
 .hero::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: -40px;
   left: -5%;
   width: 110%;
   height: 80px;
-  background: var(--bg);
-  border-radius: 50% 50% 0 0;
+  background: inherit;
+  border-radius: 0 0 50% 50%;
   z-index: 5;
 }
 
@@ -762,22 +762,21 @@ button {
   padding: 10rem 0 5rem;
   text-align: center;
   position: relative;
-  padding-bottom: 60px;
-  margin-bottom: -40px;
+  padding-bottom: 40px;
+  margin-bottom: 0;
   z-index: 2;
 }
 
 .page-hero::after {
   content: '';
   position: absolute;
-  bottom: -1px;
+  bottom: -40px;
   left: -5%;
   width: 110%;
   height: 80px;
-  background: var(--bg);
-  border-radius: 50% 50% 0 0;
+  background: var(--hero-bg);
+  border-radius: 0 0 50% 50%;
   z-index: 5;
-  overflow: hidden;
 }
 
 .page-hero::before {
@@ -1373,18 +1372,18 @@ button {
   color: rgba(255, 255, 255, 0.7);
   padding: 7rem 0 2.5rem;
   position: relative;
-  overflow: hidden;
+  margin-top: 0;
 }
 
 .footer::before {
   content: '';
   position: absolute;
-  top: -1px;
+  top: -40px;
   left: -5%;
   width: 110%;
   height: 80px;
-  background: var(--bg);
-  border-radius: 0 0 50% 50%;
+  background: var(--hero-bg);
+  border-radius: 50% 50% 0 0;
   z-index: 1;
 }
 
