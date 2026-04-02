@@ -59,24 +59,6 @@
 </head>
 <body>
 
-  <!-- ── Navigation ──────────────────────────────────────── -->
-  <nav class="navbar" id="navbar">
-    <div class="navbar__inner">
-      <a href="index.html" class="navbar__logo" aria-label="Home"></a>
-      <div class="navbar__links" id="navLinks">
-        <a href="index.html" class="navbar__link" data-de="Start" data-en="Home">Start</a>
-        <a href="medien.html" class="navbar__link" data-de="Medien" data-en="Media">Medien</a>
-        <a href="team.html" class="navbar__link" data-de="Team" data-en="Team">Team</a>
-        <a href="contact.html" class="navbar__link" data-de="Kontakt" data-en="Contact">Kontakt</a>
-      </div>
-      <div class="navbar__actions">
-        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
-        <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
 
   <!-- ── Login Screen ────────────────────────────────────── -->
   <div class="admin-login" id="adminLogin">
@@ -195,7 +177,8 @@
       <div class="admin-tab-content" id="admin-tab-settings">
 
         <!-- Sub-section: Notification Recipients -->
-        <h3 style="margin-bottom:1rem;">Benachrichtigungsempf&auml;nger / Notification Recipients</h3>
+        <h3 style="margin-bottom:0.75rem;">Benachrichtigungsempf&auml;nger / Notification Recipients</h3>
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:1.25rem;max-width:none;">F&uuml;gen Sie E-Mail-Adressen hinzu, um bei neuen Kontaktanfragen benachrichtigt zu werden. Wenn jemand das Kontaktformular ausf&uuml;llt, werden alle aktiven Empf&auml;nger per E-Mail benachrichtigt.<br><em style="color:var(--text-dim);">Add email addresses to be notified when new contact form submissions are received. All active recipients will be notified by email.</em></p>
         <div id="recipientsList"></div>
         <div class="empty-msg" id="recipientsEmpty" style="display:none;">Keine Empf&auml;nger / No recipients</div>
         <div style="background:var(--bg-alt);border-radius:var(--radius-sm);padding:1.25rem;margin-top:1rem;">
@@ -253,7 +236,7 @@
 
     /* ── Refresh Stats ───────────────────────────────────── */
     function refreshStats() {
-      var photos = ls('miscanthus_photos', []);
+      var photos = ls('miscanthus_gallery', []);
       var updates = ls('miscanthus_updates', []);
       var inbox = ls('miscanthus_inbox', []);
       var recipients = ls('miscanthus_recipients', []);
@@ -285,12 +268,12 @@
 
       var reader = new FileReader();
       reader.onload = function(e) {
-        var photos = ls('miscanthus_photos', []);
+        var photos = ls('miscanthus_gallery', []);
         photos.unshift({
           id: uid(), src: e.target.result, title: title,
           description: desc, category: cat, date: new Date().toISOString()
         });
-        ss('miscanthus_photos', photos);
+        ss('miscanthus_gallery', photos);
         fi.value = '';
         document.getElementById('photoTitle').value = '';
         document.getElementById('photoDescription').value = '';
@@ -347,7 +330,7 @@
             '<div class="inbox-item__left">' +
               '<span class="inbox-item__dot ' + (item.read ? 'read' : '') + '"></span>' +
               '<div class="inbox-item__meta">' +
-                '<div class="inbox-item__name">' + esc(item.name) + ' ' + esc(item.lastName || '') + '</div>' +
+                '<div class="inbox-item__name">' + esc(item.firstName) + ' ' + esc(item.lastName || '') + '</div>' +
                 '<div class="inbox-item__email">' + esc(item.email) + '</div>' +
               '</div>' +
             '</div>' +
@@ -357,7 +340,7 @@
             '</div>' +
           '</div>' +
           '<div class="inbox-detail" id="inbox-d-' + i + '">' +
-            '<div class="inbox-detail__row"><span class="inbox-detail__label">Name:</span><span>' + esc(item.name) + '</span></div>' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">Name:</span><span>' + esc(item.firstName) + '</span></div>' +
             '<div class="inbox-detail__row"><span class="inbox-detail__label">Nachname:</span><span>' + esc(item.lastName || '') + '</span></div>' +
             '<div class="inbox-detail__row"><span class="inbox-detail__label">E-Mail:</span><span>' + esc(item.email) + '</span></div>' +
             '<div class="inbox-detail__row"><span class="inbox-detail__label">Telefon:</span><span>' + esc(item.phone || '') + '</span></div>' +
@@ -453,7 +436,7 @@
 
     /* ── Manage Photos ───────────────────────────────────── */
     function renderManagePhotos() {
-      var photos = ls('miscanthus_photos', []);
+      var photos = ls('miscanthus_gallery', []);
       var c = document.getElementById('managePhotos');
       var em = document.getElementById('photosEmpty');
       c.innerHTML = '';
@@ -476,9 +459,9 @@
 
       c.querySelectorAll('[data-del-photo]').forEach(function(b) {
         b.addEventListener('click', function() {
-          var photos = ls('miscanthus_photos', []);
+          var photos = ls('miscanthus_gallery', []);
           photos.splice(parseInt(b.getAttribute('data-del-photo')), 1);
-          ss('miscanthus_photos', photos); renderManagePhotos(); refreshStats();
+          ss('miscanthus_gallery', photos); renderManagePhotos(); refreshStats();
         });
       });
     }
