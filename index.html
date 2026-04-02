@@ -205,55 +205,49 @@
 
   <!-- ── Divider: Stats → Goals ──────────────────────────── -->
 
-  <!-- ── Goals ───────────────────────────────────────────── -->
-  <section class="section" id="goals">
-    <div class="container">
-      <div class="text-center reveal">
-        <span class="section__label"
-              data-de="Mission" data-en="Mission">Mission</span>
-        <h2 class="section__heading mx-auto"
-            data-de="Unsere Ziele" data-en="Our Goals">Unsere Ziele</h2>
+  <!-- ── Goals (Sticky Scroll) ────────────────────────────── -->
+  <div class="goals-scroll" id="goalsScroll">
+    <div class="goals-scroll__sticky">
+      <div class="goals-scroll__header">
+        <span class="section__label" data-de="Mission" data-en="Mission">Mission</span>
+        <h2 class="section__heading" data-de="Unsere Ziele" data-en="Our Goals">Unsere Ziele</h2>
       </div>
-      <div class="goals-grid" style="margin-top:2rem;">
-        <div class="goal-card reveal">
-          <div class="goal-card__number">1</div>
-          <p class="goal-card__text"
-             data-de="Der Miscanthus-Streifenanbau soll zur Versorgung des Marktes mit landwirtschaftlicher Biomasse für die Herstellung regenerativer, biobasierter und recyclefähiger Produkte beitragen."
+      <div class="goals-scroll__counter">
+        <span class="goals-scroll__current" id="goalCurrent">1</span>
+        <span class="goals-scroll__total">/ 6</span>
+      </div>
+      <div class="goals-scroll__bg-number" id="goalBgNumber">1</div>
+      <div class="goals-scroll__progress">
+        <div class="goals-scroll__progress-bar" id="goalProgressBar"></div>
+      </div>
+      <div class="goals-scroll__card-area">
+        <div class="goals-scroll__card" data-goal="0">
+          <p data-de="Der Miscanthus-Streifenanbau soll zur Versorgung des Marktes mit landwirtschaftlicher Biomasse für die Herstellung regenerativer, biobasierter und recyclefähiger Produkte beitragen."
              data-en="Miscanthus strip cultivation is to contribute to supplying the market with agricultural biomass for the production of regenerative, bio-based, and recyclable products.">Der Miscanthus-Streifenanbau soll zur Versorgung des Marktes mit landwirtschaftlicher Biomasse für die Herstellung regenerativer, biobasierter und recyclefähiger Produkte beitragen.</p>
         </div>
-        <div class="goal-card reveal">
-          <div class="goal-card__number">2</div>
-          <p class="goal-card__text"
-             data-de="Der Einfluss des mehrjährigen Miscanthus-Streifenanbaus auf die benachbarten Ackerflächen wird untersucht, statistisch bewertet und auf gegenseitige Wechselwirkungen und Kompatibilität geprüft. Effekte auf die Ertragsentwicklung werden ermittelt."
-             data-en="The influence of perennial Miscanthus strip cultivation on adjacent arable land is investigated, statistically assessed, and examined for mutual interactions and compatibility. Effects on yield development are determined.">Der Einfluss des mehrjährigen Miscanthus-Streifenanbaus auf die benachbarten Ackerflächen wird untersucht, statistisch bewertet und auf gegenseitige Wechselwirkungen und Kompatibilität geprüft. Effekte auf die Ertragsentwicklung werden ermittelt.</p>
+        <div class="goals-scroll__card" data-goal="1">
+          <p data-de="Der Einfluss des mehrjährigen Miscanthus-Streifenanbaus auf die benachbarten Ackerflächen wird untersucht, statistisch bewertet und auf gegenseitige Wechselwirkungen und Kompatibilität geprüft."
+             data-en="The influence of perennial Miscanthus strip cultivation on adjacent arable land is investigated, statistically assessed, and examined for mutual interactions and compatibility.">Der Einfluss des mehrjährigen Miscanthus-Streifenanbaus auf die benachbarten Ackerflächen wird untersucht, statistisch bewertet und auf gegenseitige Wechselwirkungen und Kompatibilität geprüft.</p>
         </div>
-        <div class="goal-card reveal">
-          <div class="goal-card__number">3</div>
-          <p class="goal-card__text"
-             data-de="Der Einfluss des Miscanthus Streifenanbaus auf Faktoren wie Bodenerosion, Bodenstruktur, Kohlenstoff und Stickstoffgehalt des Bodens sowie dessen Auswirkungen auf die Biodiversität werden untersucht und bewertet."
+        <div class="goals-scroll__card" data-goal="2">
+          <p data-de="Der Einfluss des Miscanthus Streifenanbaus auf Faktoren wie Bodenerosion, Bodenstruktur, Kohlenstoff und Stickstoffgehalt des Bodens sowie dessen Auswirkungen auf die Biodiversität werden untersucht und bewertet."
              data-en="The influence of Miscanthus strip cultivation on factors such as soil erosion, soil structure, carbon and nitrogen content, and its effects on biodiversity are investigated and assessed.">Der Einfluss des Miscanthus Streifenanbaus auf Faktoren wie Bodenerosion, Bodenstruktur, Kohlenstoff und Stickstoffgehalt des Bodens sowie dessen Auswirkungen auf die Biodiversität werden untersucht und bewertet.</p>
         </div>
-        <div class="goal-card reveal">
-          <div class="goal-card__number">4</div>
-          <p class="goal-card__text"
-             data-de="Wir wollen Strategien entwickeln, wie die nachhaltige Biomasseproduktion über Miscanthus-Streifenanbau effizient und effektiv in bewährte Fruchtfolgen integriert werden kann. Die in Hessen gewonnene Erkenntnisse sollen dann auch auf andere Bundesländer übertragbar sein."
-             data-en="We aim to develop strategies for efficiently and effectively integrating sustainable biomass production through Miscanthus strip cultivation into established crop rotations. Findings from Hesse are to be transferable to other federal states.">Wir wollen Strategien entwickeln, wie die nachhaltige Biomasseproduktion über Miscanthus-Streifenanbau effizient und effektiv in bewährte Fruchtfolgen integriert werden kann. Die in Hessen gewonnene Erkenntnisse sollen dann auch auf andere Bundesländer übertragbar sein.</p>
+        <div class="goals-scroll__card" data-goal="3">
+          <p data-de="Wir wollen Strategien entwickeln, wie die nachhaltige Biomasseproduktion über Miscanthus-Streifenanbau effizient und effektiv in bewährte Fruchtfolgen integriert werden kann. Die in Hessen gewonnene Erkenntnisse sollen dann auch auf andere Bundesländer übertragbar sein."
+             data-en="We aim to develop strategies for integrating sustainable biomass production through Miscanthus strip cultivation into established crop rotations. Findings from Hesse are to be transferable to other federal states.">Wir wollen Strategien entwickeln, wie die nachhaltige Biomasseproduktion über Miscanthus-Streifenanbau effizient und effektiv in bewährte Fruchtfolgen integriert werden kann. Die in Hessen gewonnene Erkenntnisse sollen dann auch auf andere Bundesländer übertragbar sein.</p>
         </div>
-        <div class="goal-card reveal">
-          <div class="goal-card__number">5</div>
-          <p class="goal-card__text"
-             data-de="Potenzielle Absatzmärkte für innovative, langlebige Miscanthus-Produkte sollen weiter untersucht und erschlossen werden. Ziel ist es dabei, monetäre Anreize für Landwirtinnen und Landwirte zu schaffen und deren Gewinnspanne zu erhöhen. Langfristig soll eine regionale Miscanthus-Wertschöpfungskette entstehen."
-             data-en="Potential sales markets for innovative, durable Miscanthus products are to be further investigated and developed. The aim is to create monetary incentives for farmers and increase their profit margins. In the long term, a regional Miscanthus value chain is to be established.">Potenzielle Absatzmärkte für innovative, langlebige Miscanthus-Produkte sollen weiter untersucht und erschlossen werden. Ziel ist es dabei, monetäre Anreize für Landwirtinnen und Landwirte zu schaffen und deren Gewinnspanne zu erhöhen. Langfristig soll eine regionale Miscanthus-Wertschöpfungskette entstehen.</p>
+        <div class="goals-scroll__card" data-goal="4">
+          <p data-de="Potenzielle Absatzmärkte für innovative, langlebige Miscanthus-Produkte sollen weiter untersucht und erschlossen werden. Ziel ist es, monetäre Anreize für Landwirtinnen und Landwirte zu schaffen. Langfristig soll eine regionale Miscanthus-Wertschöpfungskette entstehen."
+             data-en="Potential sales markets for innovative, durable Miscanthus products are to be investigated. The aim is to create monetary incentives for farmers. In the long term, a regional Miscanthus value chain is to be established.">Potenzielle Absatzmärkte für innovative, langlebige Miscanthus-Produkte sollen weiter untersucht und erschlossen werden. Ziel ist es, monetäre Anreize für Landwirtinnen und Landwirte zu schaffen. Langfristig soll eine regionale Miscanthus-Wertschöpfungskette entstehen.</p>
         </div>
-        <div class="goal-card reveal">
-          <div class="goal-card__number">6</div>
-          <p class="goal-card__text"
-             data-de="Streifenanbau, also gleichzeitiger Anbau von mehreren Kulturen auf demselben Schlag in wechselnden Streifen. Dies soll auf neuartige, mehrjährige Biomasse-Kulturen, wie Miscanthus, ausgeweitet werden."
+        <div class="goals-scroll__card" data-goal="5">
+          <p data-de="Streifenanbau, also gleichzeitiger Anbau von mehreren Kulturen auf demselben Schlag in wechselnden Streifen. Dies soll auf neuartige, mehrjährige Biomasse-Kulturen, wie Miscanthus, ausgeweitet werden."
              data-en="Strip cultivation, the simultaneous growing of multiple crops on the same field in alternating strips, is to be extended to novel perennial biomass crops such as Miscanthus.">Streifenanbau, also gleichzeitiger Anbau von mehreren Kulturen auf demselben Schlag in wechselnden Streifen. Dies soll auf neuartige, mehrjährige Biomasse-Kulturen, wie Miscanthus, ausgeweitet werden.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- ── Divider: Goals → How It Works ───────────────────── -->
 

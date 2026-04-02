@@ -415,6 +415,50 @@
 
   /* ── Hero Parallax (disabled - text stays fixed) ────── */
 
+  /* ── Goals Sticky Scroll ────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var goalsSection = document.getElementById('goalsScroll');
+    if (!goalsSection) return;
+
+    var cards = goalsSection.querySelectorAll('.goals-scroll__card');
+    var currentEl = document.getElementById('goalCurrent');
+    var bgNumber = document.getElementById('goalBgNumber');
+    var progressBar = document.getElementById('goalProgressBar');
+    var totalGoals = cards.length;
+    var lastActive = -1;
+
+    // Set first card active
+    if (cards.length) cards[0].classList.add('active');
+
+    function onScroll() {
+      var rect = goalsSection.getBoundingClientRect();
+      var scrollHeight = goalsSection.offsetHeight - window.innerHeight;
+      var scrolled = -rect.top;
+      var progress = Math.max(0, Math.min(1, scrolled / scrollHeight));
+      var activeIndex = Math.min(Math.floor(progress * totalGoals), totalGoals - 1);
+
+      if (activeIndex !== lastActive) {
+        cards.forEach(function (card, i) {
+          if (i === activeIndex) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+        if (currentEl) currentEl.textContent = activeIndex + 1;
+        if (bgNumber) bgNumber.textContent = activeIndex + 1;
+        lastActive = activeIndex;
+      }
+
+      if (progressBar) {
+        progressBar.style.width = ((activeIndex + 1) / totalGoals * 100) + '%';
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  });
+
   /* ── Tabs (Gallery page) ───────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var tabBtns = document.querySelectorAll('.tab-btn[data-tab]');

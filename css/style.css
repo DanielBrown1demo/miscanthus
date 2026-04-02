@@ -771,6 +771,129 @@ button {
   font-size: 0.95rem;
 }
 
+/* ── Goals Sticky Scroll ───────────────────────────────────── */
+.goals-scroll {
+  height: 400vh;
+  position: relative;
+}
+
+.goals-scroll__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.goals-scroll__header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.goals-scroll__header .section__heading {
+  margin-bottom: 0;
+}
+
+.goals-scroll__counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.goals-scroll__current {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.goals-scroll__total {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-dim);
+}
+
+.goals-scroll__bg-number {
+  position: absolute;
+  font-family: var(--font-heading);
+  font-size: clamp(15rem, 30vw, 25rem);
+  font-weight: 700;
+  color: var(--primary);
+  opacity: 0.04;
+  z-index: 0;
+  line-height: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.goals-scroll__progress {
+  width: 200px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 3px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+}
+
+.goals-scroll__progress-bar {
+  height: 100%;
+  width: 16.66%;
+  background: var(--gradient-primary);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.goals-scroll__card-area {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  min-height: 140px;
+  z-index: 2;
+}
+
+.goals-scroll__card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+.goals-scroll__card.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.goals-scroll__card p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: none;
+  margin: 0 auto;
+}
+
 /* ── Steps / How It Works ──────────────────────────────────── */
 .steps {
   display: grid;
