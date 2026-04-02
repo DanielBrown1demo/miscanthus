@@ -427,6 +427,77 @@
     });
   });
 
+  /* ── Step Slider ────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var slider = document.getElementById('stepSlider');
+    if (!slider) return;
+
+    var dots = slider.querySelectorAll('.step-slider__dot');
+    var cards = slider.querySelectorAll('.step-slider__card');
+    var lines = slider.querySelectorAll('.step-slider__line-fill');
+    var prevBtn = document.getElementById('stepPrev');
+    var nextBtn = document.getElementById('stepNext');
+    var currentLabel = document.getElementById('stepCurrent');
+    var active = 0;
+
+    function goTo(index) {
+      var prev = active;
+      active = Math.max(0, Math.min(index, cards.length - 1));
+
+      // Update dots
+      dots.forEach(function (dot, i) {
+        dot.classList.remove('active', 'done');
+        if (i === active) dot.classList.add('active');
+        else if (i < active) dot.classList.add('done');
+      });
+
+      // Update cards with direction
+      cards.forEach(function (card, i) {
+        card.classList.remove('active', 'exit-left');
+        if (i === active) {
+          card.classList.add('active');
+        } else if (i < active) {
+          card.classList.add('exit-left');
+        }
+      });
+
+      // Update connecting lines
+      lines.forEach(function (line, i) {
+        line.style.width = i < active ? '100%' : '0%';
+      });
+
+      // Update nav
+      if (prevBtn) prevBtn.disabled = active === 0;
+      if (nextBtn) nextBtn.disabled = active === cards.length - 1;
+      if (currentLabel) currentLabel.textContent = active + 1;
+    }
+
+    // Dot clicks
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goTo(parseInt(dot.getAttribute('data-step'), 10));
+      });
+    });
+
+    // Arrow clicks
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(active - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(active + 1); });
+
+    // Swipe support
+    var startX = 0;
+    slider.addEventListener('touchstart', function (e) {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    slider.addEventListener('touchend', function (e) {
+      var diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        goTo(active + (diff > 0 ? 1 : -1));
+      }
+    });
+
+    goTo(0);
+  });
+
   /* ── Goals Sticky Scroll ────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var goalsSection = document.getElementById('goalsScroll');

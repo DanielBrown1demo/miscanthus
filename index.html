@@ -260,30 +260,45 @@
         <h2 class="section__heading mx-auto"
             data-de="Durchführung" data-en="How It Works">Durchführung</h2>
       </div>
-      <div class="steps" style="margin-top:2.5rem;">
-        <div class="step reveal">
-          <div class="step__number">1</div>
-          <h3 class="step__title"
-              data-de="Streifenplanung" data-en="Plan the Strips">Streifenplanung</h3>
-          <p class="step__text"
-             data-de="In enger Zusammenarbeit mit den Betrieben werden individuelle Streifenkonfigurationen entwickelt, die auf die jeweiligen Flächenbedingungen abgestimmt sind."
-             data-en="In close collaboration with each farm, individual strip configurations are developed and tailored to the specific field conditions.">In enger Zusammenarbeit mit den Betrieben werden individuelle Streifenkonfigurationen entwickelt, die auf die jeweiligen Flächenbedingungen abgestimmt sind.</p>
+      <!-- Step indicators -->
+      <div class="step-slider" id="stepSlider" style="margin-top:2.5rem;">
+        <div class="step-slider__indicators">
+          <button class="step-slider__dot active" data-step="0">1</button>
+          <div class="step-slider__line"><div class="step-slider__line-fill" id="stepLineFill"></div></div>
+          <button class="step-slider__dot" data-step="1">2</button>
+          <div class="step-slider__line"><div class="step-slider__line-fill"></div></div>
+          <button class="step-slider__dot" data-step="2">3</button>
         </div>
-        <div class="step reveal">
-          <div class="step__number">2</div>
-          <h3 class="step__title"
-              data-de="Anlage auf vier Betrieben" data-en="Establishment on Four Farms">Anlage auf vier Betrieben</h3>
-          <p class="step__text"
-             data-de="Die Versuchsflächen werden auf vier hessischen Betrieben angelegt. Rhizome werden maschinell gepflanzt; im ersten Jahr ist Wuchs von 1–2 m zu erwarten."
-             data-en="Trial plots are established on four farms in Hesse. Rhizomes are planted mechanically; growth of 1–2 m is expected in the first season.">Die Versuchsflächen werden auf vier hessischen Betrieben angelegt. Rhizome werden maschinell gepflanzt; im ersten Jahr ist Wuchs von 1–2 m zu erwarten.</p>
+
+        <!-- Step content cards -->
+        <div class="step-slider__content">
+          <div class="step-slider__card active" data-step="0">
+            <h3 data-de="Streifenplanung" data-en="Plan the Strips">Streifenplanung</h3>
+            <p data-de="In enger Zusammenarbeit mit den Betrieben werden individuelle Streifenkonfigurationen entwickelt, die auf die jeweiligen Flächenbedingungen abgestimmt sind."
+               data-en="In close collaboration with each farm, individual strip configurations are developed and tailored to the specific field conditions.">In enger Zusammenarbeit mit den Betrieben werden individuelle Streifenkonfigurationen entwickelt, die auf die jeweiligen Flächenbedingungen abgestimmt sind.</p>
+          </div>
+          <div class="step-slider__card" data-step="1">
+            <h3 data-de="Anlage auf vier Betrieben" data-en="Establishment on Four Farms">Anlage auf vier Betrieben</h3>
+            <p data-de="Die Versuchsflächen werden auf vier hessischen Betrieben angelegt. Rhizome werden maschinell gepflanzt; im ersten Jahr ist Wuchs von 1–2 m zu erwarten."
+               data-en="Trial plots are established on four farms in Hesse. Rhizomes are planted mechanically; growth of 1–2 m is expected in the first season.">Die Versuchsflächen werden auf vier hessischen Betrieben angelegt. Rhizome werden maschinell gepflanzt; im ersten Jahr ist Wuchs von 1–2 m zu erwarten.</p>
+          </div>
+          <div class="step-slider__card" data-step="2">
+            <h3 data-de="Datenerhebung und Auswertung" data-en="Data Collection and Evaluation">Datenerhebung und Auswertung</h3>
+            <p data-de="Über nahezu vier Jahre werden Daten zu Bodengesundheit, Biodiversität und Ertragsentwicklung erhoben, modelliert und ausgewertet."
+               data-en="Over nearly four years, data on soil health, biodiversity, and yield development are collected, modelled, and evaluated.">Über nahezu vier Jahre werden Daten zu Bodengesundheit, Biodiversität und Ertragsentwicklung erhoben, modelliert und ausgewertet.</p>
+          </div>
         </div>
-        <div class="step reveal">
-          <div class="step__number">3</div>
-          <h3 class="step__title"
-              data-de="Datenerhebung und Auswertung" data-en="Data Collection and Evaluation">Datenerhebung und Auswertung</h3>
-          <p class="step__text"
-             data-de="Über nahezu vier Jahre werden Daten zu Bodengesundheit, Biodiversität und Ertragsentwicklung erhoben, modelliert und ausgewertet."
-             data-en="Over nearly four years, data on soil health, biodiversity, and yield development are collected, modelled, and evaluated.">Über nahezu vier Jahre werden Daten zu Bodengesundheit, Biodiversität und Ertragsentwicklung erhoben, modelliert und ausgewertet.</p>
+
+        <!-- Nav arrows -->
+        <div class="step-slider__nav">
+          <button class="step-slider__arrow" id="stepPrev" disabled aria-label="Previous">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="step-slider__label" id="stepLabel" data-de="Schritt" data-en="Step">Schritt</span>
+          <span class="step-slider__count"><span id="stepCurrent">1</span> / 3</span>
+          <button class="step-slider__arrow" id="stepNext" aria-label="Next">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </div>
     </div>
