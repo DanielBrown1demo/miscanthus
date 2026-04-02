@@ -123,6 +123,8 @@ button {
 
 .section--alt {
   background: var(--bg-alt);
+  border-radius: 32px;
+  margin: 0 0.5rem;
 }
 
 .section__label {
@@ -435,6 +437,8 @@ button {
   padding-top: 80px;
   padding-top: calc(80px + env(safe-area-inset-top, 0px));
   overflow: hidden;
+  border-radius: 0 0 40px 40px;
+  z-index: 2;
 }
 
 .hero__canvas {
@@ -747,6 +751,8 @@ button {
   padding: 10rem 0 5rem;
   text-align: center;
   position: relative;
+  border-radius: 0 0 40px 40px;
+  z-index: 2;
   overflow: hidden;
 }
 
@@ -1343,6 +1349,8 @@ button {
   color: rgba(255, 255, 255, 0.7);
   padding: 5rem 0 2.5rem;
   position: relative;
+  border-radius: 40px 40px 0 0;
+  margin-top: -1px;
 }
 
 
@@ -1494,6 +1502,19 @@ button {
 
   .section {
     padding: 5rem 0;
+  }
+
+  .hero,
+  .page-hero {
+    border-radius: 0 0 28px 28px;
+  }
+
+  .footer {
+    border-radius: 28px 28px 0 0;
+  }
+
+  .section--alt {
+    border-radius: 24px;
   }
 
   .hero {
