@@ -1,467 +1,253 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery — Miscanthus Stripes</title>
-  <meta name="description" content="Photos from the field — see Miscanthus stripes in action across farms and seasons.">
+  <title>Medien - Miscanthus im Streifenanbau</title>
+  <meta name="description" content="Fotos, Projektberichte und das Team hinter dem Miscanthus-Forschungsprojekt in Hessen.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    /* ── Lightbox ────────────────────────────────────────────── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 8, 4, 0.96);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-    .lightbox.open { display: flex; }
-    .lightbox-inner {
-      position: relative;
-      max-width: min(90vw, 900px);
-      width: 100%;
-    }
-    .lightbox-img {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .lightbox-caption {
-      margin-top: 1.25rem;
-      text-align: center;
-    }
-    .lightbox-caption h3 { font-size: 1.3rem; }
-    .lightbox-caption p { font-size: 0.9rem; color: var(--text-muted); margin: 0.25rem auto 0; }
-    .lightbox-close {
-      position: absolute;
-      top: -3rem;
-      right: 0;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 2rem;
-      cursor: pointer;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-    .lightbox-close:hover { color: var(--white); }
-    .lightbox-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      justify-content: space-between;
-      width: calc(100% + 5rem);
-      left: -2.5rem;
-      pointer-events: none;
-    }
-    .lightbox-prev,
-    .lightbox-next {
-      pointer-events: all;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .lightbox-prev:hover,
-    .lightbox-next:hover { background: rgba(255,255,255,0.15); }
-    .lightbox-prev svg,
-    .lightbox-next svg { width: 18px; height: 18px; stroke: var(--white); }
-
-    /* Gallery section padding */
-    .gallery-section { padding: var(--section-py) 0; }
-  </style>
 </head>
 <body>
 
-<!-- ── Navigation ──────────────────────────────────────────── -->
-<nav id="nav" class="scrolled">
-  <a href="index.html" class="nav-logo">
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/>
-      <path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/>
-      <rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/>
-    </svg>
-    Miscanthus<span class="accent"> Stripes</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="gallery.html" class="active">Gallery</a></li>
-    <li><a href="updates.html">Updates</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
-  </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<div class="nav-mobile" id="nav-mobile">
-  <button class="nav-mobile-close" id="nav-mobile-close">&#x2715;</button>
-  <a href="index.html">Home</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="updates.html">Updates</a>
-  <a href="contact.html">Contact</a>
-  <a href="contact.html" class="btn btn-primary btn-sm">Get in Touch</a>
-</div>
-
-<!-- ── Page Hero ─────────────────────────────────────────────── -->
-<div class="page-hero">
-  <div class="container">
-    <p class="label" data-reveal>From the Field</p>
-    <h1 data-reveal data-delay="1">Gallery</h1>
-    <p data-reveal data-delay="2">
-      Miscanthus strips across seasons and farms — from first planting to full canopy.
-    </p>
-  </div>
-</div>
-
-<!-- ── Gallery ───────────────────────────────────────────────── -->
-<section class="gallery-section">
-  <div class="container">
-
-    <!-- Filters -->
-    <div class="gallery-filter" data-reveal>
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="establishment">Establishment</button>
-      <button class="filter-btn" data-filter="growth">Full Growth</button>
-      <button class="filter-btn" data-filter="harvest">Harvest</button>
-      <button class="filter-btn" data-filter="erosion">Erosion Control</button>
-      <button class="filter-btn" data-filter="seasons">Seasons</button>
-    </div>
-
-    <!-- Grid -->
-    <div class="gallery-grid">
-
-      <!-- Row 1 -->
-      <div class="gallery-item wide gp-1" data-cat="growth" data-reveal
-           data-title="Mature miscanthus strip in August"
-           data-desc="Third-year crop, Bavaria. 3.8 m canopy height, dense stand."
-           onclick="openLightbox(this)">
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Mature Miscanthus Strip — August</h4>
-            <span>Third-year crop, Bavaria</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Full Growth</span>
-        </div>
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon">&#127807;</span>
+        Miscanthus
+      </a>
+      <div class="navbar__links" id="navLinks">
+        <a href="index.html" class="navbar__link"
+           data-de="Start" data-en="Home">Start</a>
+        <a href="gallery.html" class="navbar__link navbar__link--active"
+           data-de="Medien" data-en="Media">Medien</a>
+        <a href="contact.html" class="navbar__link"
+           data-de="Kontakt" data-en="Contact">Kontakt</a>
+        <a href="contact.html" class="navbar__cta"
+           data-de="Kontakt aufnehmen" data-en="Get in Touch">Kontakt aufnehmen</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
       </div>
-
-      <div class="gallery-item tall gp-2" data-cat="erosion" data-reveal data-delay="1"
-           data-title="Root system cross-section"
-           data-desc="2-year-old rhizome network reaching 1.8 m depth. The primary erosion barrier."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="20" cy="20" r="16"/><path d="M20 10 V20 L26 26"/>
-          </svg>
-          <span>Root System</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Root System Cross-Section</h4>
-            <span>2-year rhizome network</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Erosion Control</span>
-        </div>
-      </div>
-
-      <!-- Row 2 -->
-      <div class="gallery-item gp-3" data-cat="establishment" data-reveal
-           data-title="Spring planting — year one"
-           data-desc="Rhizome planting on a 12% slope. Mechanical planting rig, 400 mm row spacing."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M8 32 L20 8 L32 32"/><path d="M14 22 H26"/>
-          </svg>
-          <span>Year 1 Planting</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Spring Planting — Year One</h4>
-            <span>12% slope, mechanical planting</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Establishment</span>
-        </div>
-      </div>
-
-      <div class="gallery-item gp-4" data-cat="harvest" data-reveal data-delay="1"
-           data-title="Winter harvest ready"
-           data-desc="Late February harvest window. 14% moisture, stems dry golden."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="6" y="28" width="28" height="6" rx="2"/>
-            <path d="M14 28 V12 M20 28 V8 M26 28 V14"/>
-          </svg>
-          <span>Harvest</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Winter Harvest Ready</h4>
-            <span>Late February window</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Harvest</span>
-        </div>
-      </div>
-
-      <div class="gallery-item gp-5" data-cat="erosion" data-reveal data-delay="2"
-           data-title="Before & after — field margin"
-           data-desc="Comparison photo: adjacent unprotected margin vs. Miscanthus-protected strip after heavy rainfall."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 36 C4 36 10 20 20 20 C30 20 36 36 36 36"/>
-            <path d="M4 20 C4 20 10 12 20 12 C30 12 36 20 36 20"/>
-          </svg>
-          <span>Before &amp; After</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Before &amp; After — Field Margin</h4>
-            <span>Post-rainfall comparison</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Erosion Control</span>
-        </div>
-      </div>
-
-      <!-- Row 3 -->
-      <div class="gallery-item gp-6" data-cat="seasons" data-reveal
-           data-title="Autumn senescence"
-           data-desc="October colour change. Stems turning golden, leaves drying in preparation for harvest."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="20" cy="14" r="8"/>
-            <path d="M20 22 V34 M14 28 H26"/>
-          </svg>
-          <span>Autumn</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Autumn Senescence</h4>
-            <span>October colour change</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Seasons</span>
-        </div>
-      </div>
-
-      <div class="gallery-item wide gp-7" data-cat="growth" data-reveal data-delay="1"
-           data-title="Field panorama — full season"
-           data-desc="Aerial view, July. Miscanthus strips visible along contour lines of a 180 ha mixed arable farm."
-           onclick="openLightbox(this)">
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Field Panorama — Full Season</h4>
-            <span>Aerial view, 180 ha mixed arable</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Full Growth</span>
-        </div>
-      </div>
-
-      <div class="gallery-item gp-8" data-cat="harvest" data-reveal data-delay="1"
-           data-title="Baled biomass ready for collection"
-           data-desc="Round bales stacked at field edge. 4.2 t dry weight from 0.4 ha strip."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="14" cy="26" r="8"/>
-            <circle cx="28" cy="26" r="6"/>
-          </svg>
-          <span>Baled Harvest</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>Baled Biomass</h4>
-            <span>4.2 t dry weight, 0.4 ha strip</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Harvest</span>
-        </div>
-      </div>
-
-      <div class="gallery-item gp-1" data-cat="establishment" data-reveal data-delay="2"
-           data-title="First emergence — 6 weeks post planting"
-           data-desc="Rhizome shoot emergence. Ideal conditions: soil temp >10°C, consistent moisture."
-           onclick="openLightbox(this)">
-        <div class="gallery-placeholder">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M20 34 V20 C20 20 14 14 12 8"/>
-            <path d="M20 24 C20 24 26 18 28 12"/>
-          </svg>
-          <span>First Growth</span>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>First Emergence — Week 6</h4>
-            <span>Post-planting shoot growth</span>
-          </div>
-        </div>
-        <div style="position:absolute;top:1rem;left:1rem;">
-          <span class="post-tag">Establishment</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Upload CTA -->
-    <div style="text-align:center; padding: 2rem 0 4rem;" data-reveal>
-      <p style="color:var(--text-dim); margin:0 auto 1.5rem; font-size:0.95rem;">
-        Have photos from your own Miscanthus project?
-      </p>
-      <a href="contact.html" class="btn btn-outline">Share Your Photos</a>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── Lightbox ───────────────────────────────────────────────── -->
-<div class="lightbox" id="lightbox">
-  <div class="lightbox-inner">
-    <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
-    <div class="lightbox-img" id="lightbox-img"></div>
-    <div class="lightbox-nav">
-      <button class="lightbox-prev" onclick="shiftLightbox(-1)">
-        <svg viewBox="0 0 18 18" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 4 L6 9 L11 14"/>
-        </svg>
-      </button>
-      <button class="lightbox-next" onclick="shiftLightbox(1)">
-        <svg viewBox="0 0 18 18" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 4 L12 9 L7 14"/>
-        </svg>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="lightbox-caption">
-      <h3 id="lightbox-title"></h3>
-      <p id="lightbox-desc"></p>
-    </div>
-  </div>
-</div>
+  </nav>
 
-<!-- ── CTA ────────────────────────────────────────────────────── -->
-<section class="cta-section">
+  <!-- ── Page Hero ───────────────────────────────────────── -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 data-de="Medien" data-en="Media">Medien</h1>
+      <p data-de="Fotos, Projektberichte und unser Team." data-en="Photos, project updates, and our team.">Fotos, Projektberichte und unser Team.</p>
+    </div>
+  </section>
+
+  <!-- ── Tab Bar ─────────────────────────────────────────── -->
   <div class="container">
-    <div class="cta-inner" data-reveal>
-      <p class="label">See It On Your Farm</p>
-      <h2>Ready to create your own<br>gallery of results?</h2>
-      <p>Book a site assessment and let's plan your first Miscanthus strips.</p>
-      <div class="cta-actions">
-        <a href="contact.html" class="btn btn-primary">Book an Assessment</a>
-        <a href="updates.html" class="btn btn-outline">Read Field Updates</a>
-      </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="gallery"
+              data-de="Galerie" data-en="Gallery">Galerie</button>
+      <button class="tab-btn" data-tab="updates"
+              data-de="Aktuelles" data-en="Updates">Aktuelles</button>
     </div>
   </div>
-</section>
 
-<!-- ── Footer ─────────────────────────────────────────────────── -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo" style="margin-bottom:0.75rem; display:inline-flex;">
-          <svg viewBox="0 0 28 28" fill="none"><path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/><path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/><rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/></svg>
-          Miscanthus<span class="accent"> Stripes</span>
-        </a>
-        <p>Living infrastructure for the modern farm.</p>
+  <!-- ── Gallery Tab ─────────────────────────────────────── -->
+  <section class="section tab-content active" id="tab-gallery">
+    <div class="container">
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all"
+                data-de="Alle" data-en="All">Alle</button>
+        <button class="filter-btn" data-filter="establishment"
+                data-de="Anlage" data-en="Establishment">Anlage</button>
+        <button class="filter-btn" data-filter="growth"
+                data-de="Wachstum" data-en="Growth">Wachstum</button>
+        <button class="filter-btn" data-filter="harvest"
+                data-de="Ernte" data-en="Harvest">Ernte</button>
+        <button class="filter-btn" data-filter="erosion"
+                data-de="Erosion" data-en="Erosion">Erosion</button>
+        <button class="filter-btn" data-filter="seasons"
+                data-de="Jahreszeiten" data-en="Seasons">Jahreszeiten</button>
       </div>
-      <div class="footer-col"><h5>Site</h5><ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="updates.html">Updates</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul></div>
-      <div class="footer-col"><h5>Learn</h5><ul>
-        <li><a href="#">Why Miscanthus?</a></li>
-        <li><a href="#">Erosion Guide</a></li>
-        <li><a href="#">Biomass Markets</a></li>
-      </ul></div>
-      <div class="footer-col"><h5>Contact</h5><ul>
-        <li><a href="contact.html">Book Assessment</a></li>
-        <li><a href="contact.html">Press Enquiries</a></li>
-      </ul></div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Placeholder items -->
+        <div class="gallery-item" data-category="establishment">
+          <div class="gallery-placeholder">
+            <div class="gallery-placeholder__icon">&#128247;</div>
+            <span data-de="Pflanzung Betrieb 1" data-en="Planting Farm 1">Pflanzung Betrieb 1</span>
+          </div>
+          <div class="gallery-item__overlay">
+            <div class="gallery-item__caption" data-de="Pflanzung Betrieb 1" data-en="Planting Farm 1">Pflanzung Betrieb 1</div>
+            <div class="gallery-item__tag" data-de="Anlage" data-en="Establishment">Anlage</div>
+          </div>
+        </div>
+        <div class="gallery-item" data-category="growth">
+          <div class="gallery-placeholder">
+            <div class="gallery-placeholder__icon">&#127793;</div>
+            <span data-de="Wachstum nach 3 Monaten" data-en="Growth after 3 months">Wachstum nach 3 Monaten</span>
+          </div>
+          <div class="gallery-item__overlay">
+            <div class="gallery-item__caption" data-de="Wachstum nach 3 Monaten" data-en="Growth after 3 months">Wachstum nach 3 Monaten</div>
+            <div class="gallery-item__tag" data-de="Wachstum" data-en="Growth">Wachstum</div>
+          </div>
+        </div>
+        <div class="gallery-item" data-category="seasons">
+          <div class="gallery-placeholder">
+            <div class="gallery-placeholder__icon">&#9728;</div>
+            <span data-de="Sommeransicht" data-en="Summer view">Sommeransicht</span>
+          </div>
+          <div class="gallery-item__overlay">
+            <div class="gallery-item__caption" data-de="Sommeransicht" data-en="Summer view">Sommeransicht</div>
+            <div class="gallery-item__tag" data-de="Jahreszeiten" data-en="Seasons">Jahreszeiten</div>
+          </div>
+        </div>
+        <div class="gallery-item" data-category="erosion">
+          <div class="gallery-placeholder">
+            <div class="gallery-placeholder__icon">&#127754;</div>
+            <span data-de="Erosionsschutz im Test" data-en="Erosion control testing">Erosionsschutz im Test</span>
+          </div>
+          <div class="gallery-item__overlay">
+            <div class="gallery-item__caption" data-de="Erosionsschutz im Test" data-en="Erosion control testing">Erosionsschutz im Test</div>
+            <div class="gallery-item__tag" data-de="Erosion" data-en="Erosion">Erosion</div>
+          </div>
+        </div>
+        <div class="gallery-item" data-category="establishment">
+          <div class="gallery-placeholder">
+            <div class="gallery-placeholder__icon">&#128247;</div>
+            <span data-de="Rhizompflanzung" data-en="Rhizome planting">Rhizompflanzung</span>
+          </div>
+          <div class="gallery-item__overlay">
+            <div class="gallery-item__caption" data-de="Rhizompflanzung" data-en="Rhizome planting">Rhizompflanzung</div>
+            <div class="gallery-item__tag" data-de="Anlage" data-en="Establishment">Anlage</div>
+          </div>
+        </div>
+        <div class="gallery-item" data-category="harvest">
+          <div class="gallery-placeholder">
+            <div class="gallery-placeholder__icon">&#127806;</div>
+            <span data-de="Erste Ernte" data-en="First harvest">Erste Ernte</span>
+          </div>
+          <div class="gallery-item__overlay">
+            <div class="gallery-item__caption" data-de="Erste Ernte" data-en="First harvest">Erste Ernte</div>
+            <div class="gallery-item__tag" data-de="Ernte" data-en="Harvest">Ernte</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; 2025 Miscanthus Stripes. All rights reserved.</span>
-      <span>Protecting farmland, one strip at a time.</span>
+  </section>
+
+  <!-- ── Updates Tab ─────────────────────────────────────── -->
+  <section class="section tab-content" id="tab-updates">
+    <div class="container">
+      <div class="updates-list" id="updatesList">
+        <!-- Seed Post 1 -->
+        <div class="update-card reveal">
+          <div class="update-card__meta">
+            <span class="update-card__tag" data-de="Forschung" data-en="Research">Forschung</span>
+            <span class="update-card__date">März 2025</span>
+          </div>
+          <h3 class="update-card__title"
+              data-de="Erste Ergebnisse zur Bodenstruktur"
+              data-en="First Results on Soil Structure">Erste Ergebnisse zur Bodenstruktur</h3>
+          <p class="update-card__excerpt"
+             data-de="Nach der ersten Vegetationsperiode zeigen die Versuchsflächen bereits messbare Verbesserungen in der Bodenstruktur und Aggregatstabilität."
+             data-en="After the first growing season, the trial plots already show measurable improvements in soil structure and aggregate stability.">Nach der ersten Vegetationsperiode zeigen die Versuchsflächen bereits messbare Verbesserungen in der Bodenstruktur und Aggregatstabilität.</p>
+        </div>
+        <!-- Seed Post 2 -->
+        <div class="update-card reveal">
+          <div class="update-card__meta">
+            <span class="update-card__tag" data-de="Feldbericht" data-en="Field Report">Feldbericht</span>
+            <span class="update-card__date">Oktober 2024</span>
+          </div>
+          <h3 class="update-card__title"
+              data-de="Saisonbericht: Wachstum und Etablierung"
+              data-en="Season Report: Growth and Establishment">Saisonbericht: Wachstum und Etablierung</h3>
+          <p class="update-card__excerpt"
+             data-de="Alle vier Betriebe berichten von einer erfolgreichen Etablierung der Miscanthus-Streifen. Die Wuchshöhen übertreffen die Erwartungen für das erste Standjahr."
+             data-en="All four farms report successful establishment of the Miscanthus strips. Growth heights exceed expectations for the first year.">Alle vier Betriebe berichten von einer erfolgreichen Etablierung der Miscanthus-Streifen. Die Wuchshöhen übertreffen die Erwartungen für das erste Standjahr.</p>
+        </div>
+        <!-- Seed Post 3 -->
+        <div class="update-card reveal">
+          <div class="update-card__meta">
+            <span class="update-card__tag" data-de="Projekt" data-en="Project">Projekt</span>
+            <span class="update-card__date">April 2024</span>
+          </div>
+          <h3 class="update-card__title"
+              data-de="Projektstart in Hessen"
+              data-en="Project Launch in Hesse">Projektstart in Hessen</h3>
+          <p class="update-card__excerpt"
+             data-de="Das Forschungsprojekt startet offiziell mit der Pflanzung auf den ersten beiden Betrieben in Nordhessen. Die Begleitforschung beginnt parallel."
+             data-en="The research project officially launches with planting at the first two farms in northern Hesse. Accompanying research begins in parallel.">Das Forschungsprojekt startet offiziell mit der Pflanzung auf den ersten beiden Betrieben in Nordhessen. Die Begleitforschung beginnt parallel.</p>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- ── Team Section ────────────────────────────────────── -->
+  <section class="team-section section--alt">
+    <div class="container">
+      <span class="section__label" data-de="Das Team" data-en="The Team">Das Team</span>
+      <h2 class="section__heading" data-de="Unser Team" data-en="Our Team">Unser Team</h2>
+      <div class="team-photo">
+        <img src="images/team.jpg" alt="Projektteam"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="team-photo__placeholder" style="display:none;">
+          <div class="team-photo__placeholder-icon">&#128101;</div>
+          <span data-de="Teamfoto folgt" data-en="Team photo coming soon">Teamfoto folgt</span>
+        </div>
+      </div>
+      <p class="team-photo__caption"
+         data-de="Das Projektteam, Hessen 2024" data-en="The project team, Hesse 2024">Das Projektteam, Hessen 2024</p>
+      <p class="team-photo__note"
+         data-de="Weitere Fotos folgen in Kürze." data-en="More photos coming soon.">Weitere Fotos folgen in Kürze.</p>
+    </div>
+  </section>
+
+  <!-- ── Lightbox ────────────────────────────────────────── -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">&times;</button>
+    <img class="lightbox__img" id="lightboxImg" src="" alt="">
+    <div class="lightbox__caption" id="lightboxCaption"></div>
   </div>
-</footer>
 
-<script src="js/main.js"></script>
-<script>
-  // Lightbox
-  const items = Array.from(document.querySelectorAll('.gallery-item[data-title]'));
-  let currentIdx = 0;
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <span class="navbar__logo-icon">&#127807;</span>
+            Miscanthus im Streifenanbau
+          </div>
+          <p class="footer__tagline"
+             data-de="Nachhaltige Biomasseproduktion für eine kreislauforientierte Landwirtschaft."
+             data-en="Sustainable biomass production for a circular economy in agriculture.">Nachhaltige Biomasseproduktion für eine kreislauforientierte Landwirtschaft.</p>
+        </div>
+        <div class="footer__nav">
+          <div class="footer__nav-group">
+            <h4 data-de="Seiten" data-en="Pages">Seiten</h4>
+            <a href="index.html" data-de="Start" data-en="Home">Start</a>
+            <a href="gallery.html" data-de="Medien" data-en="Media">Medien</a>
+            <a href="contact.html" data-de="Kontakt" data-en="Contact">Kontakt</a>
+          </div>
+          <div class="footer__nav-group">
+            <h4 data-de="Kontakt" data-en="Contact">Kontakt</h4>
+            <a href="mailto:info@miscanthus-streifen.de">info@miscanthus-streifen.de</a>
+            <span style="display:block;font-size:0.9rem;color:rgba(255,255,255,0.5);"
+                  data-de="Standort Hessen" data-en="Based in Hesse">Standort Hessen</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span data-de="Gefördert im Rahmen der Europäischen Innovationspartnerschaft (EIP-AGRI)"
+              data-en="Supported under the European Innovation Partnership (EIP-AGRI)">Gefördert im Rahmen der Europäischen Innovationspartnerschaft (EIP-AGRI)</span>
+        <span>&copy; 2024 Miscanthus im Streifenanbau</span>
+      </div>
+    </div>
+  </footer>
 
-  function openLightbox(el) {
-    currentIdx = items.indexOf(el);
-    renderLightbox();
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function shiftLightbox(dir) {
-    currentIdx = (currentIdx + dir + items.length) % items.length;
-    renderLightbox();
-  }
-
-  function renderLightbox() {
-    const el = items[currentIdx];
-    const img = document.getElementById('lightbox-img');
-    // Clone the gradient background + any placeholder SVG content
-    img.style.background = window.getComputedStyle(el).background;
-    img.innerHTML = el.querySelector('.gallery-placeholder')
-      ? el.querySelector('.gallery-placeholder').innerHTML
-      : '';
-    document.getElementById('lightbox-title').textContent = el.dataset.title || '';
-    document.getElementById('lightbox-desc').textContent  = el.dataset.desc  || '';
-  }
-
-  document.addEventListener('keydown', e => {
-    if (!document.getElementById('lightbox').classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft')  shiftLightbox(-1);
-    if (e.key === 'ArrowRight') shiftLightbox(1);
-  });
-</script>
+  <script src="js/main.js"></script>
 </body>
 </html>

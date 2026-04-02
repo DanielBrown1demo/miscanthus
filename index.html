@@ -1,429 +1,271 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miscanthus Stripes — Nature's Answer to Erosion</title>
-  <meta name="description" content="Miscanthus grass strips protect your fields from erosion while generating harvestable biomass. A win-win for farmers and the environment.">
+  <title>Miscanthus im Streifenanbau</title>
+  <meta name="description" content="Ein Forschungsprojekt zur nachhaltigen Biomasseproduktion und zum Schutz landwirtschaftlicher Böden in Hessen.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ── Navigation ──────────────────────────────────────────── -->
-<nav id="nav">
-  <a href="index.html" class="nav-logo">
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/>
-      <path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/>
-      <rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/>
-    </svg>
-    Miscanthus<span class="accent"> Stripes</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="updates.html">Updates</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
-  </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- Mobile Nav -->
-<div class="nav-mobile" id="nav-mobile">
-  <button class="nav-mobile-close" id="nav-mobile-close">&#x2715;</button>
-  <a href="index.html">Home</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="updates.html">Updates</a>
-  <a href="contact.html">Contact</a>
-  <a href="contact.html" class="btn btn-primary btn-sm">Get in Touch</a>
-</div>
-
-<!-- ── Hero ─────────────────────────────────────────────────── -->
-<section class="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-gradient"></div>
-
-  <div class="hero-content">
-    <div class="hero-label label">
-      Sustainable Agriculture
-    </div>
-    <h1>Stop Erosion.<br><em>Grow Biomass.</em><br>Win Twice.</h1>
-    <p class="hero-sub">
-      Miscanthus grass strips — planted along the edges of your fields —
-      anchor your soil, protect waterways, and pay you back every single year.
-    </p>
-    <div class="hero-actions">
-      <a href="#solution" class="btn btn-primary">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="8" cy="8" r="6.5"/><path d="M8 5.5v5M5.5 8.5l2.5 2.5 2.5-2.5"/>
-        </svg>
-        Discover the Solution
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon">&#127807;</span>
+        Miscanthus
       </a>
-      <a href="contact.html" class="btn btn-outline">For Farmers</a>
+      <div class="navbar__links" id="navLinks">
+        <a href="index.html" class="navbar__link navbar__link--active"
+           data-de="Start" data-en="Home">Start</a>
+        <a href="gallery.html" class="navbar__link"
+           data-de="Medien" data-en="Media">Medien</a>
+        <a href="contact.html" class="navbar__link"
+           data-de="Kontakt" data-en="Contact">Kontakt</a>
+        <a href="contact.html" class="navbar__cta"
+           data-de="Kontakt aufnehmen" data-en="Get in Touch">Kontakt aufnehmen</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
+      </div>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </div>
+  </nav>
 
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
+  <!-- ── Hero ────────────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <canvas class="hero__canvas" id="heroCanvas"></canvas>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <span class="hero__label"
+            data-de="Nachhaltige Landwirtschaft"
+            data-en="Sustainable Agriculture">Nachhaltige Landwirtschaft</span>
+      <h1 data-de="Miscanthus im Streifenanbau"
+          data-en="Miscanthus Strip Cultivation">Miscanthus im Streifenanbau</h1>
+      <p class="hero__subtitle"
+         data-de="Ein Forschungsprojekt zur nachhaltigen Biomasseproduktion und zum Schutz landwirtschaftlicher Böden in Hessen."
+         data-en="A research project on sustainable biomass production and the protection of agricultural soils in Hesse.">Ein Forschungsprojekt zur nachhaltigen Biomasseproduktion und zum Schutz landwirtschaftlicher Böden in Hessen.</p>
+      <div class="hero__buttons">
+        <a href="#problem" class="btn btn--primary"
+           data-de="Mehr erfahren" data-en="Learn More">Mehr erfahren</a>
+        <a href="contact.html" class="btn btn--outline"
+           data-de="Kontakt aufnehmen" data-en="Get in Touch">Kontakt aufnehmen</a>
+      </div>
+    </div>
+  </section>
 
-<!-- ── Problem ───────────────────────────────────────────────── -->
-<section class="problem" id="problem">
-  <div class="container">
-    <div class="problem-grid">
-      <div>
-        <p class="label" data-reveal>The Challenge</p>
-        <h2 data-reveal data-delay="1">Your fields<br>are losing ground</h2>
-        <p data-reveal data-delay="2" style="color:var(--text-muted); margin-top:1rem; font-size:1.05rem;">
-          Intensive farming has left millions of hectares of agricultural land
-          vulnerable. Topsoil runs off with every heavy rain, nutrients wash into
-          streams, and field edges crumble year after year.
-        </p>
-        <p data-reveal data-delay="3" style="color:var(--text-muted); margin-top:1rem; font-size:1.05rem;">
-          Traditional solutions — tree plantings, stone walls, fallow strips —
-          either cost too much, take decades to establish, or rob you of productive
-          land with no return.
-        </p>
-        <div class="problem-stats" data-reveal data-delay="4">
-          <div class="stat-pill">
-            <div class="number">24<span style="font-size:1rem;">t</span></div>
-            <div class="desc">Average topsoil loss per hectare annually on unprotected slopes</div>
+  <!-- ── Problem ─────────────────────────────────────────── -->
+  <section class="section" id="problem">
+    <div class="container">
+      <div class="reveal">
+        <span class="section__label"
+              data-de="Hintergrund" data-en="Background">Hintergrund</span>
+        <h2 class="section__heading"
+            data-de="Das Problem" data-en="The Challenge">Das Problem</h2>
+        <p class="section__text"
+           data-de="Der zunehmende Wettbewerb um landwirtschaftliche Nutzflächen erfordert Anbausysteme, die flächeneffizient, naturverträglich und klimaneutral sind. Intensiver Ackerbau hat Böden erosionsanfällig gemacht und den Verlust von Nährstoffen sowie Bodenstruktur begünstigt."
+           data-en="Growing competition for agricultural land requires farming systems that are area-efficient, environmentally compatible, and climate-neutral. Intensive cultivation has left soils vulnerable to erosion and accelerated the loss of nutrients and soil structure.">Der zunehmende Wettbewerb um landwirtschaftliche Nutzflächen erfordert Anbausysteme, die flächeneffizient, naturverträglich und klimaneutral sind. Intensiver Ackerbau hat Böden erosionsanfällig gemacht und den Verlust von Nährstoffen sowie Bodenstruktur begünstigt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Solution ────────────────────────────────────────── -->
+  <section class="section section--alt" id="solution">
+    <div class="container">
+      <div class="reveal">
+        <span class="section__label"
+              data-de="Unser Ansatz" data-en="Our Approach">Unser Ansatz</span>
+        <h2 class="section__heading"
+            data-de="Die Lösung" data-en="The Solution">Die Lösung</h2>
+        <p class="section__text"
+           data-de="Streifenanbau &mdash; der gleichzeitige Anbau mehrerer Kulturen in wechselnden Streifen auf einem Schlag &mdash; bietet einen vielversprechenden Ansatz. Dieses Projekt wendet das Prinzip auf mehrjährige Biomassekulturen wie Miscanthus an."
+           data-en="Strip cultivation &mdash; the simultaneous growing of several crops in alternating strips on a single field &mdash; offers a promising approach. This project applies that principle to perennial biomass crops such as Miscanthus.">Streifenanbau &mdash; der gleichzeitige Anbau mehrerer Kulturen in wechselnden Streifen auf einem Schlag &mdash; bietet einen vielversprechenden Ansatz. Dieses Projekt wendet das Prinzip auf mehrjährige Biomassekulturen wie Miscanthus an.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why Miscanthus ──────────────────────────────────── -->
+  <section class="section" id="why">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section__label"
+              data-de="Warum Miscanthus?" data-en="Why Miscanthus?">Warum Miscanthus?</span>
+        <h2 class="section__heading mx-auto"
+            data-de="Vorteile von Miscanthus" data-en="Benefits of Miscanthus">Vorteile von Miscanthus</h2>
+      </div>
+      <div class="grid-3" style="margin-top:2rem;">
+        <div class="card reveal">
+          <div class="card__icon">&#9752;</div>
+          <h3 class="card__title"
+              data-de="Vielseitigkeit" data-en="Versatility">Vielseitigkeit</h3>
+          <p class="card__text"
+             data-de="Miscanthus ist eine mehrjährige Pflanze, die auf vielfältige Weise verwendet werden kann &mdash; von Baumaterialien bis hin zu Biokraftstoffen und Verpackungen."
+             data-en="Miscanthus is a perennial plant that can be used in many ways &mdash; from building materials to biofuels and packaging.">Miscanthus ist eine mehrjährige Pflanze, die auf vielfältige Weise verwendet werden kann &mdash; von Baumaterialien bis hin zu Biokraftstoffen und Verpackungen.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">&#9863;</div>
+          <h3 class="card__title"
+              data-de="Niedriger Input, hoher Output" data-en="Low Input, High Output">Niedriger Input, hoher Output</h3>
+          <p class="card__text"
+             data-de="Miscanthus erzielt hohe Biomasseerträge bei einem geringen Bedarf an Dünge- und Pflanzenschutzmitteln &mdash; wirtschaftlich und ressourcenschonend."
+             data-en="Miscanthus achieves high biomass yields with low requirements for fertiliser and pesticides &mdash; economically and resource-efficient.">Miscanthus erzielt hohe Biomasseerträge bei einem geringen Bedarf an Dünge- und Pflanzenschutzmitteln &mdash; wirtschaftlich und ressourcenschonend.</p>
+        </div>
+        <div class="card reveal">
+          <div class="card__icon">&#127793;</div>
+          <h3 class="card__title"
+              data-de="Erosionsschutz" data-en="Erosion Control">Erosionsschutz</h3>
+          <p class="card__text"
+             data-de="Miscanthus stabilisiert Böden und verhindert Erosion bei Starkregenereignissen. Zusätzlich verbessert die Pflanze die Bodenqualität durch Kohlenstoffspeicherung und fördert die Biodiversität."
+             data-en="Miscanthus stabilises soils and prevents erosion during heavy rainfall events. The plant also improves soil quality through carbon sequestration and promotes biodiversity.">Miscanthus stabilisiert Böden und verhindert Erosion bei Starkregenereignissen. Zusätzlich verbessert die Pflanze die Bodenqualität durch Kohlenstoffspeicherung und fördert die Biodiversität.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ───────────────────────────────────────────── -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="stat__number" data-count="4">0</div>
+          <div class="stat__label"
+               data-de="Betriebe in Hessen" data-en="Farms in Hesse">Betriebe in Hessen</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="4" data-suffix="+">0</div>
+          <div class="stat__label"
+               data-de="Jahre Forschung" data-en="Years of Research">Jahre Forschung</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="20" data-suffix="t/ha">0</div>
+          <div class="stat__label"
+               data-de="Biomasseertrag" data-en="Biomass Yield">Biomasseertrag</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="100" data-suffix="%">0</div>
+          <div class="stat__label"
+               data-de="Erneuerbar" data-en="Renewable">Erneuerbar</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Goals ───────────────────────────────────────────── -->
+  <section class="section" id="goals">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section__label"
+              data-de="Mission" data-en="Mission">Mission</span>
+        <h2 class="section__heading mx-auto"
+            data-de="Unsere Ziele" data-en="Our Goals">Unsere Ziele</h2>
+      </div>
+      <div class="goals-grid" style="margin-top:2rem;">
+        <div class="goal-card reveal">
+          <div class="goal-card__number">1</div>
+          <p class="goal-card__text"
+             data-de="Versorgung des Marktes mit landwirtschaftlicher Biomasse für die Herstellung regenerativer, biobasierter und recyclefähiger Produkte."
+             data-en="Supplying the market with agricultural biomass for the production of regenerative, bio-based, and recyclable products.">Versorgung des Marktes mit landwirtschaftlicher Biomasse für die Herstellung regenerativer, biobasierter und recyclefähiger Produkte.</p>
+        </div>
+        <div class="goal-card reveal">
+          <div class="goal-card__number">2</div>
+          <p class="goal-card__text"
+             data-de="Untersuchung und Bewertung des Einflusses des Miscanthus-Streifenanbaus auf Bodenerosion, Bodenstruktur, Kohlenstoff- und Stickstoffgehalt sowie Biodiversität."
+             data-en="Investigating and assessing the influence of Miscanthus strip cultivation on soil erosion, soil structure, carbon and nitrogen content, and biodiversity.">Untersuchung und Bewertung des Einflusses des Miscanthus-Streifenanbaus auf Bodenerosion, Bodenstruktur, Kohlenstoff- und Stickstoffgehalt sowie Biodiversität.</p>
+        </div>
+        <div class="goal-card reveal">
+          <div class="goal-card__number">3</div>
+          <p class="goal-card__text"
+             data-de="Entwicklung von Strategien zur effizienten Integration des Streifenanbaus in bewährte Fruchtfolgen. Die in Hessen gewonnenen Erkenntnisse sollen auf andere Bundesländer übertragbar sein."
+             data-en="Developing strategies for the efficient integration of strip cultivation into established crop rotations. Findings from Hesse are to be transferable to other German federal states.">Entwicklung von Strategien zur effizienten Integration des Streifenanbaus in bewährte Fruchtfolgen. Die in Hessen gewonnenen Erkenntnisse sollen auf andere Bundesländer übertragbar sein.</p>
+        </div>
+        <div class="goal-card reveal">
+          <div class="goal-card__number">4</div>
+          <p class="goal-card__text"
+             data-de="Erschließung potenzieller Absatzmärkte für innovative, langlebige Miscanthus-Produkte sowie Schaffung monetärer Anreize für Landwirtinnen und Landwirte. Langfristig soll eine regionale Miscanthus-Wertschöpfungskette entstehen."
+             data-en="Developing potential sales markets for innovative, durable Miscanthus products and creating monetary incentives for farmers. The long-term aim is to establish a regional Miscanthus value chain.">Erschließung potenzieller Absatzmärkte für innovative, langlebige Miscanthus-Produkte sowie Schaffung monetärer Anreize für Landwirtinnen und Landwirte. Langfristig soll eine regionale Miscanthus-Wertschöpfungskette entstehen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How It Works ────────────────────────────────────── -->
+  <section class="section section--alt" id="how">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section__label"
+              data-de="Ablauf" data-en="Process">Ablauf</span>
+        <h2 class="section__heading mx-auto"
+            data-de="Durchführung" data-en="How It Works">Durchführung</h2>
+      </div>
+      <div class="steps" style="margin-top:2.5rem;">
+        <div class="step reveal">
+          <div class="step__number">1</div>
+          <h3 class="step__title"
+              data-de="Streifenplanung" data-en="Plan the Strips">Streifenplanung</h3>
+          <p class="step__text"
+             data-de="In enger Zusammenarbeit mit den Betrieben werden individuelle Streifenkonfigurationen entwickelt, die auf die jeweiligen Flächenbedingungen abgestimmt sind."
+             data-en="In close collaboration with each farm, individual strip configurations are developed and tailored to the specific field conditions.">In enger Zusammenarbeit mit den Betrieben werden individuelle Streifenkonfigurationen entwickelt, die auf die jeweiligen Flächenbedingungen abgestimmt sind.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step__number">2</div>
+          <h3 class="step__title"
+              data-de="Anlage auf vier Betrieben" data-en="Establishment on Four Farms">Anlage auf vier Betrieben</h3>
+          <p class="step__text"
+             data-de="Die Versuchsflächen werden auf vier hessischen Betrieben angelegt. Rhizome werden maschinell gepflanzt; im ersten Jahr ist Wuchs von 1–2 m zu erwarten."
+             data-en="Trial plots are established on four farms in Hesse. Rhizomes are planted mechanically; growth of 1–2 m is expected in the first season.">Die Versuchsflächen werden auf vier hessischen Betrieben angelegt. Rhizome werden maschinell gepflanzt; im ersten Jahr ist Wuchs von 1–2 m zu erwarten.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step__number">3</div>
+          <h3 class="step__title"
+              data-de="Datenerhebung und Auswertung" data-en="Data Collection and Evaluation">Datenerhebung und Auswertung</h3>
+          <p class="step__text"
+             data-de="Über nahezu vier Jahre werden Daten zu Bodengesundheit, Biodiversität und Ertragsentwicklung erhoben, modelliert und ausgewertet."
+             data-en="Over nearly four years, data on soil health, biodiversity, and yield development are collected, modelled, and evaluated.">Über nahezu vier Jahre werden Daten zu Bodengesundheit, Biodiversität und Ertragsentwicklung erhoben, modelliert und ausgewertet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <span class="navbar__logo-icon">&#127807;</span>
+            Miscanthus im Streifenanbau
           </div>
-          <div class="stat-pill">
-            <div class="number">40<span style="font-size:1rem;">%</span></div>
-            <div class="desc">Of EU agricultural land is affected by erosion risk</div>
+          <p class="footer__tagline"
+             data-de="Nachhaltige Biomasseproduktion für eine kreislauforientierte Landwirtschaft."
+             data-en="Sustainable biomass production for a circular economy in agriculture.">Nachhaltige Biomasseproduktion für eine kreislauforientierte Landwirtschaft.</p>
+        </div>
+        <div class="footer__nav">
+          <div class="footer__nav-group">
+            <h4 data-de="Seiten" data-en="Pages">Seiten</h4>
+            <a href="index.html" data-de="Start" data-en="Home">Start</a>
+            <a href="gallery.html" data-de="Medien" data-en="Media">Medien</a>
+            <a href="contact.html" data-de="Kontakt" data-en="Contact">Kontakt</a>
           </div>
-          <div class="stat-pill">
-            <div class="number">€320</div>
-            <div class="desc">Average annual loss in soil productivity per hectare</div>
-          </div>
-          <div class="stat-pill">
-            <div class="number">60<span style="font-size:1rem;">yr</span></div>
-            <div class="desc">Estimated time left for productive topsoil at current rates</div>
-          </div>
-        </div>
-      </div>
-      <div class="problem-visual" data-reveal data-delay="2">
-        <div class="problem-visual-inner">
-          <svg class="soil-svg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Sky -->
-            <rect width="400" height="300" fill="#0a1a0a"/>
-            <!-- Rolling hills -->
-            <path d="M0 200 Q50 160 100 180 Q150 200 200 160 Q250 120 300 150 Q350 180 400 140 L400 300 L0 300Z" fill="#122018"/>
-            <path d="M0 220 Q80 195 160 210 Q240 225 320 195 Q360 180 400 200 L400 300 L0 300Z" fill="#0d1a0d"/>
-            <!-- Rain drops -->
-            <g opacity="0.6">
-              <line x1="80"  y1="40"  x2="70"  y2="90"  stroke="#1e5028" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="140" y1="20"  x2="130" y2="70"  stroke="#1e5028" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="200" y1="50"  x2="190" y2="100" stroke="#1e5028" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="260" y1="30"  x2="250" y2="80"  stroke="#1e5028" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="320" y1="10"  x2="310" y2="60"  stroke="#1e5028" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="60"  y1="90"  x2="50"  y2="140" stroke="#1e4020" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="180" y1="100" x2="170" y2="150" stroke="#1e4020" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="300" y1="80"  x2="290" y2="130" stroke="#1e4020" stroke-width="1.5" stroke-linecap="round"/>
-            </g>
-            <!-- Eroding soil particles -->
-            <g fill="#3d2a10" opacity="0.8">
-              <circle cx="120" cy="190" r="3"/>
-              <circle cx="180" cy="200" r="2.5"/>
-              <circle cx="240" cy="175" r="4"/>
-              <circle cx="160" cy="215" r="2"/>
-              <circle cx="280" cy="190" r="3.5"/>
-              <circle cx="100" cy="210" r="2"/>
-              <circle cx="320" cy="175" r="3"/>
-            </g>
-            <!-- Arrow showing runoff -->
-            <path d="M200 170 Q220 200 240 220" stroke="#1e5028" stroke-width="2" stroke-dasharray="4,4" opacity="0.5"/>
-            <text x="200" y="270" fill="#2d5a35" font-size="11" text-anchor="middle" font-family="Inter, sans-serif">Unprotected field runoff</text>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Solution ──────────────────────────────────────────────── -->
-<section class="solution" id="solution">
-  <div class="container">
-    <div class="solution-intro">
-      <p class="label" data-reveal>The Solution</p>
-      <h2 data-reveal data-delay="1">Meet your new<br>field boundary</h2>
-      <p data-reveal data-delay="2">
-        Miscanthus — a perennial grass native to Asia — grows up to 4 metres tall,
-        establishes dense root systems within two seasons, and produces a
-        substantial annual biomass harvest. Plant it in strips along your field
-        margins and it quietly goes to work.
-      </p>
-    </div>
-
-    <div class="plant-cards">
-      <div class="plant-card" data-reveal data-delay="1">
-        <div class="plant-icon">
-          <svg viewBox="0 0 26 26" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 22 V8"/><path d="M13 14 C13 14 8 10 6 5 C9 5 13 9 13 14Z"/><path d="M13 18 C13 18 18 13 20 8 C17 8 13 13 13 18Z"/>
-          </svg>
-        </div>
-        <h4>Miscanthus × giganteus</h4>
-        <p>
-          The sterile hybrid that grows up to 4 m, produces 10–25 t/ha of dry biomass
-          annually, and spreads exclusively by rhizome — no invasive risk.
-          Established once, it lasts 20+ years.
-        </p>
-      </div>
-      <div class="plant-card" data-reveal data-delay="2">
-        <div class="plant-icon">
-          <svg viewBox="0 0 26 26" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 22 V4"/><path d="M7 10 C7 10 10 7 13 8 C13 8 16 7 19 10"/>
-            <path d="M5 16 C5 16 9 12 13 14 C13 14 17 12 21 16"/>
-          </svg>
-        </div>
-        <h4>Deep Root Architecture</h4>
-        <p>
-          Root systems reach 2–3 m deep within 3 seasons, holding soil in place
-          even during extreme rainfall events. The dense underground mat is the
-          primary barrier against slope erosion.
-        </p>
-      </div>
-      <div class="plant-card" data-reveal data-delay="3">
-        <div class="plant-icon">
-          <svg viewBox="0 0 26 26" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="13" cy="13" r="9"/><path d="M13 8 V13 L16.5 16.5"/>
-          </svg>
-        </div>
-        <h4>Annual Harvest Cycle</h4>
-        <p>
-          Cut in late winter when moisture content is lowest. The above-ground
-          biomass is ready for pellets, biogas, combustion, or sale. The plant
-          regrows from the same rhizome next spring.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── How It Works ──────────────────────────────────────────── -->
-<section class="how" id="how">
-  <div class="container">
-    <div class="section-header" style="text-align:center;">
-      <p class="label" data-reveal>How It Works</p>
-      <h2 data-reveal data-delay="1">Three steps to<br>protected, productive fields</h2>
-    </div>
-    <div class="how-steps">
-      <div class="step" data-reveal data-delay="1">
-        <div class="step-number">1</div>
-        <h4>Plan Your Stripes</h4>
-        <p>
-          We assess your field topography, erosion risk zones, and prevailing
-          water runoff paths. Together we design strip placement to intercept
-          sediment flow while minimising land sacrifice.
-        </p>
-      </div>
-      <div class="step" data-reveal data-delay="2">
-        <div class="step-number">2</div>
-        <h4>Plant Once</h4>
-        <p>
-          Rhizomes are planted mechanically in spring. Within the first season
-          you'll see 1–2 m growth. By year two, the strip is fully established
-          and the root barrier is actively working.
-        </p>
-      </div>
-      <div class="step" data-reveal data-delay="3">
-        <div class="step-number">3</div>
-        <h4>Harvest Every Year</h4>
-        <p>
-          From year two onward, cut and collect. Use the biomass yourself
-          for heating, or sell to a growing network of biomass buyers.
-          The same plants keep working and keep paying for 20+ years.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Benefits ──────────────────────────────────────────────── -->
-<section class="benefits" id="benefits">
-  <div class="container">
-    <div class="section-header" style="text-align:center; margin-bottom: 3rem;">
-      <p class="label" data-reveal>Why It Works</p>
-      <h2 data-reveal data-delay="1">Good for your land.<br>Good for your bottom line.</h2>
-    </div>
-    <div class="benefits-grid" data-reveal data-delay="2">
-      <div class="benefit-col">
-        <div class="benefit-col-header">
-          <div class="benefit-col-icon env">
-            <svg viewBox="0 0 22 22" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 20 V6"/><path d="M11 10 C11 10 5 7 3 2 C7 2 11 7 11 10Z"/><path d="M11 16 C11 16 17 12 19 7 C15 7 11 12 11 16Z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="label" style="font-size:0.7rem; margin-bottom:0.25rem;">Environmental</p>
-            <h3>For the Land</h3>
+          <div class="footer__nav-group">
+            <h4 data-de="Kontakt" data-en="Contact">Kontakt</h4>
+            <a href="mailto:info@miscanthus-streifen.de">info@miscanthus-streifen.de</a>
+            <span style="display:block;font-size:0.9rem;color:rgba(255,255,255,0.5);"
+                  data-de="Standort Hessen" data-en="Based in Hesse">Standort Hessen</span>
           </div>
         </div>
-        <ul class="benefit-list">
-          <li><strong>Stops topsoil loss</strong> — dense roots lock soil particles in place during rain events</li>
-          <li><strong>Filters runoff</strong> — the strip intercepts sediment and nutrients before they reach watercourses</li>
-          <li><strong>Builds carbon</strong> — Miscanthus sequesters significant carbon in the soil rhizome system each year</li>
-          <li><strong>Boosts biodiversity</strong> — overwintering stems provide habitat for insects and birds</li>
-          <li><strong>Reduces chemical inputs</strong> — healthier soil margins mean less need for soil conditioners</li>
-          <li><strong>Near-zero inputs</strong> — no irrigation, no fertiliser, no pesticides after establishment</li>
-        </ul>
       </div>
-      <div class="benefit-col">
-        <div class="benefit-col-header">
-          <div class="benefit-col-icon econ">
-            <svg viewBox="0 0 22 22" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 2 V4 M11 18 V20 M4 11 H2 M20 11 H22"/>
-              <circle cx="11" cy="11" r="6"/>
-              <path d="M9 9.5 C9 9.5 9 8 11 8 C13 8 13 9.5 11 11 C9 12.5 9 14 11 14 C13 14 13 12.5 13 12.5"/>
-            </svg>
-          </div>
-          <div>
-            <p class="label" style="font-size:0.7rem; margin-bottom:0.25rem; color:var(--gold);">Economic</p>
-            <h3>For the Farmer</h3>
-          </div>
-        </div>
-        <ul class="benefit-list">
-          <li><strong>Annual biomass income</strong> — 10–25 dry tonnes per hectare of strip, every year</li>
-          <li><strong>Multiple end markets</strong> — heating pellets, biogas, straw board, or direct sale</li>
-          <li><strong>EU agri-environment payments</strong> — eligible for greening subsidies and CAP eco-schemes</li>
-          <li><strong>20-year productive life</strong> — plant once, earn for two decades from the same rhizomes</li>
-          <li><strong>Protects crop yield</strong> — soil protection directly maintains the productivity of your main crop</li>
-          <li><strong>Hedge against regulation</strong> — proactive compliance with tightening erosion legislation</li>
-        </ul>
+      <div class="footer__bottom">
+        <span data-de="Gefördert im Rahmen der Europäischen Innovationspartnerschaft (EIP-AGRI)"
+              data-en="Supported under the European Innovation Partnership (EIP-AGRI)">Gefördert im Rahmen der Europäischen Innovationspartnerschaft (EIP-AGRI)</span>
+        <span>&copy; 2024 Miscanthus im Streifenanbau</span>
       </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ── Impact Numbers ─────────────────────────────────────────── -->
-<section class="impact" id="impact">
-  <div class="container">
-    <div class="section-header" style="text-align:center;">
-      <p class="label" data-reveal>The Numbers</p>
-      <h2 data-reveal data-delay="1">Impact that speaks<br>for itself</h2>
-    </div>
-    <div class="impact-numbers" data-reveal data-delay="2">
-      <div class="impact-item">
-        <div class="impact-num">
-          <span class="count-up" data-target="95" data-suffix="%">0%</span>
-        </div>
-        <p class="impact-label">Reduction in soil erosion on protected slopes</p>
-      </div>
-      <div class="impact-item">
-        <div class="impact-num">
-          <span class="count-up" data-target="20" data-suffix="+ yr">0+ yr</span>
-        </div>
-        <p class="impact-label">Productive lifespan from a single planting</p>
-      </div>
-      <div class="impact-item">
-        <div class="impact-num">
-          <span class="count-up" data-target="25" data-suffix=" t">0 t</span>
-        </div>
-        <p class="impact-label">Dry biomass yield per hectare in peak years</p>
-      </div>
-      <div class="impact-item">
-        <div class="impact-num">
-          <span class="count-up" data-target="3.8" data-suffix="t CO₂">0t CO₂</span>
-        </div>
-        <p class="impact-label">Carbon sequestered per hectare per year</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Quote ──────────────────────────────────────────────────── -->
-<section class="quote-section">
-  <div class="container">
-    <div class="quote-box" data-reveal>
-      <blockquote>
-        "I was losing the top of my sloped fields every spring. After two seasons of
-        Miscanthus stripes, the runoff channels are gone — and I'm heating my barn
-        with the harvest. I wish I'd done it ten years ago."
-      </blockquote>
-      <p class="quote-author">
-        <strong>Klaus W.</strong>
-        Mixed arable farmer, Bavaria — 240 ha
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ── CTA ────────────────────────────────────────────────────── -->
-<section class="cta-section">
-  <div class="container">
-    <div class="cta-inner" data-reveal>
-      <p class="label">Ready to Start?</p>
-      <h2>Your fields deserve<br>a smarter border</h2>
-      <p>
-        Talk to us about assessing your land, planning your first strips,
-        and connecting you with planting support and biomass offtake.
-      </p>
-      <div class="cta-actions">
-        <a href="contact.html" class="btn btn-primary">Book a Field Assessment</a>
-        <a href="gallery.html" class="btn btn-outline">See it in Action</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Footer ─────────────────────────────────────────────────── -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo" style="margin-bottom:0.75rem; display:inline-flex;">
-          <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/>
-            <path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/>
-            <rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/>
-          </svg>
-          Miscanthus<span class="accent"> Stripes</span>
-        </a>
-        <p>Living infrastructure for the modern farm. Protecting soil and generating value — season after season.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Site</h5>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-          <li><a href="updates.html">Updates</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Learn</h5>
-        <ul>
-          <li><a href="#">Why Miscanthus?</a></li>
-          <li><a href="#">Erosion Guide</a></li>
-          <li><a href="#">Biomass Markets</a></li>
-          <li><a href="#">EU Subsidies</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Contact</h5>
-        <ul>
-          <li><a href="contact.html">Book Assessment</a></li>
-          <li><a href="contact.html">For Researchers</a></li>
-          <li><a href="contact.html">Press Enquiries</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2025 Miscanthus Stripes. All rights reserved.</span>
-      <span>Protecting farmland, one strip at a time.</span>
-    </div>
-  </div>
-</footer>
-
-<script src="js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

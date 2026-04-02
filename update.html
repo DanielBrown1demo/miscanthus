@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Miscanthus im Streifenanbau</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon">&#127807;</span>
+        Miscanthus
+      </a>
+      <div class="navbar__links" id="navLinks">
+        <a href="index.html" class="navbar__link"
+           data-de="Start" data-en="Home">Start</a>
+        <a href="gallery.html" class="navbar__link"
+           data-de="Medien" data-en="Media">Medien</a>
+        <a href="contact.html" class="navbar__link"
+           data-de="Kontakt" data-en="Contact">Kontakt</a>
+        <a href="contact.html" class="navbar__cta"
+           data-de="Kontakt aufnehmen" data-en="Get in Touch">Kontakt aufnehmen</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
+      </div>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Login Screen ────────────────────────────────────── -->
+  <div class="admin-login" id="adminLogin">
+    <h2>Admin</h2>
+    <div class="form-group">
+      <label class="form-label" for="adminPassword">Passwort / Password</label>
+      <input class="form-input" type="password" id="adminPassword" placeholder="Passwort eingeben">
+    </div>
+    <button class="btn btn--primary" id="adminLoginBtn" style="width:100%;">Login</button>
+    <div class="admin-success" id="loginError" style="background:rgba(220,38,38,0.08);color:#dc2626;">
+      Falsches Passwort / Incorrect password
+    </div>
+  </div>
+
+  <!-- ── Admin Panel ─────────────────────────────────────── -->
+  <div class="container">
+    <div class="admin-panel" id="adminPanel">
+      <h2 style="margin-bottom:1.5rem;">Admin Panel</h2>
+
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" data-admin-tab="upload">Foto hochladen / Upload Photo</button>
+        <button class="admin-tab-btn" data-admin-tab="post">Beitrag erstellen / Post Update</button>
+        <button class="admin-tab-btn" data-admin-tab="manage">Verwalten / Manage</button>
+      </div>
+
+      <!-- Upload Photo Tab -->
+      <div class="admin-tab-content active" id="admin-tab-upload">
+        <div class="form-group">
+          <label class="form-label">Bild / Image</label>
+          <input class="form-input" type="file" id="photoFile" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Beschriftung / Caption</label>
+          <input class="form-input" type="text" id="photoCaption" placeholder="Bildbeschreibung">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Kategorie / Category</label>
+          <select class="form-select" id="photoCategory">
+            <option value="establishment">Anlage / Establishment</option>
+            <option value="growth">Wachstum / Growth</option>
+            <option value="harvest">Ernte / Harvest</option>
+            <option value="erosion">Erosion</option>
+            <option value="seasons">Jahreszeiten / Seasons</option>
+          </select>
+        </div>
+        <button class="btn btn--primary" id="uploadPhotoBtn">Hochladen / Upload</button>
+        <div class="admin-success" id="uploadSuccess">Foto gespeichert! / Photo saved!</div>
+      </div>
+
+      <!-- Post Update Tab -->
+      <div class="admin-tab-content" id="admin-tab-post">
+        <div class="form-group">
+          <label class="form-label">Titel / Title</label>
+          <input class="form-input" type="text" id="postTitle" placeholder="Beitragstitel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Inhalt / Body</label>
+          <textarea class="form-textarea" id="postBody" rows="6" placeholder="Beitragstext"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Tag</label>
+            <select class="form-select" id="postTag">
+              <option value="Forschung">Forschung / Research</option>
+              <option value="Feldbericht">Feldbericht / Field Report</option>
+              <option value="Projekt">Projekt / Project</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Datum / Date</label>
+            <input class="form-input" type="date" id="postDate">
+          </div>
+        </div>
+        <button class="btn btn--primary" id="postUpdateBtn">Veröffentlichen / Publish</button>
+        <div class="admin-success" id="postSuccess">Beitrag gespeichert! / Post saved!</div>
+      </div>
+
+      <!-- Manage Tab -->
+      <div class="admin-tab-content" id="admin-tab-manage">
+        <h3 style="margin-bottom:1rem;">Fotos / Photos</h3>
+        <div id="managePhotos"></div>
+        <h3 style="margin:2rem 0 1rem;">Beiträge / Updates</h3>
+        <div id="manageUpdates"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__bottom">
+        <span>Admin Panel</span>
+        <span>&copy; 2024 Miscanthus im Streifenanbau</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

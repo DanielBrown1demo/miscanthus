@@ -1,211 +1,358 @@
 /* ============================================================
-   MISCANTHUS STRIPES — Main JS
+   MISCANTHUS IM STREIFENANBAU — Main JS
    ============================================================ */
 
-/* ── Scroll Reveal ────────────────────────────────────────────── */
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        revealObserver.unobserve(e.target);
+(function () {
+  'use strict';
+
+  /* ── Language Toggle ───────────────────────────────────── */
+  const LANG_KEY = 'lang';
+  let currentLang = localStorage.getItem(LANG_KEY) || 'de';
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem(LANG_KEY, lang);
+
+    document.querySelectorAll('[data-de]').forEach(function (el) {
+      var text = el.getAttribute('data-' + lang);
+      if (text) {
+        if (el.tagName === 'OPTION') {
+          el.textContent = text;
+        } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = text;
+        } else {
+          el.innerHTML = text;
+        }
       }
     });
-  },
-  { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-);
-document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
-/* ── Navbar scroll behavior ───────────────────────────────────── */
-const nav = document.getElementById('nav');
-if (nav) {
-  const updateNav = () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  };
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
-}
-
-/* ── Mobile nav ───────────────────────────────────────────────── */
-const hamburger = document.getElementById('nav-hamburger');
-const mobileNav = document.getElementById('nav-mobile');
-const mobileClose = document.getElementById('nav-mobile-close');
-if (hamburger && mobileNav) {
-  hamburger.addEventListener('click', () => mobileNav.classList.add('open'));
-  mobileClose && mobileClose.addEventListener('click', () => mobileNav.classList.remove('open'));
-  mobileNav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => mobileNav.classList.remove('open'));
-  });
-}
-
-/* ── Animated counters ────────────────────────────────────────── */
-function animateCounter(el) {
-  const target   = parseFloat(el.dataset.target);
-  const decimals = (el.dataset.target.split('.')[1] || '').length;
-  const suffix   = el.dataset.suffix || '';
-  const duration = 1800;
-  const start    = performance.now();
-
-  const tick = (now) => {
-    const elapsed  = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const ease     = 1 - Math.pow(1 - progress, 3);
-    const value    = (target * ease).toFixed(decimals);
-    el.textContent = value + suffix;
-    if (progress < 1) requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-}
-
-const counterObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        animateCounter(e.target);
-        counterObserver.unobserve(e.target);
-      }
+    // Update toggle button text
+    document.querySelectorAll('.lang-toggle').forEach(function (btn) {
+      btn.textContent = lang === 'de' ? 'EN' : 'DE';
     });
-  },
-  { threshold: 0.5 }
-);
-document.querySelectorAll('.count-up').forEach(el => counterObserver.observe(el));
 
-/* ── Parallax ─────────────────────────────────────────────────── */
-const parallaxEls = document.querySelectorAll('[data-parallax]');
-if (parallaxEls.length) {
-  window.addEventListener('scroll', () => {
-    const sy = window.scrollY;
-    parallaxEls.forEach(el => {
-      const speed  = parseFloat(el.dataset.parallax) || 0.3;
-      el.style.transform = `translateY(${sy * speed}px)`;
-    });
-  }, { passive: true });
-}
-
-/* ── Hero Canvas Grass ────────────────────────────────────────── */
-const canvas = document.getElementById('hero-canvas');
-if (canvas) {
-  const ctx = canvas.getContext('2d');
-  let W, H, blades = [], animId;
-
-  class Blade {
-    constructor(x) {
-      this.reset(x);
-    }
-    reset(x) {
-      this.x      = x != null ? x : Math.random() * W;
-      this.baseY  = H;
-      this.h      = 70 + Math.random() * 160;
-      this.w      = 1.2 + Math.random() * 2.4;
-      this.phase  = Math.random() * Math.PI * 2;
-      this.freq   = 0.4 + Math.random() * 0.7;
-      this.amp    = 10  + Math.random() * 22;
-      this.layer  = Math.floor(Math.random() * 5); // 0=back, 4=front
-      const hue   = 110 + Math.random() * 25;
-      const sat   = 30 + this.layer * 7;
-      const lBase = 8  + this.layer * 5;
-      const lTip  = lBase + 18 + this.layer * 4;
-      this.cBase  = `hsl(${hue},${sat}%,${lBase}%)`;
-      this.cTip   = `hsl(${hue+5},${sat+8}%,${lTip}%)`;
-    }
-    draw(t) {
-      const sway = Math.sin(t * this.freq + this.phase) * this.amp;
-      const cx   = this.x + sway * 0.45;
-      const cy   = this.baseY - this.h * 0.55;
-      const tx   = this.x + sway;
-      const ty   = this.baseY - this.h;
-
-      const grad = ctx.createLinearGradient(this.x, this.baseY, tx, ty);
-      grad.addColorStop(0, this.cBase);
-      grad.addColorStop(1, this.cTip);
-
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.baseY);
-      ctx.quadraticCurveTo(cx, cy, tx, ty);
-      ctx.strokeStyle = grad;
-      ctx.lineWidth   = this.w;
-      ctx.lineCap     = 'round';
-      ctx.stroke();
-    }
+    // Update html lang attribute
+    document.documentElement.lang = lang;
   }
 
-  function buildBlades() {
-    blades = [];
-    const density = Math.max(2, Math.floor(W / 7));
-    // 5 layers, back to front
-    for (let layer = 0; layer < 5; layer++) {
-      const count = Math.floor(density * (0.6 + layer * 0.15));
-      for (let i = 0; i < count; i++) {
-        const b   = new Blade(Math.random() * W);
-        b.layer   = layer;
-        b.baseY   = H + 2 + Math.random() * 12;
-        b.h       = (40 + layer * 30) + Math.random() * (60 + layer * 20);
-        b.w       = 1 + layer * 0.4 + Math.random() * 1.2;
-        b.amp     = 8 + layer * 3 + Math.random() * 14;
-        const hue = 115 + Math.random() * 20;
-        const sat = 28 + layer * 6;
-        const lB  = 7 + layer * 4;
-        const lT  = lB + 16 + layer * 5;
-        b.cBase   = `hsl(${hue},${sat}%,${lB}%)`;
-        b.cTip    = `hsl(${hue+4},${sat+6}%,${lT}%)`;
-        blades.push(b);
-      }
-    }
-    // sort back→front
-    blades.sort((a, b) => a.layer - b.layer);
-  }
+  document.addEventListener('DOMContentLoaded', function () {
+    applyLanguage(currentLang);
 
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    buildBlades();
-  }
-
-  let t = 0;
-  function animate() {
-    ctx.clearRect(0, 0, W, H);
-    t += 0.008;
-
-    // Draw ground strip
-    const grd = ctx.createLinearGradient(0, H * 0.72, 0, H);
-    grd.addColorStop(0, 'rgba(8,18,8,0)');
-    grd.addColorStop(1, 'rgba(4,10,4,0.9)');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, H * 0.7, W, H * 0.3);
-
-    blades.forEach(b => b.draw(t));
-    animId = requestAnimationFrame(animate);
-  }
-
-  resize();
-  animate();
-  window.addEventListener('resize', resize, { passive: true });
-}
-
-/* ── Gallery filter ───────────────────────────────────────────── */
-const filterBtns = document.querySelectorAll('.filter-btn');
-if (filterBtns.length) {
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const cat = btn.dataset.filter;
-      document.querySelectorAll('.gallery-item').forEach(item => {
-        const show = cat === 'all' || item.dataset.cat === cat;
-        item.style.opacity    = show ? '1' : '0.25';
-        item.style.transform  = show ? '' : 'scale(0.96)';
-        item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        item.style.pointerEvents = show ? '' : 'none';
+    document.querySelectorAll('.lang-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyLanguage(currentLang === 'de' ? 'en' : 'de');
       });
     });
   });
-}
 
-/* ── Active nav link ──────────────────────────────────────────── */
-const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-document.querySelectorAll('.nav-links a, .nav-mobile a').forEach(link => {
-  const href = link.getAttribute('href');
-  if (href === currentPath || (currentPath === '' && href === 'index.html')) {
-    link.classList.add('active');
-  }
-});
+  /* ── Mobile Menu ───────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.getElementById('navLinks');
+
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('open');
+      });
+
+      // Close menu when link clicked
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('open');
+        });
+      });
+    }
+  });
+
+  /* ── Navbar Scroll Effect ──────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var navbar = document.getElementById('navbar');
+    if (navbar) {
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+    }
+  });
+
+  /* ── Scroll Reveal (IntersectionObserver) ──────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(function (el) {
+      observer.observe(el);
+    });
+  });
+
+  /* ── Animated Number Counters ──────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var counters = document.querySelectorAll('[data-count]');
+    if (!counters.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(function (el) {
+      observer.observe(el);
+    });
+
+    function animateCounter(el) {
+      var target = parseInt(el.getAttribute('data-count'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1500;
+      var start = 0;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        var current = Math.round(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+  });
+
+  /* ── Hero Canvas — Animated Grass ──────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var canvas = document.getElementById('heroCanvas');
+    if (!canvas) return;
+
+    var ctx = canvas.getContext('2d');
+    var blades = [];
+    var bladeCount = 120;
+
+    function resize() {
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+      initBlades();
+    }
+
+    function initBlades() {
+      blades = [];
+      for (var i = 0; i < bladeCount; i++) {
+        blades.push({
+          x: Math.random() * canvas.width,
+          y: canvas.height,
+          height: 60 + Math.random() * 120,
+          width: 1.5 + Math.random() * 2,
+          sway: Math.random() * Math.PI * 2,
+          swaySpeed: 0.005 + Math.random() * 0.01,
+          swayAmount: 8 + Math.random() * 15,
+          hue: 140 + Math.random() * 30,
+          saturation: 40 + Math.random() * 30,
+          lightness: 20 + Math.random() * 15,
+          alpha: 0.15 + Math.random() * 0.25
+        });
+      }
+    }
+
+    function draw(time) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      blades.forEach(function (b) {
+        b.sway += b.swaySpeed;
+        var swayX = Math.sin(b.sway) * b.swayAmount;
+
+        ctx.beginPath();
+        ctx.moveTo(b.x, b.y);
+        ctx.quadraticCurveTo(
+          b.x + swayX * 0.5, b.y - b.height * 0.5,
+          b.x + swayX, b.y - b.height
+        );
+        ctx.strokeStyle = 'hsla(' + b.hue + ', ' + b.saturation + '%, ' + b.lightness + '%, ' + b.alpha + ')';
+        ctx.lineWidth = b.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    requestAnimationFrame(draw);
+  });
+
+  /* ── Tabs (Gallery page) ───────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var tabBtns = document.querySelectorAll('.tab-btn[data-tab]');
+    if (!tabBtns.length) return;
+
+    tabBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var tab = btn.getAttribute('data-tab');
+
+        tabBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(function (tc) {
+          tc.classList.remove('active');
+        });
+
+        var target = document.getElementById('tab-' + tab);
+        if (target) target.classList.add('active');
+      });
+    });
+  });
+
+  /* ── Gallery Filters ───────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var filterBtns = document.querySelectorAll('.filter-btn[data-filter]');
+    if (!filterBtns.length) return;
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filter = btn.getAttribute('data-filter');
+
+        filterBtns.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+
+        document.querySelectorAll('.gallery-item').forEach(function (item) {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+
+  /* ── Lightbox ──────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightboxImg');
+    var lightboxCaption = document.getElementById('lightboxCaption');
+    var lightboxClose = document.getElementById('lightboxClose');
+
+    if (!lightbox) return;
+
+    document.addEventListener('click', function (e) {
+      var item = e.target.closest('.gallery-item');
+      if (!item) return;
+
+      var img = item.querySelector('img');
+      var caption = item.querySelector('.gallery-item__caption');
+
+      if (img) {
+        lightboxImg.src = img.src;
+        lightboxCaption.textContent = caption ? caption.textContent : '';
+        lightbox.classList.add('active');
+      }
+    });
+
+    lightboxClose.addEventListener('click', function () {
+      lightbox.classList.remove('active');
+      lightboxImg.src = '';
+    });
+
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+        lightboxImg.src = '';
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        lightbox.classList.remove('active');
+        lightboxImg.src = '';
+      }
+    });
+  });
+
+  /* ── Load localStorage Gallery Items ───────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var grid = document.getElementById('galleryGrid');
+    if (!grid) return;
+
+    var stored = [];
+    try {
+      stored = JSON.parse(localStorage.getItem('miscanthus_gallery')) || [];
+    } catch (e) { /* ignore */ }
+
+    stored.forEach(function (item) {
+      var div = document.createElement('div');
+      div.className = 'gallery-item';
+      div.setAttribute('data-category', item.category || 'all');
+      div.innerHTML =
+        '<img src="' + item.image + '" alt="' + (item.caption || '') + '">' +
+        '<div class="gallery-item__overlay">' +
+        '<div class="gallery-item__caption">' + (item.caption || '') + '</div>' +
+        '<div class="gallery-item__tag">' + (item.category || '') + '</div>' +
+        '</div>';
+      grid.insertBefore(div, grid.firstChild);
+    });
+  });
+
+  /* ── Load localStorage Updates ─────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var list = document.getElementById('updatesList');
+    if (!list) return;
+
+    var stored = [];
+    try {
+      stored = JSON.parse(localStorage.getItem('miscanthus_updates')) || [];
+    } catch (e) { /* ignore */ }
+
+    stored.forEach(function (post) {
+      var div = document.createElement('div');
+      div.className = 'update-card';
+      div.innerHTML =
+        '<div class="update-card__meta">' +
+        '<span class="update-card__tag">' + (post.tag || '') + '</span>' +
+        '<span class="update-card__date">' + (post.date || '') + '</span>' +
+        '</div>' +
+        '<h3 class="update-card__title">' + (post.title || '') + '</h3>' +
+        '<p class="update-card__excerpt">' + (post.body || '') + '</p>';
+      list.insertBefore(div, list.firstChild);
+    });
+  });
+
+  /* ── Contact Form Handler ──────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var success = document.getElementById('formSuccess');
+      if (success) {
+        success.classList.add('show');
+        form.reset();
+        setTimeout(function () {
+          success.classList.remove('show');
+        }, 4000);
+      }
+    });
+  });
+
+})();

@@ -1,262 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — Miscanthus Stripes</title>
-  <meta name="description" content="Book a field assessment or get in touch with the Miscanthus Stripes team.">
+  <title>Kontakt - Miscanthus im Streifenanbau</title>
+  <meta name="description" content="Kontaktieren Sie das Miscanthus-Forschungsteam in Hessen.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ── Navigation ──────────────────────────────────────────── -->
-<nav id="nav" class="scrolled">
-  <a href="index.html" class="nav-logo">
-    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/>
-      <path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/>
-      <rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/>
-    </svg>
-    Miscanthus<span class="accent"> Stripes</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="updates.html">Updates</a></li>
-    <li><a href="contact.html" class="active">Contact</a></li>
-    <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
-  </ul>
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<div class="nav-mobile" id="nav-mobile">
-  <button class="nav-mobile-close" id="nav-mobile-close">&#x2715;</button>
-  <a href="index.html">Home</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="updates.html">Updates</a>
-  <a href="contact.html">Contact</a>
-</div>
-
-<!-- ── Page Hero ─────────────────────────────────────────────── -->
-<div class="page-hero">
-  <div class="container">
-    <p class="label" data-reveal>Let's Talk</p>
-    <h1 data-reveal data-delay="1">Get in Touch</h1>
-    <p data-reveal data-delay="2">
-      Whether you're a farmer curious about your first strips or a researcher
-      looking to collaborate — we'd love to hear from you.
-    </p>
-  </div>
-</div>
-
-<!-- ── Contact ───────────────────────────────────────────────── -->
-<section style="padding: var(--section-py) 0;">
-  <div class="container">
-    <div class="contact-grid">
-
-      <!-- Form -->
-      <div data-reveal>
-        <div class="contact-form">
-          <h3 style="margin-bottom:0.4rem;">Book a Field Assessment</h3>
-          <p style="font-size:0.9rem; color:var(--text-muted); margin:0 0 2rem;">
-            Tell us a little about your situation and we'll get back to you within
-            two working days.
-          </p>
-          <form onsubmit="handleSubmit(event)">
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label for="first-name">First name</label>
-                <input type="text" id="first-name" placeholder="Hans" required>
-              </div>
-              <div class="form-group">
-                <label for="last-name">Last name</label>
-                <input type="text" id="last-name" placeholder="Müller" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" id="email" placeholder="hans@farm.de" required>
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone (optional)</label>
-              <input type="tel" id="phone" placeholder="+49 ...">
-            </div>
-            <div class="form-group">
-              <label for="farm-size">Farm size (approx.)</label>
-              <select id="farm-size">
-                <option value="">Select...</option>
-                <option>Under 50 ha</option>
-                <option>50–150 ha</option>
-                <option>150–500 ha</option>
-                <option>Over 500 ha</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="enquiry-type">What best describes you?</label>
-              <select id="enquiry-type">
-                <option value="">Select...</option>
-                <option>Farmer — interested in planting</option>
-                <option>Farmer — already have Miscanthus, have questions</option>
-                <option>Researcher / Academic</option>
-                <option>Press / Media</option>
-                <option>Biomass buyer / Processor</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="message">Your message</label>
-              <textarea id="message" placeholder="Tell us about your land, your erosion challenge, or your questions..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-              Send Message
-            </button>
-          </form>
-          <div id="form-success" style="display:none; margin-top:1.5rem; padding:1.25rem; background:var(--g-800); border:1px solid var(--g-600); border-radius:var(--radius); text-align:center;">
-            <p style="color:var(--g-200); font-weight:500; margin:0;">
-              Message sent. We'll be in touch within two working days.
-            </p>
-          </div>
-        </div>
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon">&#127807;</span>
+        Miscanthus
+      </a>
+      <div class="navbar__links" id="navLinks">
+        <a href="index.html" class="navbar__link"
+           data-de="Start" data-en="Home">Start</a>
+        <a href="gallery.html" class="navbar__link"
+           data-de="Medien" data-en="Media">Medien</a>
+        <a href="contact.html" class="navbar__link navbar__link--active"
+           data-de="Kontakt" data-en="Contact">Kontakt</a>
+        <a href="contact.html" class="navbar__cta"
+           data-de="Kontakt aufnehmen" data-en="Get in Touch">Kontakt aufnehmen</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
       </div>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
 
-      <!-- Info -->
-      <div data-reveal data-delay="2">
-        <div style="margin-bottom:2rem;">
-          <h3 style="margin-bottom:1rem;">Why get in touch?</h3>
-          <p style="color:var(--text-muted); font-size:0.95rem;">
-            Every farm is different. We offer a no-obligation initial conversation to
-            understand your erosion challenge, your land topography, and whether
-            Miscanthus strips are the right fit for you.
-          </p>
-          <p style="color:var(--text-muted); font-size:0.95rem; margin-top:0.75rem;">
-            We can also connect you with planting contractors, rhizome suppliers,
-            and biomass offtake agreements in your region.
-          </p>
-        </div>
+  <!-- ── Page Hero ───────────────────────────────────────── -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 data-de="Kontakt aufnehmen" data-en="Get in Touch">Kontakt aufnehmen</h1>
+      <p data-de="Wir freuen uns auf Ihre Nachricht." data-en="We look forward to hearing from you.">Wir freuen uns auf Ihre Nachricht.</p>
+    </div>
+  </section>
 
+  <!-- ── Contact Section ─────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Form -->
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="firstName"
+                     data-de="Vorname" data-en="First name">Vorname</label>
+              <input class="form-input" type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastName"
+                     data-de="Nachname" data-en="Last name">Nachname</label>
+              <input class="form-input" type="text" id="lastName" name="lastName" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="email"
+                     data-de="E-Mail-Adresse" data-en="Email address">E-Mail-Adresse</label>
+              <input class="form-input" type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone"
+                     data-de="Telefon (optional)" data-en="Phone (optional)">Telefon (optional)</label>
+              <input class="form-input" type="tel" id="phone" name="phone">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="farmSize"
+                     data-de="Betriebsgröße" data-en="Farm size">Betriebsgröße</label>
+              <select class="form-select" id="farmSize" name="farmSize">
+                <option value="" data-de="Bitte wählen" data-en="Please select">Bitte wählen</option>
+                <option value="under50" data-de="Unter 50 ha" data-en="Under 50 ha">Unter 50 ha</option>
+                <option value="50-150" data-de="50–150 ha" data-en="50–150 ha">50–150 ha</option>
+                <option value="150-500" data-de="150–500 ha" data-en="150–500 ha">150–500 ha</option>
+                <option value="over500" data-de="Über 500 ha" data-en="Over 500 ha">Über 500 ha</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="role"
+                     data-de="Ich bin..." data-en="I am...">Ich bin...</label>
+              <select class="form-select" id="role" name="role">
+                <option value="" data-de="Bitte wählen" data-en="Please select">Bitte wählen</option>
+                <option value="farmer" data-de="Landwirt" data-en="Farmer">Landwirt</option>
+                <option value="researcher" data-de="Forscher" data-en="Researcher">Forscher</option>
+                <option value="press" data-de="Presse" data-en="Press">Presse</option>
+                <option value="buyer" data-de="Biomasseabnehmer" data-en="Biomass buyer">Biomasseabnehmer</option>
+                <option value="other" data-de="Sonstiges" data-en="Other">Sonstiges</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message"
+                   data-de="Ihre Nachricht" data-en="Your message">Ihre Nachricht</label>
+            <textarea class="form-textarea" id="message" name="message" rows="6" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary"
+                  data-de="Nachricht senden" data-en="Send Message">Nachricht senden</button>
+
+          <div class="admin-success" id="formSuccess"
+               data-de="Vielen Dank! Ihre Nachricht wurde gesendet."
+               data-en="Thank you! Your message has been sent.">Vielen Dank! Ihre Nachricht wurde gesendet.</div>
+        </form>
+
+        <!-- Contact Info Sidebar -->
         <div class="contact-info">
-          <div class="contact-info-item">
-            <div class="contact-info-icon">
-              <svg viewBox="0 0 20 20" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 18 C10 18 3 12.5 3 7.5 C3 4.47 6.13 2 10 2 C13.87 2 17 4.47 17 7.5 C17 12.5 10 18 10 18Z"/>
-                <circle cx="10" cy="7.5" r="2.5"/>
-              </svg>
-            </div>
+          <div class="contact-info-card">
+            <div class="contact-info-card__icon">&#128205;</div>
             <div>
-              <h5>Based in Germany</h5>
-              <p>Operating across Germany, Austria, and Switzerland. Remote consultations available across Europe.</p>
+              <div class="contact-info-card__title"
+                   data-de="Standort" data-en="Location">Standort</div>
+              <div class="contact-info-card__text"
+                   data-de="Standort Hessen &mdash; deutschlandweit tätig"
+                   data-en="Based in Hesse &mdash; operating across Germany">Standort Hessen &mdash; deutschlandweit tätig</div>
             </div>
           </div>
-
-          <div class="contact-info-item">
-            <div class="contact-info-icon">
-              <svg viewBox="0 0 20 20" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="16" height="12" rx="2"/>
-                <path d="M2 7 L10 12 L18 7"/>
-              </svg>
-            </div>
+          <div class="contact-info-card">
+            <div class="contact-info-card__icon">&#9993;</div>
             <div>
-              <h5>Email</h5>
-              <p>info@miscanthus-stripes.de</p>
+              <div class="contact-info-card__title">E-Mail</div>
+              <div class="contact-info-card__text">
+                <a href="mailto:info@miscanthus-streifen.de">info@miscanthus-streifen.de</a>
+              </div>
             </div>
           </div>
-
-          <div class="contact-info-item">
-            <div class="contact-info-icon">
-              <svg viewBox="0 0 20 20" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 5.5 C3 5.5 5 3 7 4.5 C8.5 5.7 9 8 8 9 C9 10 11 12 12 13 C13 12 15.3 12.5 16.5 14 C18 16 15.5 18 15.5 18 C10 18 2 10 3 5.5Z"/>
-              </svg>
-            </div>
+          <div class="contact-info-card">
+            <div class="contact-info-card__icon">&#128337;</div>
             <div>
-              <h5>Phone</h5>
-              <p>Available on request after initial enquiry.</p>
-            </div>
-          </div>
-
-          <div class="contact-info-item">
-            <div class="contact-info-icon">
-              <svg viewBox="0 0 20 20" fill="none" stroke="var(--g-300)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="10" cy="10" r="8"/>
-                <path d="M10 6 V10 L13 13"/>
-              </svg>
-            </div>
-            <div>
-              <h5>Response time</h5>
-              <p>We aim to respond to all enquiries within two working days.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- FAQ mini -->
-        <div style="margin-top:2.5rem; padding:2rem; background:var(--bg-card); border:var(--border); border-radius:var(--radius-lg);">
-          <h4 style="margin-bottom:1.5rem;">Common questions</h4>
-          <div style="display:flex; flex-direction:column; gap:1.25rem;">
-            <div>
-              <p style="font-size:0.9rem; font-weight:600; color:var(--white); margin:0 0 0.3rem;">Do I need to sacrifice productive land?</p>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin:0; max-width:none;">Strips are typically planted on the least productive margins — slopes, wet hollows, field edges — where yield is already compromised by erosion.</p>
-            </div>
-            <div>
-              <p style="font-size:0.9rem; font-weight:600; color:var(--white); margin:0 0 0.3rem;">How much does planting cost?</p>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin:0; max-width:none;">Establishment cost is typically €1,500–2,500/ha depending on rhizome source and machinery. This is largely offset by EU agri-environment payments in most regions.</p>
-            </div>
-            <div>
-              <p style="font-size:0.9rem; font-weight:600; color:var(--white); margin:0 0 0.3rem;">When can I expect a return?</p>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin:0; max-width:none;">First commercial harvest is typically year two or three. Most strips are cash-positive by year four, including establishment cost recovery.</p>
+              <div class="contact-info-card__title"
+                   data-de="Antwortzeit" data-en="Response Time">Antwortzeit</div>
+              <div class="contact-info-card__text"
+                   data-de="Wir antworten innerhalb von zwei Werktagen."
+                   data-en="We respond within two working days.">Wir antworten innerhalb von zwei Werktagen.</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Footer ─────────────────────────────────────────────────── -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="index.html" class="nav-logo" style="margin-bottom:0.75rem; display:inline-flex;">
-          <svg viewBox="0 0 28 28" fill="none"><path d="M14 26 C14 26 7 18 7 12 C7 8.13 10.13 5 14 5 C17.87 5 21 8.13 21 12 C21 18 14 26 14 26Z" fill="#2d6e35"/><path d="M14 22 C14 22 5 15 5 9 C5 5.69 8.13 3 12 4 C10 7 11 12 14 16 C17 12 18 7 16 4 C19.87 3 23 5.69 23 9 C23 15 14 22 14 22Z" fill="#4a9e52" opacity="0.7"/><rect x="13" y="16" width="2" height="9" rx="1" fill="#1e4d22"/></svg>
-          Miscanthus<span class="accent"> Stripes</span>
-        </a>
-        <p>Living infrastructure for the modern farm.</p>
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <span class="navbar__logo-icon">&#127807;</span>
+            Miscanthus im Streifenanbau
+          </div>
+          <p class="footer__tagline"
+             data-de="Nachhaltige Biomasseproduktion für eine kreislauforientierte Landwirtschaft."
+             data-en="Sustainable biomass production for a circular economy in agriculture.">Nachhaltige Biomasseproduktion für eine kreislauforientierte Landwirtschaft.</p>
+        </div>
+        <div class="footer__nav">
+          <div class="footer__nav-group">
+            <h4 data-de="Seiten" data-en="Pages">Seiten</h4>
+            <a href="index.html" data-de="Start" data-en="Home">Start</a>
+            <a href="gallery.html" data-de="Medien" data-en="Media">Medien</a>
+            <a href="contact.html" data-de="Kontakt" data-en="Contact">Kontakt</a>
+          </div>
+          <div class="footer__nav-group">
+            <h4 data-de="Kontakt" data-en="Contact">Kontakt</h4>
+            <a href="mailto:info@miscanthus-streifen.de">info@miscanthus-streifen.de</a>
+            <span style="display:block;font-size:0.9rem;color:rgba(255,255,255,0.5);"
+                  data-de="Standort Hessen" data-en="Based in Hesse">Standort Hessen</span>
+          </div>
+        </div>
       </div>
-      <div class="footer-col"><h5>Site</h5><ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="updates.html">Updates</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul></div>
-      <div class="footer-col"><h5>Learn</h5><ul>
-        <li><a href="#">Why Miscanthus?</a></li>
-        <li><a href="#">Erosion Guide</a></li>
-        <li><a href="#">Biomass Markets</a></li>
-      </ul></div>
-      <div class="footer-col"><h5>Contact</h5><ul>
-        <li><a href="contact.html">Book Assessment</a></li>
-        <li><a href="contact.html">Press Enquiries</a></li>
-      </ul></div>
+      <div class="footer__bottom">
+        <span data-de="Gefördert im Rahmen der Europäischen Innovationspartnerschaft (EIP-AGRI)"
+              data-en="Supported under the European Innovation Partnership (EIP-AGRI)">Gefördert im Rahmen der Europäischen Innovationspartnerschaft (EIP-AGRI)</span>
+        <span>&copy; 2024 Miscanthus im Streifenanbau</span>
+      </div>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; 2025 Miscanthus Stripes. All rights reserved.</span>
-      <span>Protecting farmland, one strip at a time.</span>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script src="js/main.js"></script>
-<script>
-  function handleSubmit(e) {
-    e.preventDefault();
-    document.getElementById('form-success').style.display = 'block';
-    e.target.style.opacity = '0.4';
-    e.target.style.pointerEvents = 'none';
-  }
-</script>
+  <script src="js/main.js"></script>
 </body>
 </html>
