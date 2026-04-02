@@ -420,11 +420,12 @@
     var heroContent = hero ? hero.querySelector('.hero__content') : null;
 
     if (!hero || !heroContent || prefersReducedMotion) return;
+    if (window.innerWidth < 768) return; // disable parallax on mobile
 
     window.addEventListener('scroll', function () {
       if (window.scrollY < window.innerHeight) {
-        heroContent.style.transform = 'translateY(' + (window.scrollY * 0.3) + 'px)';
-        heroContent.style.opacity = 1 - (window.scrollY / window.innerHeight) * 0.5;
+        heroContent.style.transform = 'translateY(' + (window.scrollY * 0.2) + 'px)';
+        heroContent.style.opacity = 1 - (window.scrollY / window.innerHeight) * 0.4;
       }
     });
   });
