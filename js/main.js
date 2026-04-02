@@ -195,7 +195,7 @@
     }
   });
 
-  /* ── Hero Canvas — Immersive Landscape Scene ────────────── */
+  /* ── Hero Canvas — Refined Landscape Scene ──────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById('heroCanvas');
     if (!canvas) return;
@@ -205,11 +205,8 @@
     var mouseX = 0.5, mouseY = 0.5;
     var time = 0;
 
-    // Scene data
     var clouds = [];
     var turbines = [];
-    var blades = [];
-    var particles = [];
     var fieldStrips = [];
 
     function resize() {
@@ -219,274 +216,270 @@
     }
 
     function initScene() {
-      // Clouds
+      // Clouds - fluffy, multi-bubble, slow
       clouds = [];
-      for (var i = 0; i < 8; i++) {
+      for (var i = 0; i < 6; i++) {
+        var bubbles = [];
+        var cw = 100 + Math.random() * 180;
+        var numBubbles = 5 + Math.floor(Math.random() * 4);
+        for (var b = 0; b < numBubbles; b++) {
+          bubbles.push({
+            ox: (Math.random() - 0.5) * cw * 0.7,
+            oy: (Math.random() - 0.5) * cw * 0.15,
+            rx: cw * (0.15 + Math.random() * 0.25),
+            ry: cw * (0.08 + Math.random() * 0.12)
+          });
+        }
         clouds.push({
           x: Math.random() * W * 1.5 - W * 0.25,
-          y: H * 0.05 + Math.random() * H * 0.2,
-          w: 120 + Math.random() * 200,
-          h: 30 + Math.random() * 40,
-          speed: 0.15 + Math.random() * 0.25,
-          alpha: 0.3 + Math.random() * 0.4
+          y: H * 0.06 + Math.random() * H * 0.18,
+          speed: 0.03 + Math.random() * 0.05,
+          alpha: 0.35 + Math.random() * 0.25,
+          bubbles: bubbles
         });
       }
 
-      // Wind turbines on hills
+      // Wind turbines - 3 on far hills
       turbines = [];
-      var turbinePositions = [0.15, 0.35, 0.55, 0.78, 0.92];
-      turbinePositions.forEach(function (xp) {
-        var hillY = getHillY(xp * W, 1);
+      var tPos = [0.22, 0.52, 0.82];
+      tPos.forEach(function (xp) {
         turbines.push({
           x: xp * W,
-          y: hillY,
-          height: 50 + Math.random() * 30,
-          bladeLen: 22 + Math.random() * 12,
+          y: getHillY(xp * W, 0),
+          height: 40 + Math.random() * 20,
+          bladeLen: 18 + Math.random() * 10,
           angle: Math.random() * Math.PI * 2,
-          speed: 0.015 + Math.random() * 0.01
+          speed: 0.008 + Math.random() * 0.004
         });
       });
 
-      // Field strips (strip cultivation pattern)
+      // Strip cultivation fields - 18 alternating strips
       fieldStrips = [];
-      var stripCount = 12;
-      for (var s = 0; s < stripCount; s++) {
-        fieldStrips.push({
-          isMiscanthus: s % 3 === 0,
-          hue: s % 3 === 0 ? 135 + Math.random() * 10 : 95 + Math.random() * 20,
-          lightness: s % 3 === 0 ? 30 + Math.random() * 8 : 38 + Math.random() * 12,
-          saturation: 45 + Math.random() * 20
-        });
-      }
-
-      // Foreground grass blades
-      blades = [];
-      var bladeCount = 300;
-      for (var b = 0; b < bladeCount; b++) {
-        var xPos = Math.random() * W;
-        var fromBottom = Math.random();
-        blades.push({
-          x: xPos,
-          y: H,
-          height: 100 + Math.random() * 200 + fromBottom * 60,
-          width: 2 + Math.random() * 3,
-          sway: Math.random() * Math.PI * 2,
-          swaySpeed: 0.008 + Math.random() * 0.012,
-          swayAmount: 10 + Math.random() * 20,
-          hue: 130 + Math.random() * 35,
-          saturation: 50 + Math.random() * 30,
-          lightness: 22 + Math.random() * 22,
-          alpha: 0.4 + Math.random() * 0.5,
-          depth: 0.5 + Math.random() * 0.5
-        });
-      }
-
-      // Sort blades by depth (back to front)
-      blades.sort(function (a, b) { return a.depth - b.depth; });
-
-      // Floating particles
-      particles = [];
-      for (var p = 0; p < 30; p++) {
-        particles.push({
-          x: Math.random() * W,
-          y: H * 0.3 + Math.random() * H * 0.5,
-          radius: 1 + Math.random() * 2,
-          speed: 0.15 + Math.random() * 0.35,
-          alpha: 0.15 + Math.random() * 0.2,
-          drift: (Math.random() - 0.5) * 0.4
-        });
+      var types = ['miscanthus', 'wheat', 'crop', 'soil', 'crop', 'miscanthus',
+                   'wheat', 'crop', 'miscanthus', 'soil', 'wheat', 'crop',
+                   'miscanthus', 'crop', 'wheat', 'miscanthus', 'soil', 'crop'];
+      for (var s = 0; s < types.length; s++) {
+        var t = types[s];
+        var col, colDark;
+        if (t === 'miscanthus') {
+          col = 'hsla(' + (130 + Math.random() * 10) + ', 55%, ' + (28 + Math.random() * 6) + '%, 1)';
+          colDark = 'hsla(' + (130 + Math.random() * 10) + ', 55%, ' + (22 + Math.random() * 4) + '%, 1)';
+        } else if (t === 'wheat') {
+          col = 'hsla(' + (68 + Math.random() * 15) + ', 50%, ' + (42 + Math.random() * 8) + '%, 1)';
+          colDark = 'hsla(' + (68 + Math.random() * 15) + ', 45%, ' + (36 + Math.random() * 6) + '%, 1)';
+        } else if (t === 'soil') {
+          col = 'hsla(' + (30 + Math.random() * 10) + ', 30%, ' + (35 + Math.random() * 8) + '%, 1)';
+          colDark = 'hsla(' + (30 + Math.random() * 10) + ', 28%, ' + (28 + Math.random() * 6) + '%, 1)';
+        } else {
+          col = 'hsla(' + (105 + Math.random() * 15) + ', 45%, ' + (38 + Math.random() * 8) + '%, 1)';
+          colDark = 'hsla(' + (105 + Math.random() * 15) + ', 40%, ' + (32 + Math.random() * 6) + '%, 1)';
+        }
+        fieldStrips.push({ type: t, col: col, colDark: colDark });
       }
     }
 
-    // Get hill Y position at a given x for a specific hill layer
     function getHillY(x, layer) {
-      var base;
       if (layer === 0) {
-        // Far hills
-        base = H * 0.38;
-        return base - Math.sin(x / W * Math.PI * 1.2 + 0.5) * H * 0.06
-                     - Math.sin(x / W * Math.PI * 2.5) * H * 0.03;
+        return H * 0.40
+          - Math.sin(x / W * Math.PI * 1.1 + 0.3) * H * 0.05
+          - Math.sin(x / W * Math.PI * 2.7 + 1.2) * H * 0.02
+          - Math.sin(x / W * Math.PI * 0.5 + 0.8) * H * 0.03;
       } else if (layer === 1) {
-        // Mid hills (where turbines sit)
-        base = H * 0.44;
-        return base - Math.sin(x / W * Math.PI * 1.5 + 1) * H * 0.05
-                     - Math.sin(x / W * Math.PI * 3.2 + 0.8) * H * 0.025;
+        return H * 0.48
+          - Math.sin(x / W * Math.PI * 1.4 + 0.7) * H * 0.04
+          - Math.sin(x / W * Math.PI * 3.1 + 0.5) * H * 0.02;
       } else {
-        // Near hills / field line
-        base = H * 0.55;
-        return base - Math.sin(x / W * Math.PI * 1.8 + 0.3) * H * 0.03;
+        return H * 0.58
+          - Math.sin(x / W * Math.PI * 1.6 + 0.2) * H * 0.025
+          - Math.sin(x / W * Math.PI * 2.8 + 1.5) * H * 0.015;
       }
     }
 
     function drawSky() {
-      var skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.55);
-      skyGrad.addColorStop(0, '#5b9bd5');
-      skyGrad.addColorStop(0.3, '#7db8e0');
-      skyGrad.addColorStop(0.6, '#a8d4ea');
-      skyGrad.addColorStop(0.85, '#d4e8c2');
-      skyGrad.addColorStop(1, '#e8ebc0');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(0, 0, W, H * 0.6);
+      var g = ctx.createLinearGradient(0, 0, 0, H * 0.5);
+      g.addColorStop(0, '#4a90c4');
+      g.addColorStop(0.35, '#7cb8da');
+      g.addColorStop(0.65, '#a8d0e8');
+      g.addColorStop(0.85, '#d0dfc0');
+      g.addColorStop(1, '#e8dcc0');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H * 0.55);
+    }
+
+    function drawHaze() {
+      var g = ctx.createLinearGradient(0, H * 0.32, 0, H * 0.46);
+      g.addColorStop(0, 'rgba(200, 215, 200, 0)');
+      g.addColorStop(0.5, 'rgba(200, 215, 200, 0.25)');
+      g.addColorStop(1, 'rgba(200, 215, 200, 0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, H * 0.32, W, H * 0.14);
+    }
+
+    function drawHill(layer) {
+      var parallax = (mouseX - 0.5) * (layer === 0 ? -4 : layer === 1 ? -8 : -14);
+      var colors;
+      if (layer === 0) {
+        colors = ['#6a9a78', '#5a8a68'];
+      } else if (layer === 1) {
+        colors = ['#4a8050', '#3a7040'];
+      } else {
+        colors = ['#2a6a30', '#1e5a25'];
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(-20, H);
+      for (var x = -20; x <= W + 20; x += 3) {
+        ctx.lineTo(x + parallax, getHillY(x, layer));
+      }
+      ctx.lineTo(W + 20, H);
+      ctx.closePath();
+
+      var topY = getHillY(W * 0.3, layer);
+      var g = ctx.createLinearGradient(0, topY - 10, 0, topY + H * 0.15);
+      g.addColorStop(0, colors[0]);
+      g.addColorStop(1, colors[1]);
+      ctx.fillStyle = g;
+      ctx.fill();
+    }
+
+    function drawTurbines() {
+      var parallax = (mouseX - 0.5) * -4;
+      ctx.globalAlpha = 0.6;
+      turbines.forEach(function (t) {
+        if (!prefersReducedMotion) t.angle += t.speed;
+        var tx = t.x + parallax;
+        var ty = t.y;
+        // Tower - tapered
+        ctx.strokeStyle = '#c8d4d4';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(tx - 1, ty);
+        ctx.lineTo(tx, ty - t.height);
+        ctx.moveTo(tx + 1, ty);
+        ctx.lineTo(tx, ty - t.height);
+        ctx.stroke();
+        // Hub
+        ctx.fillStyle = '#dce4e4';
+        ctx.beginPath();
+        ctx.arc(tx, ty - t.height, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        // 3 blades - tapered
+        for (var b = 0; b < 3; b++) {
+          var a = t.angle + (b * Math.PI * 2 / 3);
+          var tipX = tx + Math.cos(a) * t.bladeLen;
+          var tipY = ty - t.height + Math.sin(a) * t.bladeLen;
+          ctx.beginPath();
+          ctx.moveTo(tx, ty - t.height);
+          ctx.lineTo(tipX, tipY);
+          ctx.strokeStyle = '#d4dede';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+      });
+      ctx.globalAlpha = 1;
     }
 
     function drawClouds() {
       clouds.forEach(function (c) {
         if (!prefersReducedMotion) c.x += c.speed;
-        if (c.x > W + c.w) c.x = -c.w;
-        var px = c.x + (mouseX - 0.5) * -15;
+        if (c.x > W + 200) c.x = -250;
+        var px = c.x + (mouseX - 0.5) * -5;
         ctx.fillStyle = 'rgba(255, 255, 255, ' + c.alpha + ')';
-        ctx.beginPath();
-        ctx.ellipse(px, c.y, c.w / 2, c.h / 2, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.ellipse(px - c.w * 0.25, c.y + c.h * 0.15, c.w * 0.35, c.h * 0.4, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.ellipse(px + c.w * 0.22, c.y + c.h * 0.1, c.w * 0.3, c.h * 0.35, 0, 0, Math.PI * 2);
-        ctx.fill();
+        c.bubbles.forEach(function (b) {
+          ctx.beginPath();
+          ctx.ellipse(px + b.ox, c.y + b.oy, b.rx, b.ry, 0, 0, Math.PI * 2);
+          ctx.fill();
+        });
       });
     }
 
-    function drawHill(layer, color1, color2) {
-      var parallax = (mouseX - 0.5) * (layer === 0 ? -8 : layer === 1 ? -15 : -25);
-      ctx.beginPath();
-      ctx.moveTo(-10, H);
-      for (var x = -10; x <= W + 10; x += 5) {
-        ctx.lineTo(x + parallax, getHillY(x, layer));
-      }
-      ctx.lineTo(W + 10, H);
-      ctx.closePath();
-      var grad = ctx.createLinearGradient(0, getHillY(W / 2, layer) - 20, 0, H);
-      grad.addColorStop(0, color1);
-      grad.addColorStop(1, color2);
-      ctx.fillStyle = grad;
-      ctx.fill();
-    }
+    function drawFields() {
+      var fieldTop = H * 0.56;
+      var fieldBot = H;
+      var vanishY = H * 0.42;
+      var vanishX = W * 0.5;
+      var stripCount = fieldStrips.length;
+      var botW = W * 1.4;
+      var botLeft = -W * 0.2;
+      var parallax = (mouseX - 0.5) * -12;
 
-    function drawFieldStrips() {
-      var fieldTop = H * 0.50;
-      var fieldBot = H * 0.68;
-      var fieldH = fieldBot - fieldTop;
-      var stripW = W / fieldStrips.length;
-      var parallax = (mouseX - 0.5) * -20;
+      for (var i = 0; i < stripCount; i++) {
+        var strip = fieldStrips[i];
+        var frac0 = i / stripCount;
+        var frac1 = (i + 1) / stripCount;
 
-      fieldStrips.forEach(function (strip, i) {
-        var x = i * stripW + parallax;
-        var perspT = 0.7;
-        var topX = W / 2 + (x - W / 2 + stripW / 2) * perspT;
-        var topW = stripW * perspT;
+        // Bottom edge positions (wide, close)
+        var bx0 = botLeft + frac0 * botW + parallax;
+        var bx1 = botLeft + frac1 * botW + parallax;
 
+        // Top edge positions (converge toward vanishing point)
+        var tx0 = vanishX + (bx0 - vanishX) * 0.35;
+        var tx1 = vanishX + (bx1 - vanishX) * 0.35;
+
+        // Draw strip trapezoid
         ctx.beginPath();
-        ctx.moveTo(x, fieldBot);
-        ctx.lineTo(x + stripW, fieldBot);
-        ctx.lineTo(topX + topW / 2, fieldTop);
-        ctx.lineTo(topX - topW / 2, fieldTop);
+        ctx.moveTo(bx0, fieldBot);
+        ctx.lineTo(bx1, fieldBot);
+        ctx.lineTo(tx1, fieldTop);
+        ctx.lineTo(tx0, fieldTop);
         ctx.closePath();
-        ctx.fillStyle = 'hsla(' + strip.hue + ', ' + strip.saturation + '%, ' + strip.lightness + '%, 0.85)';
+        ctx.fillStyle = strip.col;
         ctx.fill();
 
-        // Add subtle stripe texture for Miscanthus rows
-        if (strip.isMiscanthus) {
-          ctx.fillStyle = 'rgba(5, 80, 40, 0.08)';
-          for (var row = 0; row < 4; row++) {
-            var ry = fieldTop + (fieldH * (row + 0.5) / 4);
-            var rFrac = (ry - fieldTop) / fieldH;
-            var rw = stripW * (perspT + (1 - perspT) * rFrac);
-            var rx = W / 2 + (x - W / 2 + stripW / 2) * (perspT + (1 - perspT) * rFrac) - rw / 2;
-            ctx.fillRect(rx, ry - 1, rw, 2);
+        // Shadow edge between strips
+        ctx.beginPath();
+        ctx.moveTo(bx1, fieldBot);
+        ctx.lineTo(tx1, fieldTop);
+        ctx.strokeStyle = 'rgba(0, 20, 0, 0.12)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Row texture for miscanthus strips
+        if (strip.type === 'miscanthus') {
+          for (var row = 0; row < 8; row++) {
+            var rf = (row + 0.5) / 8;
+            var ry = fieldTop + (fieldBot - fieldTop) * rf;
+            var lx = bx0 + (tx0 - bx0) * (1 - rf);
+            var rx = bx1 + (tx1 - bx1) * (1 - rf);
+            ctx.beginPath();
+            ctx.moveTo(lx, ry);
+            ctx.lineTo(rx, ry);
+            ctx.strokeStyle = 'rgba(0, 40, 10, 0.06)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
           }
         }
-      });
-    }
 
-    function drawTurbines() {
-      var parallax = (mouseX - 0.5) * -15;
-      turbines.forEach(function (t) {
-        if (!prefersReducedMotion) t.angle += t.speed;
-        var tx = t.x + parallax;
-        var ty = t.y;
-        // Tower
-        ctx.strokeStyle = 'rgba(200, 210, 210, 0.7)';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(tx, ty);
-        ctx.lineTo(tx, ty - t.height);
-        ctx.stroke();
-        // Hub
-        ctx.fillStyle = 'rgba(220, 225, 225, 0.8)';
-        ctx.beginPath();
-        ctx.arc(tx, ty - t.height, 3, 0, Math.PI * 2);
-        ctx.fill();
-        // 3 blades
-        for (var b = 0; b < 3; b++) {
-          var a = t.angle + (b * Math.PI * 2 / 3);
-          ctx.strokeStyle = 'rgba(220, 230, 230, 0.75)';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(tx, ty - t.height);
-          ctx.lineTo(
-            tx + Math.cos(a) * t.bladeLen,
-            ty - t.height + Math.sin(a) * t.bladeLen
-          );
-          ctx.stroke();
+        // Wheat texture - small dashes
+        if (strip.type === 'wheat') {
+          ctx.fillStyle = 'rgba(180, 170, 80, 0.08)';
+          for (var wr = 0; wr < 6; wr++) {
+            var wf = (wr + 0.5) / 6;
+            var wy = fieldTop + (fieldBot - fieldTop) * wf;
+            var wlx = bx0 + (tx0 - bx0) * (1 - wf);
+            var wrx = bx1 + (tx1 - bx1) * (1 - wf);
+            ctx.fillRect(wlx, wy - 0.5, wrx - wlx, 1);
+          }
         }
-      });
-    }
+      }
 
-    function drawGrass() {
-      var parallax = (mouseX - 0.5) * -35;
-      var windTime = time * 0.001;
-
-      blades.forEach(function (b) {
-        if (!prefersReducedMotion) b.sway += b.swaySpeed;
-        var globalWind = Math.sin(windTime + b.x * 0.005) * 8;
-        var swayX = Math.sin(b.sway) * b.swayAmount + globalWind;
-        var px = b.x + parallax * b.depth;
-
-        ctx.beginPath();
-        ctx.moveTo(px, b.y);
-        ctx.quadraticCurveTo(
-          px + swayX * 0.4, b.y - b.height * 0.5,
-          px + swayX, b.y - b.height
-        );
-        ctx.strokeStyle = 'hsla(' + b.hue + ', ' + b.saturation + '%, ' + b.lightness + '%, ' + b.alpha * b.depth + ')';
-        ctx.lineWidth = b.width * b.depth;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-      });
-    }
-
-    function drawParticles() {
-      if (prefersReducedMotion) return;
-      particles.forEach(function (p) {
-        p.y -= p.speed;
-        p.x += p.drift;
-        if (p.y < H * 0.1) {
-          p.y = H * 0.7 + Math.random() * H * 0.2;
-          p.x = Math.random() * W;
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(200, 220, 180, ' + p.alpha + ')';
-        ctx.fill();
-      });
+      // Subtle ground gradient at very bottom for depth
+      var gndGrad = ctx.createLinearGradient(0, H * 0.85, 0, H);
+      gndGrad.addColorStop(0, 'rgba(20, 50, 20, 0)');
+      gndGrad.addColorStop(1, 'rgba(20, 50, 20, 0.15)');
+      ctx.fillStyle = gndGrad;
+      ctx.fillRect(0, H * 0.85, W, H * 0.15);
     }
 
     function drawOverlay() {
-      // Bottom darkening gradient so text is readable
-      var grad = ctx.createLinearGradient(0, H * 0.3, 0, H);
-      grad.addColorStop(0, 'rgba(10, 32, 24, 0)');
-      grad.addColorStop(0.5, 'rgba(10, 32, 24, 0.25)');
-      grad.addColorStop(1, 'rgba(10, 32, 24, 0.55)');
-      ctx.fillStyle = grad;
+      // Light overlay for text readability
+      var g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, 'rgba(10, 32, 24, 0.18)');
+      g.addColorStop(0.35, 'rgba(10, 32, 24, 0.08)');
+      g.addColorStop(0.6, 'rgba(10, 32, 24, 0.12)');
+      g.addColorStop(1, 'rgba(10, 32, 24, 0.3)');
+      ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
-
-      // Top vignette for text readability
-      var topGrad = ctx.createLinearGradient(0, 0, 0, H * 0.4);
-      topGrad.addColorStop(0, 'rgba(10, 32, 24, 0.35)');
-      topGrad.addColorStop(1, 'rgba(10, 32, 24, 0)');
-      ctx.fillStyle = topGrad;
-      ctx.fillRect(0, 0, W, H * 0.4);
     }
 
     function draw(t) {
@@ -494,14 +487,13 @@
       ctx.clearRect(0, 0, W, H);
 
       drawSky();
-      drawClouds();
-      drawHill(0, '#4a7a48', '#3d6b40');
+      drawHaze();
+      drawHill(0);
       drawTurbines();
-      drawHill(1, '#3d7a3d', '#2d5e2d');
-      drawFieldStrips();
-      drawHill(2, '#2a5a28', '#1e4a1e');
-      drawGrass();
-      drawParticles();
+      drawClouds();
+      drawHill(1);
+      drawHill(2);
+      drawFields();
       drawOverlay();
 
       if (!prefersReducedMotion) {
@@ -509,7 +501,6 @@
       }
     }
 
-    // Mouse/touch interaction for parallax
     canvas.parentElement.addEventListener('mousemove', function (e) {
       var rect = canvas.parentElement.getBoundingClientRect();
       mouseX = (e.clientX - rect.left) / rect.width;
