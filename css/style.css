@@ -9,7 +9,7 @@
   --bg-alt: #ebe7d8;
   --card: #ffffff;
   --text: #1a3020;
-  --text-muted: #3d6b57;
+  --text-muted: #4a5e52;
   --text-dim: #7a9a84;
   --primary: #059669;
   --secondary: #10b981;
@@ -20,8 +20,8 @@
   --radius: 20px;
   --radius-sm: 12px;
   --shadow: 0 4px 24px rgba(26, 48, 32, 0.08);
-  --shadow-card: 0 8px 30px rgba(26, 48, 32, 0.10);
-  --shadow-hover: 0 20px 50px rgba(26, 48, 32, 0.16);
+  --shadow-card: 0 1px 3px rgba(26, 48, 32, 0.06), 0 8px 30px rgba(26, 48, 32, 0.08);
+  --shadow-hover: 0 4px 8px rgba(26, 48, 32, 0.08), 0 20px 50px rgba(26, 48, 32, 0.14);
   --shadow-lg: 0 12px 40px rgba(26, 48, 32, 0.12);
   --glow-primary: 0 0 30px rgba(5, 150, 105, 0.4);
   --gradient-primary: linear-gradient(135deg, #059669, #10b981);
@@ -29,7 +29,7 @@
   --font-heading: 'Crimson Pro', Georgia, serif;
   --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
   --max-width: 1200px;
-  --transition: 0.3s ease;
+  --transition: 0.2s ease;
 }
 
 /* ── Reset & Base ──────────────────────────────────────────── */
@@ -118,7 +118,7 @@ button {
 }
 
 .section {
-  padding: 5rem 0;
+  padding: 6rem 0;
 }
 
 .section--alt {
@@ -128,24 +128,23 @@ button {
 .section__label {
   display: inline-block;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
-  background: rgba(160, 120, 32, 0.08);
-  padding: 0.4rem 1.2rem;
-  border-radius: 50px;
-  margin-bottom: 0.75rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
 }
 
 .section__heading {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .section__text {
   color: var(--text-muted);
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  font-size: 1.05rem;
+  line-height: 1.85;
 }
 
 .text-center {
@@ -515,29 +514,28 @@ button {
   background: var(--card);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  border-top: 3px solid var(--primary);
-  padding: 2.25rem 2rem;
+  padding: 2.5rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
 }
 
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
 
 .card__icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: rgba(5, 150, 105, 0.12);
-  border: 1px solid rgba(5, 150, 105, 0.15);
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--gradient-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  margin-bottom: 1.25rem;
-  color: var(--primary);
+  margin-bottom: 1.5rem;
+  color: #fff;
 }
 
 .card__title {
@@ -574,16 +572,16 @@ button {
   background: var(--card);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--primary);
-  padding: 2rem;
+  padding: 2rem 2.25rem;
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
 }
 
 .goal-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
 }
 
@@ -684,11 +682,12 @@ button {
 .stat__number::after {
   content: '';
   display: block;
-  width: 40px;
-  height: 3px;
-  background: var(--gradient-gold);
+  width: 32px;
+  height: 2px;
+  background: var(--primary);
   border-radius: 2px;
-  margin: 0.5rem auto 0;
+  margin: 0.75rem auto 0;
+  opacity: 0.4;
 }
 
 .stat__label {
@@ -865,21 +864,22 @@ button {
   flex-direction: column;
   height: 100%;
   color: var(--text-dim);
-  font-size: 0.9rem;
-  background: linear-gradient(135deg, rgba(5, 150, 105, 0.06), rgba(160, 120, 32, 0.06));
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--bg-alt);
   gap: 0.75rem;
 }
 
 .gallery-placeholder__icon {
-  width: 56px;
-  height: 56px;
-  background: rgba(5, 150, 105, 0.1);
+  width: 48px;
+  height: 48px;
+  background: rgba(5, 150, 105, 0.08);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
-  opacity: 0.7;
+  color: var(--text-dim);
+  opacity: 0.5;
 }
 
 /* ── Lightbox ──────────────────────────────────────────────── */
@@ -953,10 +953,10 @@ button {
   background: var(--card);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--primary);
-  padding: 2rem;
+  padding: 2rem 2.25rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
 }
 
 .update-card:hover {
@@ -1088,12 +1088,12 @@ button {
   width: 100%;
   font-family: var(--font-body);
   font-size: 1rem;
-  padding: 0.85rem 1.15rem;
-  border: 1.5px solid var(--border);
+  padding: 0.9rem 1.2rem;
+  border: 1px solid rgba(6, 78, 59, 0.18);
   border-radius: var(--radius-sm);
-  background: var(--bg);
+  background: var(--card);
   color: var(--text);
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition);
   line-height: 1.5;
 }
 
@@ -1102,8 +1102,7 @@ button {
 .form-textarea:focus {
   outline: none;
   border-color: var(--primary);
-  background: var(--card);
-  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
 }
 
 .form-textarea {
@@ -1449,7 +1448,7 @@ button {
   }
 
   .section {
-    padding: 3.5rem 0;
+    padding: 4rem 0;
   }
 
   .hero {
@@ -1496,6 +1495,19 @@ button {
     width: 100%;
     justify-content: center;
   }
+}
+
+/* ── Focus Visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.btn:focus-visible,
+.navbar__cta:focus-visible,
+.lang-toggle:focus-visible {
+  outline-offset: 4px;
 }
 
 /* ── Reduced Motion ────────────────────────────────────────── */
