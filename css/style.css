@@ -157,20 +157,6 @@ button {
   margin-right: auto;
 }
 
-/* ── Section Dividers ──────────────────────────────────────── */
-.section-divider {
-  display: block;
-  width: 100%;
-  height: auto;
-  line-height: 0;
-  margin: 0;
-  position: relative;
-  z-index: 5;
-}
-
-.section-divider svg {
-  display: block;
-}
 
 /* ── Scroll Reveal ─────────────────────────────────────────── */
 .reveal {
@@ -1312,15 +1298,6 @@ button {
   position: relative;
 }
 
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 5%;
-  right: 5%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(5, 150, 105, 0.3), rgba(160, 120, 32, 0.3), transparent);
-}
 
 .footer__inner {
   max-width: var(--max-width);
