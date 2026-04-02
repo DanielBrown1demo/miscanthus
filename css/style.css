@@ -404,18 +404,6 @@ button {
   overflow: hidden;
 }
 
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 120px;
-  background: linear-gradient(to bottom, transparent, var(--bg));
-  z-index: 4;
-  pointer-events: none;
-}
-
 .hero__canvas {
   position: absolute;
   top: 0;
@@ -1329,10 +1317,10 @@ button {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(to right, var(--primary), var(--gold), var(--secondary));
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(5, 150, 105, 0.3), rgba(160, 120, 32, 0.3), transparent);
 }
 
 .footer__inner {
