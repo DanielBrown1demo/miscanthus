@@ -415,6 +415,18 @@
 
   /* ── Hero Parallax (disabled - text stays fixed) ────── */
 
+  /* ── Flip Cards ─────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var flipping = false;
+    document.addEventListener('click', function (e) {
+      var card = e.target.closest('[data-flippable]');
+      if (!card || flipping) return;
+      flipping = true;
+      card.classList.toggle('flipped');
+      setTimeout(function () { flipping = false; }, 700);
+    });
+  });
+
   /* ── Goals Sticky Scroll ────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var goalsSection = document.getElementById('goalsScroll');

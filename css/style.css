@@ -618,8 +618,9 @@ button {
 .flip-card__inner {
   position: relative;
   width: 100%;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  transform: rotateY(0deg);
 }
 
 .flip-card.flipped .flip-card__inner {
@@ -679,19 +680,11 @@ button {
 }
 
 .flip-card:hover .flip-card__inner {
-  animation: wobble 0.6s ease;
+  transform: rotateY(8deg);
 }
 
 .flip-card.flipped:hover .flip-card__inner {
-  animation: none;
-}
-
-@keyframes wobble {
-  0% { transform: rotateY(0deg); }
-  25% { transform: rotateY(12deg); }
-  50% { transform: rotateY(-8deg); }
-  75% { transform: rotateY(4deg); }
-  100% { transform: rotateY(0deg); }
+  transform: rotateY(172deg);
 }
 
 /* ── Grid Layouts ──────────────────────────────────────────── */
