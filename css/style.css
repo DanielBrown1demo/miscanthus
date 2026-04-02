@@ -123,8 +123,6 @@ button {
 
 .section--alt {
   background: var(--bg-alt);
-  border-radius: 32px;
-  margin: 0 0.5rem;
 }
 
 .section__label {
@@ -437,8 +435,21 @@ button {
   padding-top: 80px;
   padding-top: calc(80px + env(safe-area-inset-top, 0px));
   overflow: hidden;
-  border-radius: 0 0 40px 40px;
+  padding-bottom: 60px;
+  margin-bottom: -40px;
   z-index: 2;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: -5%;
+  width: 110%;
+  height: 80px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0;
+  z-index: 5;
 }
 
 .hero__canvas {
@@ -751,8 +762,21 @@ button {
   padding: 10rem 0 5rem;
   text-align: center;
   position: relative;
-  border-radius: 0 0 40px 40px;
+  padding-bottom: 60px;
+  margin-bottom: -40px;
   z-index: 2;
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: -5%;
+  width: 110%;
+  height: 80px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0;
+  z-index: 5;
   overflow: hidden;
 }
 
@@ -1347,10 +1371,22 @@ button {
 .footer {
   background: var(--hero-bg);
   color: rgba(255, 255, 255, 0.7);
-  padding: 5rem 0 2.5rem;
+  padding: 6rem 0 2.5rem;
   position: relative;
-  border-radius: 40px 40px 0 0;
-  margin-top: -1px;
+  margin-top: -40px;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -5%;
+  width: 110%;
+  height: 80px;
+  background: var(--hero-bg);
+  border-radius: 0 0 50% 50%;
+  z-index: 1;
+  transform: translateY(-50%);
 }
 
 
@@ -1504,18 +1540,6 @@ button {
     padding: 5rem 0;
   }
 
-  .hero,
-  .page-hero {
-    border-radius: 0 0 28px 28px;
-  }
-
-  .footer {
-    border-radius: 28px 28px 0 0;
-  }
-
-  .section--alt {
-    border-radius: 24px;
-  }
 
   .hero {
     min-height: 90vh;
