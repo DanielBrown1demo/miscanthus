@@ -1758,10 +1758,11 @@ button {
 }
 
 .footer__funding img {
-  max-width: 450px;
+  max-width: 500px;
   width: 100%;
-  opacity: 0.85;
-  filter: brightness(1.2);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-sm);
 }
 
 .footer__bottom {

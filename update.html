@@ -16,19 +16,29 @@
     .admin-stat { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.25rem; text-align:center; }
     .admin-stat__number { font-family:var(--font-heading); font-size:2rem; font-weight:700; color:var(--primary); }
     .admin-stat__label { font-size:0.8rem; color:var(--text-dim); margin-top:0.25rem; }
-    .inbox-item { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1rem 1.25rem; margin-bottom:0.75rem; cursor:pointer; transition:box-shadow 0.2s; }
-    .inbox-item:hover { box-shadow:var(--shadow-card); }
+    .inbox-item { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:0.75rem; overflow:hidden; }
     .inbox-item.unread { border-left:3px solid var(--primary); }
-    .inbox-item__header { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+    .inbox-item__header { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1rem 1.25rem; cursor:pointer; transition:background 0.2s; }
+    .inbox-item__header:hover { background:rgba(255,255,255,0.02); }
+    .inbox-item__left { display:flex; align-items:center; gap:0.75rem; flex:1; min-width:0; }
+    .inbox-item__dot { width:8px; height:8px; background:var(--primary); border-radius:50%; flex-shrink:0; }
+    .inbox-item__dot.read { background:transparent; }
+    .inbox-item__meta { min-width:0; }
     .inbox-item__name { font-weight:700; font-size:0.95rem; }
-    .inbox-item__date { font-size:0.8rem; color:var(--text-dim); }
-    .inbox-item__preview { font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .inbox-item__badge { display:inline-block; width:8px; height:8px; background:var(--primary); border-radius:50%; margin-right:0.5rem; }
-    .inbox-detail { display:none; background:var(--bg-alt); border-radius:var(--radius-sm); padding:1.5rem; margin:-0.5rem 0 0.75rem; font-size:0.9rem; }
-    .inbox-detail.open { display:block; }
-    .inbox-detail p { margin-bottom:0.5rem; max-width:none; }
-    .inbox-detail__label { font-weight:700; color:var(--text); }
+    .inbox-item__email { font-size:0.8rem; color:var(--text-dim); }
+    .inbox-item__right { display:flex; align-items:center; gap:1rem; flex-shrink:0; }
+    .inbox-item__preview { font-size:0.85rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:250px; }
+    .inbox-item__date { font-size:0.75rem; color:var(--text-dim); white-space:nowrap; }
+    .inbox-detail { display:none; padding:0 1.25rem 1.25rem; border-top:1px solid var(--border); }
+    .inbox-detail.open { display:block; padding-top:1rem; }
+    .inbox-detail__row { display:flex; gap:0.5rem; margin-bottom:0.4rem; font-size:0.9rem; }
+    .inbox-detail__label { font-weight:700; min-width:110px; flex-shrink:0; }
+    .inbox-detail__message { margin-top:0.75rem; padding:1rem; background:var(--bg-alt); border-radius:var(--radius-sm); font-size:0.9rem; line-height:1.6; white-space:pre-wrap; }
     .inbox-detail__actions { display:flex; gap:0.75rem; margin-top:1rem; }
+    .btn--sm { padding:0.45rem 0.9rem; font-size:0.8rem; border-radius:var(--radius-sm); border:none; cursor:pointer; font-weight:600; transition:opacity 0.2s; }
+    .btn--sm:hover { opacity:0.85; }
+    .btn--read { background:rgba(74,222,128,0.15); color:var(--primary); }
+    .btn--del { background:rgba(220,38,38,0.12); color:#f87171; }
     .recipient-item { display:flex; align-items:center; gap:1rem; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.85rem 1.25rem; margin-bottom:0.5rem; }
     .recipient-item__info { flex:1; }
     .recipient-item__name { font-weight:700; font-size:0.9rem; }
@@ -39,11 +49,17 @@
     .toggle-switch__slider::before { content:''; position:absolute; height:16px; width:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:0.2s; }
     .toggle-switch input:checked + .toggle-switch__slider { background:var(--primary); }
     .toggle-switch input:checked + .toggle-switch__slider::before { transform:translateX(18px); }
-    @media(max-width:768px) { .admin-stats { grid-template-columns:repeat(2,1fr); } }
+    .manage-thumb { width:48px; height:48px; object-fit:cover; border-radius:6px; background:var(--bg-alt); flex-shrink:0; }
+    .empty-msg { text-align:center; padding:2rem; color:var(--text-dim); font-size:0.9rem; }
+    @media(max-width:768px) {
+      .admin-stats { grid-template-columns:repeat(2,1fr); }
+      .inbox-item__preview { display:none; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- ── Navigation ──────────────────────────────────────── -->
   <nav class="navbar" id="navbar">
     <div class="navbar__inner">
       <a href="index.html" class="navbar__logo" aria-label="Home"></a>
@@ -62,23 +78,25 @@
     </div>
   </nav>
 
-  <!-- Login -->
+  <!-- ── Login Screen ────────────────────────────────────── -->
   <div class="admin-login" id="adminLogin">
-    <h2>Admin Dashboard</h2>
+    <h2>Admin</h2>
     <div class="form-group">
       <label class="form-label" for="adminPassword">Passwort / Password</label>
       <input class="form-input" type="password" id="adminPassword" placeholder="Passwort eingeben">
     </div>
     <button class="btn btn--primary" id="adminLoginBtn" style="width:100%;">Login</button>
-    <div class="admin-success" id="loginError" style="background:rgba(220,38,38,0.08);color:#dc2626;">Falsches Passwort / Incorrect password</div>
+    <div class="admin-success" id="loginError" style="background:rgba(220,38,38,0.08);color:#dc2626;">
+      Falsches Passwort / Incorrect password
+    </div>
   </div>
 
-  <!-- Dashboard -->
+  <!-- ── Admin Panel ─────────────────────────────────────── -->
   <div class="container">
     <div class="admin-panel" id="adminPanel">
       <h2 style="margin-bottom:1.5rem;">Dashboard</h2>
 
-      <!-- Stats -->
+      <!-- Stats Cards -->
       <div class="admin-stats">
         <div class="admin-stat">
           <div class="admin-stat__number" id="statPhotos">0</div>
@@ -86,27 +104,27 @@
         </div>
         <div class="admin-stat">
           <div class="admin-stat__number" id="statUpdates">0</div>
-          <div class="admin-stat__label">Beiträge / Posts</div>
+          <div class="admin-stat__label">Beitr&auml;ge / Updates</div>
         </div>
         <div class="admin-stat">
-          <div class="admin-stat__number" id="statInbox">0</div>
+          <div class="admin-stat__number" id="statUnread">0</div>
           <div class="admin-stat__label">Ungelesen / Unread</div>
         </div>
         <div class="admin-stat">
           <div class="admin-stat__number" id="statRecipients">0</div>
-          <div class="admin-stat__label">Empfänger / Recipients</div>
+          <div class="admin-stat__label">Empf&auml;nger / Recipients</div>
         </div>
       </div>
 
       <!-- Tabs -->
       <div class="admin-tabs">
-        <button class="admin-tab-btn active" data-admin-tab="upload">Foto hochladen</button>
-        <button class="admin-tab-btn" data-admin-tab="post">Beitrag erstellen</button>
-        <button class="admin-tab-btn" data-admin-tab="inbox">Posteingang</button>
-        <button class="admin-tab-btn" data-admin-tab="settings">Einstellungen</button>
+        <button class="admin-tab-btn active" data-admin-tab="upload">Foto hochladen / Upload Photo</button>
+        <button class="admin-tab-btn" data-admin-tab="post">Beitrag erstellen / Post Update</button>
+        <button class="admin-tab-btn" data-admin-tab="inbox">Posteingang / Inbox</button>
+        <button class="admin-tab-btn" data-admin-tab="settings">Einstellungen / Settings</button>
       </div>
 
-      <!-- Upload Photo -->
+      <!-- ── Tab 1: Upload Photo ─────────────────────────── -->
       <div class="admin-tab-content active" id="admin-tab-upload">
         <div class="form-group">
           <label class="form-label">Bild / Image</label>
@@ -118,7 +136,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">Beschreibung / Description</label>
-          <textarea class="form-textarea" id="photoDescription" rows="3" placeholder="Bildbeschreibung"></textarea>
+          <textarea class="form-textarea" id="photoDescription" rows="4" placeholder="Bildbeschreibung"></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Kategorie / Category</label>
@@ -135,7 +153,7 @@
         <div class="admin-success" id="uploadSuccess">Foto gespeichert! / Photo saved!</div>
       </div>
 
-      <!-- Post Update -->
+      <!-- ── Tab 2: Post Update ──────────────────────────── -->
       <div class="admin-tab-content" id="admin-tab-post">
         <div class="form-group">
           <label class="form-label">Titel / Title</label>
@@ -153,6 +171,7 @@
               <option value="Projekt">Projekt / Project</option>
               <option value="Forschung">Forschung / Research</option>
               <option value="Feldbericht">Feldbericht / Field Report</option>
+              <option value="Galerie">Galerie / Gallery</option>
               <option value="Allgemein">Allgemein / General</option>
             </select>
           </div>
@@ -161,62 +180,361 @@
             <input class="form-input" type="date" id="postDate">
           </div>
         </div>
-        <button class="btn btn--primary" id="postUpdateBtn">Veröffentlichen / Publish</button>
+        <button class="btn btn--primary" id="postUpdateBtn">Ver&ouml;ffentlichen / Publish</button>
         <div class="admin-success" id="postSuccess">Beitrag gespeichert! / Post saved!</div>
       </div>
 
-      <!-- Inbox -->
+      <!-- ── Tab 3: Inbox ────────────────────────────────── -->
       <div class="admin-tab-content" id="admin-tab-inbox">
         <h3 style="margin-bottom:1rem;">Kontaktanfragen / Contact Submissions</h3>
         <div id="inboxList"></div>
+        <div class="empty-msg" id="inboxEmpty" style="display:none;">Keine Nachrichten / No messages</div>
       </div>
 
-      <!-- Settings -->
+      <!-- ── Tab 4: Settings ─────────────────────────────── -->
       <div class="admin-tab-content" id="admin-tab-settings">
-        <!-- Recipients -->
-        <h3 style="margin-bottom:1rem;">Benachrichtigungsempfänger / Notification Recipients</h3>
+
+        <!-- Sub-section: Notification Recipients -->
+        <h3 style="margin-bottom:1rem;">Benachrichtigungsempf&auml;nger / Notification Recipients</h3>
         <div id="recipientsList"></div>
+        <div class="empty-msg" id="recipientsEmpty" style="display:none;">Keine Empf&auml;nger / No recipients</div>
         <div style="background:var(--bg-alt);border-radius:var(--radius-sm);padding:1.25rem;margin-top:1rem;">
-          <h4 style="margin-bottom:0.75rem;font-size:0.9rem;">Empfänger hinzufügen / Add Recipient</h4>
-          <div class="form-row">
-            <div class="form-group" style="margin-bottom:0.5rem;">
+          <h4 style="margin-bottom:0.75rem;font-size:0.9rem;">Empf&auml;nger hinzuf&uuml;gen / Add Recipient</h4>
+          <div class="form-row" style="flex-wrap:wrap;">
+            <div class="form-group" style="margin-bottom:0.5rem;min-width:140px;">
               <input class="form-input" type="text" id="recipientName" placeholder="Name">
             </div>
-            <div class="form-group" style="margin-bottom:0.5rem;">
+            <div class="form-group" style="margin-bottom:0.5rem;min-width:140px;">
               <input class="form-input" type="email" id="recipientEmail" placeholder="E-Mail">
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin-bottom:0.5rem;">
+            <div class="form-group" style="margin-bottom:0.5rem;min-width:140px;">
               <input class="form-input" type="tel" id="recipientPhone" placeholder="Telefon / Phone">
             </div>
             <div class="form-group" style="margin-bottom:0.5rem;">
-              <button class="btn btn--primary" id="addRecipientBtn" style="width:100%;padding:0.85rem;">Hinzufügen / Add</button>
+              <button class="btn btn--primary" id="addRecipientBtn" style="width:100%;padding:0.85rem;">Hinzuf&uuml;gen / Add</button>
             </div>
           </div>
         </div>
 
-        <!-- Manage Content -->
+        <!-- Sub-section: Manage Content -->
         <h3 style="margin:2.5rem 0 1rem;">Inhalte verwalten / Manage Content</h3>
         <h4 style="margin-bottom:0.75rem;font-size:0.9rem;color:var(--text-muted);">Fotos / Photos</h4>
         <div id="managePhotos"></div>
-        <h4 style="margin:1.5rem 0 0.75rem;font-size:0.9rem;color:var(--text-muted);">Beiträge / Updates</h4>
+        <div class="empty-msg" id="photosEmpty" style="display:none;">Keine Fotos / No photos</div>
+        <h4 style="margin:1.5rem 0 0.75rem;font-size:0.9rem;color:var(--text-muted);">Beitr&auml;ge / Updates</h4>
         <div id="manageUpdates"></div>
+        <div class="empty-msg" id="updatesEmpty" style="display:none;">Keine Beitr&auml;ge / No updates</div>
       </div>
 
     </div>
   </div>
 
+  <!-- ── Footer ──────────────────────────────────────────── -->
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__bottom">
-        <span>Admin Panel</span>
-        <span>&copy; 2024 Miscanthus im Streifenanbau</span>
+        <span>Admin Panel | &copy; 2024</span>
       </div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
   <script src="js/admin.js"></script>
+  <script>
+  (function() {
+    /* ── Helpers ──────────────────────────────────────────── */
+    function ls(key, fb) {
+      try { return JSON.parse(localStorage.getItem(key)) || fb; } catch(e) { return fb; }
+    }
+    function ss(key, v) { localStorage.setItem(key, JSON.stringify(v)); }
+    function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+    function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+    function trunc(s, n) { s = s || ''; return s.length > n ? s.slice(0, n) + '...' : s; }
+
+    /* ── Refresh Stats ───────────────────────────────────── */
+    function refreshStats() {
+      var photos = ls('miscanthus_photos', []);
+      var updates = ls('miscanthus_updates', []);
+      var inbox = ls('miscanthus_inbox', []);
+      var recipients = ls('miscanthus_recipients', []);
+      document.getElementById('statPhotos').textContent = photos.length;
+      document.getElementById('statUpdates').textContent = updates.length;
+      document.getElementById('statUnread').textContent = inbox.filter(function(m) { return !m.read; }).length;
+      document.getElementById('statRecipients').textContent = recipients.length;
+    }
+
+    /* ── Tab Switching ───────────────────────────────────── */
+    var tabBtns = document.querySelectorAll('.admin-tab-btn[data-admin-tab]');
+    tabBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tabBtns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('.admin-tab-content').forEach(function(c) { c.classList.remove('active'); });
+        var t = document.getElementById('admin-tab-' + btn.getAttribute('data-admin-tab'));
+        if (t) t.classList.add('active');
+      });
+    });
+
+    /* ── Upload Photo ────────────────────────────────────── */
+    document.getElementById('uploadPhotoBtn').addEventListener('click', function() {
+      var fi = document.getElementById('photoFile');
+      var title = document.getElementById('photoTitle').value.trim();
+      var desc = document.getElementById('photoDescription').value.trim();
+      var cat = document.getElementById('photoCategory').value;
+      if (!fi.files.length || !title) return;
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var photos = ls('miscanthus_photos', []);
+        photos.unshift({
+          id: uid(), src: e.target.result, title: title,
+          description: desc, category: cat, date: new Date().toISOString()
+        });
+        ss('miscanthus_photos', photos);
+        fi.value = '';
+        document.getElementById('photoTitle').value = '';
+        document.getElementById('photoDescription').value = '';
+        var msg = document.getElementById('uploadSuccess');
+        msg.style.display = 'block';
+        setTimeout(function() { msg.style.display = 'none'; }, 3000);
+        refreshStats();
+        renderManagePhotos();
+      };
+      reader.readAsDataURL(fi.files[0]);
+    });
+
+    /* ── Post Update ─────────────────────────────────────── */
+    var postDateInput = document.getElementById('postDate');
+    postDateInput.value = new Date().toISOString().split('T')[0];
+
+    document.getElementById('postUpdateBtn').addEventListener('click', function() {
+      var title = document.getElementById('postTitle').value.trim();
+      var body = document.getElementById('postBody').value.trim();
+      var cat = document.getElementById('postCategory').value;
+      var date = postDateInput.value;
+      if (!title || !body) return;
+
+      var updates = ls('miscanthus_updates', []);
+      updates.unshift({
+        id: uid(), title: title, body: body, category: cat,
+        date: date || new Date().toISOString().split('T')[0]
+      });
+      ss('miscanthus_updates', updates);
+      document.getElementById('postTitle').value = '';
+      document.getElementById('postBody').value = '';
+      postDateInput.value = new Date().toISOString().split('T')[0];
+      var msg = document.getElementById('postSuccess');
+      msg.style.display = 'block';
+      setTimeout(function() { msg.style.display = 'none'; }, 3000);
+      refreshStats();
+      renderManageUpdates();
+    });
+
+    /* ── Inbox ───────────────────────────────────────────── */
+    function renderInbox() {
+      var inbox = ls('miscanthus_inbox', []);
+      var c = document.getElementById('inboxList');
+      var em = document.getElementById('inboxEmpty');
+      c.innerHTML = '';
+      if (!inbox.length) { em.style.display = 'block'; return; }
+      em.style.display = 'none';
+
+      inbox.forEach(function(item, i) {
+        var div = document.createElement('div');
+        div.className = 'inbox-item' + (item.read ? '' : ' unread');
+        div.innerHTML =
+          '<div class="inbox-item__header" data-idx="' + i + '">' +
+            '<div class="inbox-item__left">' +
+              '<span class="inbox-item__dot ' + (item.read ? 'read' : '') + '"></span>' +
+              '<div class="inbox-item__meta">' +
+                '<div class="inbox-item__name">' + esc(item.name) + ' ' + esc(item.lastName || '') + '</div>' +
+                '<div class="inbox-item__email">' + esc(item.email) + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="inbox-item__right">' +
+              '<span class="inbox-item__preview">' + esc(trunc(item.message, 60)) + '</span>' +
+              '<span class="inbox-item__date">' + esc(item.date || '') + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="inbox-detail" id="inbox-d-' + i + '">' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">Name:</span><span>' + esc(item.name) + '</span></div>' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">Nachname:</span><span>' + esc(item.lastName || '') + '</span></div>' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">E-Mail:</span><span>' + esc(item.email) + '</span></div>' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">Telefon:</span><span>' + esc(item.phone || '') + '</span></div>' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">Betriebsgr&ouml;&szlig;e:</span><span>' + esc(item.farmSize || '') + '</span></div>' +
+            '<div class="inbox-detail__row"><span class="inbox-detail__label">Rolle:</span><span>' + esc(item.role || '') + '</span></div>' +
+            '<div class="inbox-detail__message">' + esc(item.message || '') + '</div>' +
+            '<div class="inbox-detail__actions">' +
+              '<button class="btn--sm btn--read" data-mark="' + i + '">' + (item.read ? 'Gelesen' : 'Als gelesen markieren') + '</button>' +
+              '<button class="btn--sm btn--del" data-del-inbox="' + i + '">L&ouml;schen / Delete</button>' +
+            '</div>' +
+          '</div>';
+        c.appendChild(div);
+      });
+
+      c.querySelectorAll('.inbox-item__header').forEach(function(h) {
+        h.addEventListener('click', function() {
+          var d = document.getElementById('inbox-d-' + h.getAttribute('data-idx'));
+          d.classList.toggle('open');
+        });
+      });
+      c.querySelectorAll('[data-mark]').forEach(function(b) {
+        b.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var inbox = ls('miscanthus_inbox', []);
+          var i = parseInt(b.getAttribute('data-mark'));
+          if (inbox[i]) { inbox[i].read = true; ss('miscanthus_inbox', inbox); renderInbox(); refreshStats(); }
+        });
+      });
+      c.querySelectorAll('[data-del-inbox]').forEach(function(b) {
+        b.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var inbox = ls('miscanthus_inbox', []);
+          inbox.splice(parseInt(b.getAttribute('data-del-inbox')), 1);
+          ss('miscanthus_inbox', inbox); renderInbox(); refreshStats();
+        });
+      });
+    }
+
+    /* ── Recipients ──────────────────────────────────────── */
+    function renderRecipients() {
+      var recs = ls('miscanthus_recipients', []);
+      var c = document.getElementById('recipientsList');
+      var em = document.getElementById('recipientsEmpty');
+      c.innerHTML = '';
+      if (!recs.length) { em.style.display = 'block'; return; }
+      em.style.display = 'none';
+
+      recs.forEach(function(r, i) {
+        var div = document.createElement('div');
+        div.className = 'recipient-item';
+        div.innerHTML =
+          '<div class="recipient-item__info">' +
+            '<div class="recipient-item__name">' + esc(r.name) + '</div>' +
+            '<div class="recipient-item__contact">' + esc(r.email) + (r.phone ? ' | ' + esc(r.phone) : '') + '</div>' +
+          '</div>' +
+          '<label class="toggle-switch">' +
+            '<input type="checkbox" data-rtoggle="' + i + '"' + (r.active !== false ? ' checked' : '') + '>' +
+            '<span class="toggle-switch__slider"></span>' +
+          '</label>' +
+          '<button class="btn--sm btn--del" data-del-rec="' + i + '">L&ouml;schen</button>';
+        c.appendChild(div);
+      });
+
+      c.querySelectorAll('[data-rtoggle]').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+          var recs = ls('miscanthus_recipients', []);
+          var i = parseInt(cb.getAttribute('data-rtoggle'));
+          if (recs[i]) { recs[i].active = cb.checked; ss('miscanthus_recipients', recs); }
+        });
+      });
+      c.querySelectorAll('[data-del-rec]').forEach(function(b) {
+        b.addEventListener('click', function() {
+          var recs = ls('miscanthus_recipients', []);
+          recs.splice(parseInt(b.getAttribute('data-del-rec')), 1);
+          ss('miscanthus_recipients', recs); renderRecipients(); refreshStats();
+        });
+      });
+    }
+
+    document.getElementById('addRecipientBtn').addEventListener('click', function() {
+      var n = document.getElementById('recipientName').value.trim();
+      var e = document.getElementById('recipientEmail').value.trim();
+      var p = document.getElementById('recipientPhone').value.trim();
+      if (!n || !e) return;
+      var recs = ls('miscanthus_recipients', []);
+      recs.push({ id: uid(), name: n, email: e, phone: p, active: true });
+      ss('miscanthus_recipients', recs);
+      document.getElementById('recipientName').value = '';
+      document.getElementById('recipientEmail').value = '';
+      document.getElementById('recipientPhone').value = '';
+      renderRecipients(); refreshStats();
+    });
+
+    /* ── Manage Photos ───────────────────────────────────── */
+    function renderManagePhotos() {
+      var photos = ls('miscanthus_photos', []);
+      var c = document.getElementById('managePhotos');
+      var em = document.getElementById('photosEmpty');
+      c.innerHTML = '';
+      if (!photos.length) { em.style.display = 'block'; return; }
+      em.style.display = 'none';
+
+      photos.forEach(function(p, i) {
+        var div = document.createElement('div');
+        div.className = 'admin-item';
+        div.style.cssText = 'display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:0.5rem;';
+        div.innerHTML =
+          '<img class="manage-thumb" src="' + esc(p.src || '') + '" alt="">' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + esc(p.title || p.caption || '') + '</div>' +
+            '<div style="font-size:0.8rem;color:var(--text-dim);">' + esc(p.category || '') + '</div>' +
+          '</div>' +
+          '<button class="admin-delete-btn" data-del-photo="' + i + '">L&ouml;schen</button>';
+        c.appendChild(div);
+      });
+
+      c.querySelectorAll('[data-del-photo]').forEach(function(b) {
+        b.addEventListener('click', function() {
+          var photos = ls('miscanthus_photos', []);
+          photos.splice(parseInt(b.getAttribute('data-del-photo')), 1);
+          ss('miscanthus_photos', photos); renderManagePhotos(); refreshStats();
+        });
+      });
+    }
+
+    /* ── Manage Updates ──────────────────────────────────── */
+    function renderManageUpdates() {
+      var updates = ls('miscanthus_updates', []);
+      var c = document.getElementById('manageUpdates');
+      var em = document.getElementById('updatesEmpty');
+      c.innerHTML = '';
+      if (!updates.length) { em.style.display = 'block'; return; }
+      em.style.display = 'none';
+
+      updates.forEach(function(u, i) {
+        var div = document.createElement('div');
+        div.className = 'admin-item';
+        div.style.cssText = 'display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:0.5rem;';
+        div.innerHTML =
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + esc(u.title || '') + '</div>' +
+            '<div style="font-size:0.8rem;color:var(--text-dim);">' + esc(u.date || '') + ' | ' + esc(u.category || u.tag || '') + '</div>' +
+          '</div>' +
+          '<button class="admin-delete-btn" data-del-update="' + i + '">L&ouml;schen</button>';
+        c.appendChild(div);
+      });
+
+      c.querySelectorAll('[data-del-update]').forEach(function(b) {
+        b.addEventListener('click', function() {
+          var updates = ls('miscanthus_updates', []);
+          updates.splice(parseInt(b.getAttribute('data-del-update')), 1);
+          ss('miscanthus_updates', updates); renderManageUpdates(); refreshStats();
+        });
+      });
+    }
+
+    /* ── Init ────────────────────────────────────────────── */
+    function initDashboard() {
+      refreshStats();
+      renderInbox();
+      renderRecipients();
+      renderManagePhotos();
+      renderManageUpdates();
+    }
+
+    /* Observe for admin panel becoming visible (login handled by admin.js) */
+    var obs = new MutationObserver(function() {
+      var panel = document.getElementById('adminPanel');
+      if (panel && (panel.style.display === 'block' || panel.style.display === '')) {
+        if (panel.offsetParent !== null) { initDashboard(); obs.disconnect(); }
+      }
+    });
+    obs.observe(document.body, { attributes: true, childList: true, subtree: true });
+
+    /* Fallback: try after short delay in case already logged in */
+    setTimeout(initDashboard, 600);
+  })();
+  </script>
 </body>
 </html>
