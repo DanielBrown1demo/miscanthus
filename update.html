@@ -102,6 +102,7 @@
       <div class="admin-tabs">
         <button class="admin-tab-btn active" data-admin-tab="upload">Foto hochladen / Upload Photo</button>
         <button class="admin-tab-btn" data-admin-tab="post">Beitrag erstellen / Post Update</button>
+        <button class="admin-tab-btn" data-admin-tab="content">Inhalte / Content</button>
         <button class="admin-tab-btn" data-admin-tab="inbox">Posteingang / Inbox</button>
         <button class="admin-tab-btn" data-admin-tab="settings">Einstellungen / Settings</button>
       </div>
@@ -164,6 +165,29 @@
         </div>
         <button class="btn btn--primary" id="postUpdateBtn">Ver&ouml;ffentlichen / Publish</button>
         <div class="admin-success" id="postSuccess">Beitrag gespeichert! / Post saved!</div>
+      </div>
+
+      <!-- ── Tab: Content Manager ─────────────────────────── -->
+      <div class="admin-tab-content" id="admin-tab-content">
+        <h3 style="margin-bottom:1.25rem;">Veröffentlichte Fotos / Published Photos</h3>
+        <div id="contentPhotos"></div>
+        <h3 style="margin:2.5rem 0 1.25rem;">Veröffentlichte Beiträge / Published Posts</h3>
+        <div id="contentPosts"></div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div id="editModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;padding:1.5rem;">
+        <div style="background:var(--card);border-radius:var(--radius);padding:2rem;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+            <h3 id="editModalTitle">Bearbeiten / Edit</h3>
+            <button onclick="closeEditModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-dim);">&times;</button>
+          </div>
+          <div id="editModalBody"></div>
+          <div style="display:flex;gap:0.75rem;margin-top:1.5rem;">
+            <button class="btn btn--primary" onclick="saveEdit()" style="flex:1;">Speichern / Save</button>
+            <button class="btn--sm btn--del" onclick="closeEditModal()" style="padding:0.85rem 1.5rem;">Abbrechen / Cancel</button>
+          </div>
+        </div>
       </div>
 
       <!-- ── Tab 3: Inbox ────────────────────────────────── -->
@@ -498,10 +522,150 @@
     }
 
     /* ── Init ────────────────────────────────────────────── */
+    /* ── Content Manager ───────────────────────────────────── */
+    var editType = null;
+    var editIndex = null;
+
+    window.closeEditModal = function() {
+      document.getElementById('editModal').style.display = 'none';
+      editType = null;
+      editIndex = null;
+    };
+
+    window.openEditPhoto = function(idx) {
+      var photos = ls('miscanthus_gallery', []);
+      var item = photos[idx];
+      if (!item) return;
+      editType = 'photo';
+      editIndex = idx;
+      document.getElementById('editModalTitle').textContent = 'Foto bearbeiten / Edit Photo';
+      document.getElementById('editModalBody').innerHTML =
+        '<div style="text-align:center;margin-bottom:1rem;"><img src="' + esc(item.image) + '" style="max-width:100%;max-height:200px;border-radius:8px;object-fit:cover;"></div>' +
+        '<div class="form-group"><label class="form-label">Titel / Title</label><input class="form-input" id="editTitle" value="' + esc(item.title || item.caption || '') + '"></div>' +
+        '<div class="form-group"><label class="form-label">Beschreibung / Description</label><textarea class="form-textarea" id="editDesc" rows="3">' + esc(item.description || '') + '</textarea></div>' +
+        '<div class="form-group"><label class="form-label">Kategorie / Category</label><select class="form-select" id="editCategory"><option value="News">News</option><option value="Projekt">Projekt</option><option value="Forschung">Forschung</option><option value="Feldbericht">Feldbericht</option><option value="Galerie">Galerie</option><option value="Allgemein">Allgemein</option></select></div>';
+      var sel = document.getElementById('editCategory');
+      if (sel && item.category) sel.value = item.category;
+      document.getElementById('editModal').style.display = 'flex';
+    };
+
+    window.openEditPost = function(idx) {
+      var posts = ls('miscanthus_updates', []);
+      var item = posts[idx];
+      if (!item) return;
+      editType = 'post';
+      editIndex = idx;
+      document.getElementById('editModalTitle').textContent = 'Beitrag bearbeiten / Edit Post';
+      document.getElementById('editModalBody').innerHTML =
+        '<div class="form-group"><label class="form-label">Titel / Title</label><input class="form-input" id="editTitle" value="' + esc(item.title || '') + '"></div>' +
+        '<div class="form-group"><label class="form-label">Inhalt / Body</label><textarea class="form-textarea" id="editDesc" rows="5">' + esc(item.body || '') + '</textarea></div>' +
+        '<div class="form-group"><label class="form-label">Kategorie / Category</label><select class="form-select" id="editCategory"><option value="News">News</option><option value="Projekt">Projekt</option><option value="Forschung">Forschung</option><option value="Feldbericht">Feldbericht</option><option value="Allgemein">Allgemein</option></select></div>';
+      var sel = document.getElementById('editCategory');
+      if (sel && (item.category || item.tag)) sel.value = item.category || item.tag;
+      document.getElementById('editModal').style.display = 'flex';
+    };
+
+    window.saveEdit = function() {
+      if (editType === 'photo') {
+        var photos = ls('miscanthus_gallery', []);
+        if (photos[editIndex]) {
+          photos[editIndex].title = document.getElementById('editTitle').value;
+          photos[editIndex].caption = document.getElementById('editTitle').value;
+          photos[editIndex].description = document.getElementById('editDesc').value;
+          photos[editIndex].category = document.getElementById('editCategory').value;
+          ss('miscanthus_gallery', photos);
+        }
+      } else if (editType === 'post') {
+        var posts = ls('miscanthus_updates', []);
+        if (posts[editIndex]) {
+          posts[editIndex].title = document.getElementById('editTitle').value;
+          posts[editIndex].body = document.getElementById('editDesc').value;
+          posts[editIndex].category = document.getElementById('editCategory').value;
+          posts[editIndex].tag = document.getElementById('editCategory').value;
+          ss('miscanthus_updates', posts);
+        }
+      }
+      closeEditModal();
+      renderContentPhotos();
+      renderContentPosts();
+      renderManagePhotos();
+      renderManageUpdates();
+      refreshStats();
+    };
+
+    window.deleteContentPhoto = function(idx) {
+      var photos = ls('miscanthus_gallery', []);
+      photos.splice(idx, 1);
+      ss('miscanthus_gallery', photos);
+      renderContentPhotos();
+      renderManagePhotos();
+      refreshStats();
+    };
+
+    window.deleteContentPost = function(idx) {
+      var posts = ls('miscanthus_updates', []);
+      posts.splice(idx, 1);
+      ss('miscanthus_updates', posts);
+      renderContentPosts();
+      renderManageUpdates();
+      refreshStats();
+    };
+
+    function renderContentPhotos() {
+      var c = document.getElementById('contentPhotos');
+      if (!c) return;
+      var photos = ls('miscanthus_gallery', []);
+      if (!photos.length) { c.innerHTML = '<p class="empty-msg">Keine Fotos vorhanden. / No photos yet.</p>'; return; }
+      c.innerHTML = '';
+      photos.forEach(function(item, i) {
+        var div = document.createElement('div');
+        div.style.cssText = 'display:flex;gap:1rem;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.75rem;';
+        div.innerHTML =
+          '<img src="' + esc(item.image) + '" style="width:100px;height:75px;object-fit:cover;border-radius:8px;flex-shrink:0;background:var(--bg-alt);">' +
+          '<div style="flex:1;min-width:0;">' +
+          '<div style="font-weight:700;font-size:0.95rem;">' + esc(item.title || item.caption || 'Ohne Titel') + '</div>' +
+          '<div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.25rem;">' + esc(item.category || '') + (item.date ? ' &middot; ' + new Date(item.date).toLocaleDateString('de-DE') : '') + '</div>' +
+          (item.description ? '<div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.35rem;">' + esc(item.description).substring(0, 100) + '</div>' : '') +
+          '</div>' +
+          '<div style="display:flex;gap:0.5rem;flex-shrink:0;">' +
+          '<button class="btn--sm" style="background:rgba(5,150,105,0.1);color:var(--primary);" onclick="openEditPhoto(' + i + ')">Bearbeiten</button>' +
+          '<button class="btn--sm btn--del" onclick="deleteContentPhoto(' + i + ')">L&ouml;schen</button>' +
+          '</div>';
+        c.appendChild(div);
+      });
+    }
+
+    function renderContentPosts() {
+      var c = document.getElementById('contentPosts');
+      if (!c) return;
+      var posts = ls('miscanthus_updates', []);
+      if (!posts.length) { c.innerHTML = '<p class="empty-msg">Keine Beitr&auml;ge vorhanden. / No posts yet.</p>'; return; }
+      c.innerHTML = '';
+      posts.forEach(function(item, i) {
+        var div = document.createElement('div');
+        div.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:0.75rem;';
+        div.innerHTML =
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;">' +
+          '<div style="flex:1;">' +
+          '<div style="font-weight:700;font-size:1rem;">' + esc(item.title || 'Ohne Titel') + '</div>' +
+          '<div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.25rem;">' + esc(item.category || item.tag || '') + ' &middot; ' + esc(item.date || '') + '</div>' +
+          '<div style="font-size:0.9rem;color:var(--text-muted);margin-top:0.5rem;line-height:1.6;">' + esc(item.body || '').substring(0, 200) + (item.body && item.body.length > 200 ? '...' : '') + '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:0.5rem;flex-shrink:0;">' +
+          '<button class="btn--sm" style="background:rgba(5,150,105,0.1);color:var(--primary);" onclick="openEditPost(' + i + ')">Bearbeiten</button>' +
+          '<button class="btn--sm btn--del" onclick="deleteContentPost(' + i + ')">L&ouml;schen</button>' +
+          '</div>' +
+          '</div>';
+        c.appendChild(div);
+      });
+    }
+
     function initDashboard() {
       refreshStats();
       renderInbox();
       renderRecipients();
+      renderContentPhotos();
+      renderContentPosts();
       renderManagePhotos();
       renderManageUpdates();
     }
