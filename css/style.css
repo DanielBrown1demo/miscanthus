@@ -397,7 +397,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--hero-bg);
+  background: #1a3a5c;
   color: #fff;
   text-align: center;
   padding-top: 80px;
@@ -450,15 +450,16 @@ button {
   color: #fff;
   margin-bottom: 1.25rem;
   font-size: clamp(3rem, 7vw, 5rem);
-  text-shadow: 0 2px 40px rgba(5, 150, 105, 0.3);
+  text-shadow: 0 2px 30px rgba(0, 30, 60, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .hero__subtitle {
   font-size: clamp(1.05rem, 2vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.92);
   line-height: 1.7;
   max-width: 650px;
   margin: 0 auto 2.5rem;
+  text-shadow: 0 1px 15px rgba(0, 30, 60, 0.3);
 }
 
 .hero__buttons {

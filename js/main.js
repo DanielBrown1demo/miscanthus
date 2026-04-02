@@ -255,22 +255,23 @@
     }
 
     function drawSky() {
-      // Rich gradient: deep teal at top fading to warm emerald at bottom
+      // Sky gradient: deep blue at top, warm golden horizon at bottom
       var g = ctx.createLinearGradient(0, 0, 0, H);
-      g.addColorStop(0, '#0a2018');
-      g.addColorStop(0.15, '#0d2a1e');
-      g.addColorStop(0.4, '#0f3525');
-      g.addColorStop(0.65, '#14402c');
-      g.addColorStop(0.85, '#1a5035');
-      g.addColorStop(1, '#1e5a38');
+      g.addColorStop(0, '#1a3a5c');
+      g.addColorStop(0.2, '#2d5a7b');
+      g.addColorStop(0.4, '#4a88b0');
+      g.addColorStop(0.6, '#7ab4cc');
+      g.addColorStop(0.78, '#b8d4c8');
+      g.addColorStop(0.9, '#d4dbb0');
+      g.addColorStop(1, '#c8c89a');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
 
-      // Subtle radial glow from bottom center
-      var radGrad = ctx.createRadialGradient(W * 0.5, H, 0, W * 0.5, H, H * 0.8);
-      radGrad.addColorStop(0, 'rgba(5, 150, 105, 0.12)');
-      radGrad.addColorStop(0.5, 'rgba(5, 150, 105, 0.06)');
-      radGrad.addColorStop(1, 'rgba(5, 150, 105, 0)');
+      // Warm glow at horizon
+      var radGrad = ctx.createRadialGradient(W * 0.5, H * 0.85, 0, W * 0.5, H * 0.85, W * 0.6);
+      radGrad.addColorStop(0, 'rgba(220, 200, 140, 0.15)');
+      radGrad.addColorStop(0.5, 'rgba(200, 190, 130, 0.06)');
+      radGrad.addColorStop(1, 'rgba(200, 190, 130, 0)');
       ctx.fillStyle = radGrad;
       ctx.fillRect(0, 0, W, H);
     }
