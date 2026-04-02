@@ -1084,7 +1084,7 @@ button {
 
 /* ── Page Hero (subpages) ──────────────────────────────────── */
 .page-hero {
-  background: var(--hero-bg);
+  background: linear-gradient(to bottom, #1a3a5c, #2d5a7b, #4a7a6a);
   color: #fff;
   padding: 10rem 0 6rem;
   text-align: center;
@@ -1120,8 +1120,8 @@ button {
 }
 
 .page-hero p {
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.15rem;
   max-width: 600px;
   margin: 0 auto;
   position: relative;
