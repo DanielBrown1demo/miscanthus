@@ -434,20 +434,18 @@ button {
   text-align: center;
   padding-top: 80px;
   padding-top: calc(80px + env(safe-area-inset-top, 0px));
-  overflow: hidden;
-  padding-bottom: 40px;
-  margin-bottom: 0;
+  overflow: visible;
   z-index: 2;
 }
 
 .hero::after {
   content: '';
   position: absolute;
-  bottom: -40px;
+  bottom: -39px;
   left: -5%;
   width: 110%;
   height: 80px;
-  background: inherit;
+  background: #3d6040;
   border-radius: 0 0 50% 50%;
   z-index: 5;
 }
@@ -460,6 +458,7 @@ button {
   height: 100%;
   pointer-events: none;
   z-index: 1;
+  clip-path: inset(0);
 }
 
 .hero__overlay {
@@ -759,11 +758,10 @@ button {
 .page-hero {
   background: var(--hero-bg);
   color: #fff;
-  padding: 10rem 0 5rem;
+  padding: 10rem 0 6rem;
   text-align: center;
   position: relative;
-  padding-bottom: 40px;
-  margin-bottom: 0;
+  overflow: visible;
   z-index: 2;
 }
 
