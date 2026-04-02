@@ -579,11 +579,10 @@ button {
   padding: 2.5rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition);
-  cursor: pointer;
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
 }
 
@@ -709,7 +708,6 @@ button {
   gap: 1.5rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition);
-  cursor: pointer;
 }
 
 .goal-card:hover {
@@ -1101,7 +1099,6 @@ button {
   padding: 2rem 2.25rem;
   box-shadow: var(--shadow-card);
   transition: transform var(--transition), box-shadow var(--transition);
-  cursor: pointer;
 }
 
 .update-card:hover {
