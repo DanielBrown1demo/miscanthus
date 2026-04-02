@@ -1409,14 +1409,6 @@ button {
   position: relative;
 }
 
-.team-photo::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: calc(var(--radius) + 4px);
-  background: var(--gradient-primary);
-  z-index: -1;
-}
 
 .team-photo img {
   width: 100%;
