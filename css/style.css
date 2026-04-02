@@ -397,7 +397,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #4a90c4;
+  background: var(--hero-bg);
   color: #fff;
   text-align: center;
   padding-top: 80px;

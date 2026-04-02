@@ -93,13 +93,13 @@
 
     var heroObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
           navbar.classList.add('navbar--on-hero');
-        } else {
+        } else if (!entry.isIntersecting) {
           navbar.classList.remove('navbar--on-hero');
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: [0, 0.15, 0.5] });
 
     heroObserver.observe(hero);
   });
@@ -195,20 +195,16 @@
     }
   });
 
-  /* ── Hero Canvas — Refined Landscape Scene ──────────────── */
+  /* ── Hero Canvas — Sky Gradient + Grass Blades ──────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById('heroCanvas');
     if (!canvas) return;
 
     var ctx = canvas.getContext('2d');
     var W, H, dpr;
-    var mouseX = 0.5, mouseY = 0.5;
     var time = 0;
-    var sceneReady = false;
-
-    var clouds = [];
-    var turbines = [];
-    var fieldStrips = [];
+    var blades = [];
+    var initialized = false;
 
     function resize() {
       dpr = window.devicePixelRatio || 1;
@@ -221,287 +217,98 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       W = displayW;
       H = displayH;
-      if (!sceneReady) {
-        initScene();
-        sceneReady = true;
-      } else {
-        // Re-position elements proportionally without re-randomizing
-        rescaleScene();
+      if (!initialized) {
+        initBlades();
+        initialized = true;
       }
     }
 
-    function rescaleScene() {
-      // Update turbine positions for new W/H
-      var tPos = [0.22, 0.52, 0.82];
-      turbines.forEach(function (t, i) {
-        t.x = tPos[i] * W;
-        t.y = getHillY(tPos[i] * W, 0);
-      });
-    }
+    function initBlades() {
+      blades = [];
+      // 3 layers of grass: back (shorter, dimmer), mid, front (tallest, boldest)
+      var layers = [
+        { count: 100, minH: 0.08, maxH: 0.18, minW: 1.5, maxW: 2.5, minA: 0.15, maxA: 0.3, lightMin: 28, lightMax: 38, depth: 0.3 },
+        { count: 120, minH: 0.14, maxH: 0.28, minW: 2, maxW: 3.5, minA: 0.25, maxA: 0.5, lightMin: 22, lightMax: 32, depth: 0.6 },
+        { count: 100, minH: 0.22, maxH: 0.42, minW: 2.5, maxW: 4.5, minA: 0.4, maxA: 0.7, lightMin: 18, lightMax: 28, depth: 1.0 }
+      ];
 
-    function initScene() {
-      // Clouds - fluffy, multi-bubble, slow
-      clouds = [];
-      for (var i = 0; i < 6; i++) {
-        var bubbles = [];
-        var cw = 80 + Math.random() * 140;
-        var numBubbles = 5 + Math.floor(Math.random() * 4);
-        for (var b = 0; b < numBubbles; b++) {
-          bubbles.push({
-            ox: (Math.random() - 0.5) * cw * 0.6,
-            oy: (Math.random() - 0.5) * cw * 0.12,
-            rx: cw * (0.15 + Math.random() * 0.22),
-            ry: cw * (0.08 + Math.random() * 0.1)
+      layers.forEach(function (layer) {
+        for (var i = 0; i < layer.count; i++) {
+          blades.push({
+            xFrac: Math.random(),
+            hFrac: layer.minH + Math.random() * (layer.maxH - layer.minH),
+            width: layer.minW + Math.random() * (layer.maxW - layer.minW),
+            sway: Math.random() * Math.PI * 2,
+            swaySpeed: 0.006 + Math.random() * 0.01,
+            swayAmount: 6 + Math.random() * 14,
+            hue: 125 + Math.random() * 40,
+            saturation: 45 + Math.random() * 35,
+            lightness: layer.lightMin + Math.random() * (layer.lightMax - layer.lightMin),
+            alpha: layer.minA + Math.random() * (layer.maxA - layer.minA),
+            depth: layer.depth
           });
         }
-        clouds.push({
-          xFrac: Math.random(),
-          yFrac: 0.06 + Math.random() * 0.16,
-          speed: 0.02 + Math.random() * 0.03,
-          alpha: 0.4 + Math.random() * 0.2,
-          bubbles: bubbles
-        });
-      }
-
-      // Wind turbines - 3 on far hills
-      turbines = [];
-      var tPos = [0.22, 0.52, 0.82];
-      tPos.forEach(function (xp) {
-        turbines.push({
-          x: xp * W,
-          y: getHillY(xp * W, 0),
-          height: 35 + Math.random() * 15,
-          bladeLen: 16 + Math.random() * 8,
-          angle: Math.random() * Math.PI * 2,
-          speed: 0.006 + Math.random() * 0.003
-        });
       });
 
-      // Strip cultivation fields - 18 alternating strips
-      fieldStrips = [];
-      var types = ['miscanthus', 'wheat', 'crop', 'soil', 'crop', 'miscanthus',
-                   'wheat', 'crop', 'miscanthus', 'soil', 'wheat', 'crop',
-                   'miscanthus', 'crop', 'wheat', 'miscanthus', 'soil', 'crop'];
-      for (var s = 0; s < types.length; s++) {
-        var t = types[s];
-        var col;
-        if (t === 'miscanthus') {
-          col = 'hsl(' + (130 + Math.random() * 10) + ', 55%, ' + (28 + Math.random() * 6) + '%)';
-        } else if (t === 'wheat') {
-          col = 'hsl(' + (68 + Math.random() * 15) + ', 50%, ' + (42 + Math.random() * 8) + '%)';
-        } else if (t === 'soil') {
-          col = 'hsl(' + (30 + Math.random() * 10) + ', 30%, ' + (35 + Math.random() * 8) + '%)';
-        } else {
-          col = 'hsl(' + (105 + Math.random() * 15) + ', 45%, ' + (38 + Math.random() * 8) + '%)';
-        }
-        fieldStrips.push({ type: t, col: col });
-      }
-    }
-
-    function getHillY(x, layer) {
-      if (layer === 0) {
-        return H * 0.40
-          - Math.sin(x / W * Math.PI * 1.1 + 0.3) * H * 0.05
-          - Math.sin(x / W * Math.PI * 2.7 + 1.2) * H * 0.02
-          - Math.sin(x / W * Math.PI * 0.5 + 0.8) * H * 0.03;
-      } else if (layer === 1) {
-        return H * 0.48
-          - Math.sin(x / W * Math.PI * 1.4 + 0.7) * H * 0.04
-          - Math.sin(x / W * Math.PI * 3.1 + 0.5) * H * 0.02;
-      } else {
-        return H * 0.58
-          - Math.sin(x / W * Math.PI * 1.6 + 0.2) * H * 0.025
-          - Math.sin(x / W * Math.PI * 2.8 + 1.5) * H * 0.015;
-      }
+      // Sort by depth (back to front)
+      blades.sort(function (a, b) { return a.depth - b.depth; });
     }
 
     function drawSky() {
-      var g = ctx.createLinearGradient(0, 0, 0, H * 0.5);
-      g.addColorStop(0, '#4a90c4');
-      g.addColorStop(0.35, '#7cb8da');
-      g.addColorStop(0.65, '#a8d0e8');
-      g.addColorStop(0.85, '#d0dfc0');
-      g.addColorStop(1, '#e8dcc0');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, W, H * 0.55);
-    }
-
-    function drawHaze() {
-      var g = ctx.createLinearGradient(0, H * 0.32, 0, H * 0.46);
-      g.addColorStop(0, 'rgba(200, 215, 200, 0)');
-      g.addColorStop(0.5, 'rgba(200, 215, 200, 0.25)');
-      g.addColorStop(1, 'rgba(200, 215, 200, 0)');
-      ctx.fillStyle = g;
-      ctx.fillRect(0, H * 0.32, W, H * 0.14);
-    }
-
-    function drawHill(layer) {
-      var parallax = (mouseX - 0.5) * (layer === 0 ? -4 : layer === 1 ? -8 : -14);
-      var colors;
-      if (layer === 0) {
-        colors = ['#6a9a78', '#5a8a68'];
-      } else if (layer === 1) {
-        colors = ['#4a8050', '#3a7040'];
-      } else {
-        colors = ['#2a6a30', '#1e5a25'];
-      }
-
-      ctx.beginPath();
-      ctx.moveTo(-20, H);
-      for (var x = -20; x <= W + 20; x += 3) {
-        ctx.lineTo(x + parallax, getHillY(x, layer));
-      }
-      ctx.lineTo(W + 20, H);
-      ctx.closePath();
-
-      var topY = getHillY(W * 0.3, layer);
-      var g = ctx.createLinearGradient(0, topY - 10, 0, topY + H * 0.15);
-      g.addColorStop(0, colors[0]);
-      g.addColorStop(1, colors[1]);
-      ctx.fillStyle = g;
-      ctx.fill();
-    }
-
-    function drawTurbines() {
-      var parallax = (mouseX - 0.5) * -4;
-      ctx.globalAlpha = 0.6;
-      turbines.forEach(function (t) {
-        if (!prefersReducedMotion) t.angle += t.speed;
-        var tx = t.x + parallax;
-        var ty = t.y;
-        // Tower - tapered
-        ctx.strokeStyle = '#c8d4d4';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(tx - 1, ty);
-        ctx.lineTo(tx, ty - t.height);
-        ctx.moveTo(tx + 1, ty);
-        ctx.lineTo(tx, ty - t.height);
-        ctx.stroke();
-        // Hub
-        ctx.fillStyle = '#dce4e4';
-        ctx.beginPath();
-        ctx.arc(tx, ty - t.height, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-        // 3 blades - tapered
-        for (var b = 0; b < 3; b++) {
-          var a = t.angle + (b * Math.PI * 2 / 3);
-          var tipX = tx + Math.cos(a) * t.bladeLen;
-          var tipY = ty - t.height + Math.sin(a) * t.bladeLen;
-          ctx.beginPath();
-          ctx.moveTo(tx, ty - t.height);
-          ctx.lineTo(tipX, tipY);
-          ctx.strokeStyle = '#d4dede';
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
-        }
-      });
-      ctx.globalAlpha = 1;
-    }
-
-    function drawClouds() {
-      clouds.forEach(function (c) {
-        if (!prefersReducedMotion) c.xFrac += c.speed / W;
-        if (c.xFrac > 1.3) c.xFrac = -0.3;
-        var px = c.xFrac * W + (mouseX - 0.5) * -5;
-        var py = c.yFrac * H;
-        ctx.fillStyle = 'rgba(255, 255, 255, ' + c.alpha + ')';
-        c.bubbles.forEach(function (b) {
-          ctx.beginPath();
-          ctx.ellipse(px + b.ox, py + b.oy, b.rx, b.ry, 0, 0, Math.PI * 2);
-          ctx.fill();
-        });
-      });
-    }
-
-    function drawFields() {
-      var fieldTop = H * 0.58;
-      var fieldBot = H + 20; // extend past canvas to avoid cutoff
-      var vanishX = W * 0.5;
-      var stripCount = fieldStrips.length;
-      var botW = W * 1.6;
-      var botLeft = -W * 0.3;
-      var parallax = (mouseX - 0.5) * -10;
-
-      for (var i = 0; i < stripCount; i++) {
-        var strip = fieldStrips[i];
-        var frac0 = i / stripCount;
-        var frac1 = (i + 1) / stripCount;
-
-        var bx0 = botLeft + frac0 * botW + parallax;
-        var bx1 = botLeft + frac1 * botW + parallax;
-
-        var tx0 = vanishX + (bx0 - vanishX) * 0.3;
-        var tx1 = vanishX + (bx1 - vanishX) * 0.3;
-
-        ctx.beginPath();
-        ctx.moveTo(bx0, fieldBot);
-        ctx.lineTo(bx1, fieldBot);
-        ctx.lineTo(tx1, fieldTop);
-        ctx.lineTo(tx0, fieldTop);
-        ctx.closePath();
-        ctx.fillStyle = strip.col;
-        ctx.fill();
-
-        // Subtle shadow edge
-        ctx.beginPath();
-        ctx.moveTo(bx1, fieldBot);
-        ctx.lineTo(tx1, fieldTop);
-        ctx.strokeStyle = 'rgba(0, 20, 0, 0.1)';
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-
-      // Bottom fade to dark green (matches section below)
-      var fadeGrad = ctx.createLinearGradient(0, H * 0.88, 0, H);
-      fadeGrad.addColorStop(0, 'rgba(30, 60, 30, 0)');
-      fadeGrad.addColorStop(1, 'rgba(30, 60, 30, 0.35)');
-      ctx.fillStyle = fadeGrad;
-      ctx.fillRect(0, H * 0.88, W, H * 0.12);
-    }
-
-    function drawOverlay() {
-      // Light overlay for text readability
+      // Rich gradient: deep teal at top fading to warm emerald at bottom
       var g = ctx.createLinearGradient(0, 0, 0, H);
-      g.addColorStop(0, 'rgba(10, 32, 24, 0.18)');
-      g.addColorStop(0.35, 'rgba(10, 32, 24, 0.08)');
-      g.addColorStop(0.6, 'rgba(10, 32, 24, 0.12)');
-      g.addColorStop(1, 'rgba(10, 32, 24, 0.3)');
+      g.addColorStop(0, '#0a2018');
+      g.addColorStop(0.15, '#0d2a1e');
+      g.addColorStop(0.4, '#0f3525');
+      g.addColorStop(0.65, '#14402c');
+      g.addColorStop(0.85, '#1a5035');
+      g.addColorStop(1, '#1e5a38');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
+
+      // Subtle radial glow from bottom center
+      var radGrad = ctx.createRadialGradient(W * 0.5, H, 0, W * 0.5, H, H * 0.8);
+      radGrad.addColorStop(0, 'rgba(5, 150, 105, 0.12)');
+      radGrad.addColorStop(0.5, 'rgba(5, 150, 105, 0.06)');
+      radGrad.addColorStop(1, 'rgba(5, 150, 105, 0)');
+      ctx.fillStyle = radGrad;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    function drawBlades() {
+      var windTime = time * 0.0008;
+
+      blades.forEach(function (b) {
+        if (!prefersReducedMotion) b.sway += b.swaySpeed;
+        var globalWind = Math.sin(windTime + b.xFrac * 5) * 6 * b.depth;
+        var swayX = Math.sin(b.sway) * b.swayAmount * b.depth + globalWind;
+
+        var x = b.xFrac * W;
+        var bladeH = b.hFrac * H;
+
+        ctx.beginPath();
+        ctx.moveTo(x, H);
+        ctx.quadraticCurveTo(
+          x + swayX * 0.4, H - bladeH * 0.5,
+          x + swayX, H - bladeH
+        );
+        ctx.strokeStyle = 'hsla(' + b.hue + ', ' + b.saturation + '%, ' + b.lightness + '%, ' + b.alpha + ')';
+        ctx.lineWidth = b.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      });
     }
 
     function draw(t) {
       time = t || 0;
       ctx.clearRect(0, 0, W, H);
-
       drawSky();
-      drawHaze();
-      drawHill(0);
-      drawTurbines();
-      drawClouds();
-      drawHill(1);
-      drawHill(2);
-      drawFields();
-      drawOverlay();
+      drawBlades();
 
       if (!prefersReducedMotion) {
         requestAnimationFrame(draw);
       }
     }
-
-    canvas.parentElement.addEventListener('mousemove', function (e) {
-      var rect = canvas.parentElement.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left) / rect.width;
-      mouseY = (e.clientY - rect.top) / rect.height;
-    });
-
-    canvas.parentElement.addEventListener('touchmove', function (e) {
-      var rect = canvas.parentElement.getBoundingClientRect();
-      var touch = e.touches[0];
-      mouseX = (touch.clientX - rect.left) / rect.width;
-      mouseY = (touch.clientY - rect.top) / rect.height;
-    }, { passive: true });
 
     resize();
     window.addEventListener('resize', resize);
