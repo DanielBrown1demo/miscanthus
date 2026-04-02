@@ -109,6 +109,7 @@
     var reveals = document.querySelectorAll('.reveal');
     if (!reveals.length) return;
 
+    var isMobile = window.innerWidth < 768;
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -116,7 +117,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: isMobile ? 0.05 : 0.12, rootMargin: '0px 0px -40px 0px' });
 
     reveals.forEach(function (el) {
       observer.observe(el);
@@ -225,49 +226,58 @@
 
     function initBlades() {
       blades = [];
-      // 3 depth layers of Miscanthus plants
       var layers = [
-        { count: 30, minH: 0.12, maxH: 0.22, minA: 0.15, maxA: 0.3, lightMin: 30, lightMax: 40, depth: 0.3 },
-        { count: 35, minH: 0.20, maxH: 0.35, minA: 0.3, maxA: 0.55, lightMin: 24, lightMax: 34, depth: 0.6 },
-        { count: 25, minH: 0.30, maxH: 0.50, minA: 0.5, maxA: 0.75, lightMin: 20, lightMax: 30, depth: 1.0 }
+        { count: 45, minH: 0.12, maxH: 0.28, minA: 0.15, maxA: 0.3, lightMin: 30, lightMax: 42, depth: 0.3 },
+        { count: 50, minH: 0.22, maxH: 0.42, minA: 0.3, maxA: 0.55, lightMin: 24, lightMax: 36, depth: 0.6 },
+        { count: 40, minH: 0.32, maxH: 0.58, minA: 0.5, maxA: 0.8, lightMin: 18, lightMax: 30, depth: 1.0 }
       ];
 
       layers.forEach(function (layer) {
         for (var i = 0; i < layer.count; i++) {
           var stemH = layer.minH + Math.random() * (layer.maxH - layer.minH);
-          // Each plant has a stem + several arching leaves
-          var leafCount = 4 + Math.floor(Math.random() * 5);
+          var leafCount = 5 + Math.floor(Math.random() * 5);
           var leaves = [];
           for (var l = 0; l < leafCount; l++) {
-            var attachFrac = 0.2 + Math.random() * 0.65; // where leaf joins stem
-            var side = Math.random() > 0.5 ? 1 : -1;
             leaves.push({
-              attachFrac: attachFrac,
-              side: side,
-              length: 0.3 + Math.random() * 0.5, // fraction of stem height
-              droop: 0.4 + Math.random() * 0.6, // how much it curves down
-              width: 1.2 + Math.random() * 1.5,
-              hueOff: (Math.random() - 0.5) * 20,
+              attachFrac: 0.15 + Math.random() * 0.7,
+              side: Math.random() > 0.5 ? 1 : -1,
+              length: 0.25 + Math.random() * 0.55,
+              droop: 0.3 + Math.random() * 0.7,
+              width: 1 + Math.random() * 2 * layer.depth,
+              hueOff: (Math.random() - 0.5) * 15,
               lightOff: (Math.random() - 0.5) * 8
             });
           }
-          // Some tall stems get a feathery plume at the top
-          var hasPlume = stemH > (layer.minH + (layer.maxH - layer.minH) * 0.5) && Math.random() > 0.4;
+          var hasPlume = stemH > (layer.minH + (layer.maxH - layer.minH) * 0.4) && Math.random() > 0.35;
+          // Pre-calculate plume strands to avoid flicker
+          var plumeStrands = [];
+          if (hasPlume) {
+            var plumeSpread = 0.12 + Math.random() * 0.18;
+            for (var p = 0; p < 9; p++) {
+              plumeStrands.push({
+                angle: -0.9 + (p / 8) * 1.8,
+                lenFrac: 0.6 + Math.random() * 0.4,
+                hue: 35 + Math.random() * 20,
+                lightness: 55 + Math.random() * 15
+              });
+            }
+          }
           blades.push({
             xFrac: Math.random(),
             hFrac: stemH,
-            stemWidth: 1.5 + Math.random() * 1.5 * layer.depth,
+            stemWidth: 1.5 + Math.random() * 2 * layer.depth,
             sway: Math.random() * Math.PI * 2,
-            swaySpeed: 0.004 + Math.random() * 0.008,
-            swayAmount: 4 + Math.random() * 10,
-            hue: 110 + Math.random() * 30,
-            saturation: 40 + Math.random() * 30,
+            swaySpeed: 0.003 + Math.random() * 0.006,
+            swayAmount: 3 + Math.random() * 8,
+            hue: 105 + Math.random() * 35,
+            saturation: 40 + Math.random() * 35,
             lightness: layer.lightMin + Math.random() * (layer.lightMax - layer.lightMin),
             alpha: layer.minA + Math.random() * (layer.maxA - layer.minA),
             depth: layer.depth,
             leaves: leaves,
             hasPlume: hasPlume,
-            plumeSpread: 0.15 + Math.random() * 0.2
+            plumeSpread: hasPlume ? plumeSpread : 0,
+            plumeStrands: plumeStrands
           });
         }
       });
@@ -306,18 +316,18 @@
     }
 
     function drawBlades() {
-      var windTime = time * 0.0008;
+      var windTime = time * 0.0006;
 
       blades.forEach(function (b) {
         if (!prefersReducedMotion) b.sway += b.swaySpeed;
-        var globalWind = Math.sin(windTime + b.xFrac * 5) * 5 * b.depth;
+        var globalWind = Math.sin(windTime + b.xFrac * 4) * 4 * b.depth;
         var swayX = Math.sin(b.sway) * b.swayAmount * b.depth + globalWind;
 
         var x = b.xFrac * W;
         var stemH = b.hFrac * H;
-        var baseY = H;
+        var baseY = H + 5; // extend slightly past bottom
 
-        // Draw stem (central stalk)
+        // Draw stem
         ctx.beginPath();
         ctx.moveTo(x, baseY);
         for (var s = 0; s <= 10; s++) {
@@ -330,50 +340,46 @@
         ctx.lineCap = 'round';
         ctx.stroke();
 
-        // Draw arching leaves
+        // Draw leaves
         b.leaves.forEach(function (leaf) {
           var attachPt = getStemPoint(x, baseY, stemH, swayX, leaf.attachFrac);
           var leafLen = stemH * leaf.length;
-          var leafSway = swayX * 0.3 + leaf.side * 15 * b.depth;
+          var leafSway = swayX * 0.25 + leaf.side * 12 * b.depth;
 
-          // Leaf curves outward then droops down
-          var midX = attachPt.x + leaf.side * leafLen * 0.4 + leafSway * 0.2;
-          var midY = attachPt.y - leafLen * 0.15;
-          var tipX = attachPt.x + leaf.side * leafLen * 0.6 + leafSway * 0.3;
-          var tipY = attachPt.y + leafLen * leaf.droop * 0.4;
+          var midX = attachPt.x + leaf.side * leafLen * 0.4 + leafSway * 0.15;
+          var midY = attachPt.y - leafLen * 0.12;
+          var tipX = attachPt.x + leaf.side * leafLen * 0.55 + leafSway * 0.25;
+          var tipY = attachPt.y + leafLen * leaf.droop * 0.35;
 
           ctx.beginPath();
           ctx.moveTo(attachPt.x, attachPt.y);
           ctx.quadraticCurveTo(midX, midY, tipX, tipY);
-          var lHue = b.hue + leaf.hueOff;
-          var lLight = b.lightness + leaf.lightOff;
-          ctx.strokeStyle = 'hsla(' + lHue + ', ' + b.saturation + '%, ' + lLight + '%, ' + (b.alpha * 0.85) + ')';
-          ctx.lineWidth = leaf.width * b.depth;
+          ctx.strokeStyle = 'hsla(' + (b.hue + leaf.hueOff) + ', ' + b.saturation + '%, ' + (b.lightness + leaf.lightOff) + '%, ' + (b.alpha * 0.85) + ')';
+          ctx.lineWidth = leaf.width;
           ctx.lineCap = 'round';
           ctx.stroke();
         });
 
-        // Draw feathery plume at top
-        if (b.hasPlume) {
+        // Draw plume (pre-calculated, no flicker)
+        if (b.hasPlume && b.plumeStrands.length) {
           var tipPt = getStemPoint(x, baseY, stemH, swayX, 1);
-          var plumeH = stemH * b.plumeSpread;
-          ctx.globalAlpha = b.alpha * 0.6;
-          for (var p = 0; p < 7; p++) {
-            var angle = -0.8 + (p / 6) * 1.6; // spread from -0.8 to 0.8 radians
-            var pLen = plumeH * (0.6 + Math.random() * 0.4);
-            var pTipX = tipPt.x + Math.sin(angle + swayX * 0.01) * pLen;
-            var pTipY = tipPt.y - Math.cos(angle) * pLen * 0.8;
+          var pH = stemH * b.plumeSpread;
+          ctx.globalAlpha = b.alpha * 0.5;
+          b.plumeStrands.forEach(function (strand) {
+            var pLen = pH * strand.lenFrac;
+            var sa = strand.angle + swayX * 0.008;
             ctx.beginPath();
             ctx.moveTo(tipPt.x, tipPt.y);
             ctx.quadraticCurveTo(
-              tipPt.x + Math.sin(angle) * pLen * 0.5,
+              tipPt.x + Math.sin(sa) * pLen * 0.5,
               tipPt.y - pLen * 0.5,
-              pTipX, pTipY
+              tipPt.x + Math.sin(sa) * pLen,
+              tipPt.y - Math.cos(sa) * pLen * 0.7
             );
-            ctx.strokeStyle = 'hsla(40, 30%, 65%, 1)';
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = 'hsla(' + strand.hue + ', 35%, ' + strand.lightness + '%, 1)';
+            ctx.lineWidth = 0.7;
             ctx.stroke();
-          }
+          });
           ctx.globalAlpha = 1;
         }
       });
@@ -384,6 +390,14 @@
       ctx.clearRect(0, 0, W, H);
       drawSky();
       drawBlades();
+
+      // Ground cover at very bottom
+      var gnd = ctx.createLinearGradient(0, H * 0.92, 0, H);
+      gnd.addColorStop(0, 'rgba(25, 60, 35, 0)');
+      gnd.addColorStop(0.5, 'rgba(25, 60, 35, 0.3)');
+      gnd.addColorStop(1, 'rgba(25, 60, 35, 0.6)');
+      ctx.fillStyle = gnd;
+      ctx.fillRect(0, H * 0.92, W, H * 0.08);
 
       if (!prefersReducedMotion) {
         requestAnimationFrame(draw);
