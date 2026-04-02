@@ -686,6 +686,31 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
+      // Build submission object
+      var submission = {
+        id: Date.now(),
+        firstName: (document.getElementById('firstName') || {}).value || '',
+        lastName: (document.getElementById('lastName') || {}).value || '',
+        email: (document.getElementById('email') || {}).value || '',
+        phone: (document.getElementById('phone') || {}).value || '',
+        farmSize: (document.getElementById('farmSize') || {}).value || '',
+        role: (document.getElementById('role') || {}).value || '',
+        message: (document.getElementById('message') || {}).value || '',
+        date: new Date().toISOString(),
+        read: false
+      };
+
+      // Save to localStorage inbox
+      var inbox = [];
+      try { inbox = JSON.parse(localStorage.getItem('miscanthus_inbox')) || []; } catch (err) { /* */ }
+      inbox.unshift(submission);
+      localStorage.setItem('miscanthus_inbox', JSON.stringify(inbox));
+
+      // Trigger notifications (if admin.js loaded the function)
+      if (window.adminSendNotifications) {
+        window.adminSendNotifications(submission);
+      }
+
       var success = document.getElementById('formSuccess');
       if (success) {
         success.classList.add('show');

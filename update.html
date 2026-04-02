@@ -11,23 +11,47 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+    .admin-stat { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.25rem; text-align:center; }
+    .admin-stat__number { font-family:var(--font-heading); font-size:2rem; font-weight:700; color:var(--primary); }
+    .admin-stat__label { font-size:0.8rem; color:var(--text-dim); margin-top:0.25rem; }
+    .inbox-item { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1rem 1.25rem; margin-bottom:0.75rem; cursor:pointer; transition:box-shadow 0.2s; }
+    .inbox-item:hover { box-shadow:var(--shadow-card); }
+    .inbox-item.unread { border-left:3px solid var(--primary); }
+    .inbox-item__header { display:flex; justify-content:space-between; align-items:center; gap:1rem; }
+    .inbox-item__name { font-weight:700; font-size:0.95rem; }
+    .inbox-item__date { font-size:0.8rem; color:var(--text-dim); }
+    .inbox-item__preview { font-size:0.85rem; color:var(--text-muted); margin-top:0.35rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .inbox-item__badge { display:inline-block; width:8px; height:8px; background:var(--primary); border-radius:50%; margin-right:0.5rem; }
+    .inbox-detail { display:none; background:var(--bg-alt); border-radius:var(--radius-sm); padding:1.5rem; margin:-0.5rem 0 0.75rem; font-size:0.9rem; }
+    .inbox-detail.open { display:block; }
+    .inbox-detail p { margin-bottom:0.5rem; max-width:none; }
+    .inbox-detail__label { font-weight:700; color:var(--text); }
+    .inbox-detail__actions { display:flex; gap:0.75rem; margin-top:1rem; }
+    .recipient-item { display:flex; align-items:center; gap:1rem; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.85rem 1.25rem; margin-bottom:0.5rem; }
+    .recipient-item__info { flex:1; }
+    .recipient-item__name { font-weight:700; font-size:0.9rem; }
+    .recipient-item__contact { font-size:0.8rem; color:var(--text-dim); }
+    .toggle-switch { position:relative; width:40px; height:22px; flex-shrink:0; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-switch__slider { position:absolute; inset:0; background:var(--border); border-radius:22px; cursor:pointer; transition:0.2s; }
+    .toggle-switch__slider::before { content:''; position:absolute; height:16px; width:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:0.2s; }
+    .toggle-switch input:checked + .toggle-switch__slider { background:var(--primary); }
+    .toggle-switch input:checked + .toggle-switch__slider::before { transform:translateX(18px); }
+    @media(max-width:768px) { .admin-stats { grid-template-columns:repeat(2,1fr); } }
+  </style>
 </head>
 <body>
 
-  <!-- ── Navigation ──────────────────────────────────────── -->
   <nav class="navbar" id="navbar">
     <div class="navbar__inner">
       <a href="index.html" class="navbar__logo" aria-label="Home"></a>
       <div class="navbar__links" id="navLinks">
-        <a href="index.html" class="navbar__link"
-           data-de="Start" data-en="Home">Start</a>
-        <a href="medien.html" class="navbar__link"
-           data-de="Medien" data-en="Media">Medien</a>
-        <a href="team.html" class="navbar__link"
-           data-de="Team" data-en="Team">Team</a>
-        <a href="contact.html" class="navbar__link"
-           data-de="Kontakt" data-en="Contact">Kontakt</a>
-
+        <a href="index.html" class="navbar__link" data-de="Start" data-en="Home">Start</a>
+        <a href="medien.html" class="navbar__link" data-de="Medien" data-en="Media">Medien</a>
+        <a href="team.html" class="navbar__link" data-de="Team" data-en="Team">Team</a>
+        <a href="contact.html" class="navbar__link" data-de="Kontakt" data-en="Contact">Kontakt</a>
       </div>
       <div class="navbar__actions">
         <button class="lang-toggle" id="langToggle" aria-label="Toggle language">EN</button>
@@ -38,55 +62,80 @@
     </div>
   </nav>
 
-  <!-- ── Login Screen ────────────────────────────────────── -->
+  <!-- Login -->
   <div class="admin-login" id="adminLogin">
-    <h2>Admin</h2>
+    <h2>Admin Dashboard</h2>
     <div class="form-group">
       <label class="form-label" for="adminPassword">Passwort / Password</label>
       <input class="form-input" type="password" id="adminPassword" placeholder="Passwort eingeben">
     </div>
     <button class="btn btn--primary" id="adminLoginBtn" style="width:100%;">Login</button>
-    <div class="admin-success" id="loginError" style="background:rgba(220,38,38,0.08);color:#dc2626;">
-      Falsches Passwort / Incorrect password
-    </div>
+    <div class="admin-success" id="loginError" style="background:rgba(220,38,38,0.08);color:#dc2626;">Falsches Passwort / Incorrect password</div>
   </div>
 
-  <!-- ── Admin Panel ─────────────────────────────────────── -->
+  <!-- Dashboard -->
   <div class="container">
     <div class="admin-panel" id="adminPanel">
-      <h2 style="margin-bottom:1.5rem;">Admin Panel</h2>
+      <h2 style="margin-bottom:1.5rem;">Dashboard</h2>
 
-      <div class="admin-tabs">
-        <button class="admin-tab-btn active" data-admin-tab="upload">Foto hochladen / Upload Photo</button>
-        <button class="admin-tab-btn" data-admin-tab="post">Beitrag erstellen / Post Update</button>
-        <button class="admin-tab-btn" data-admin-tab="manage">Verwalten / Manage</button>
+      <!-- Stats -->
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <div class="admin-stat__number" id="statPhotos">0</div>
+          <div class="admin-stat__label">Fotos / Photos</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat__number" id="statUpdates">0</div>
+          <div class="admin-stat__label">Beiträge / Posts</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat__number" id="statInbox">0</div>
+          <div class="admin-stat__label">Ungelesen / Unread</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat__number" id="statRecipients">0</div>
+          <div class="admin-stat__label">Empfänger / Recipients</div>
+        </div>
       </div>
 
-      <!-- Upload Photo Tab -->
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" data-admin-tab="upload">Foto hochladen</button>
+        <button class="admin-tab-btn" data-admin-tab="post">Beitrag erstellen</button>
+        <button class="admin-tab-btn" data-admin-tab="inbox">Posteingang</button>
+        <button class="admin-tab-btn" data-admin-tab="settings">Einstellungen</button>
+      </div>
+
+      <!-- Upload Photo -->
       <div class="admin-tab-content active" id="admin-tab-upload">
         <div class="form-group">
           <label class="form-label">Bild / Image</label>
           <input class="form-input" type="file" id="photoFile" accept="image/*">
         </div>
         <div class="form-group">
-          <label class="form-label">Beschriftung / Caption</label>
-          <input class="form-input" type="text" id="photoCaption" placeholder="Bildbeschreibung">
+          <label class="form-label">Titel / Title</label>
+          <input class="form-input" type="text" id="photoTitle" placeholder="Bildtitel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Beschreibung / Description</label>
+          <textarea class="form-textarea" id="photoDescription" rows="3" placeholder="Bildbeschreibung"></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Kategorie / Category</label>
           <select class="form-select" id="photoCategory">
-            <option value="establishment">Anlage / Establishment</option>
-            <option value="growth">Wachstum / Growth</option>
-            <option value="harvest">Ernte / Harvest</option>
-            <option value="erosion">Erosion</option>
-            <option value="seasons">Jahreszeiten / Seasons</option>
+            <option value="News">News</option>
+            <option value="Projekt">Projekt / Project</option>
+            <option value="Forschung">Forschung / Research</option>
+            <option value="Feldbericht">Feldbericht / Field Report</option>
+            <option value="Galerie">Galerie / Gallery</option>
+            <option value="Allgemein">Allgemein / General</option>
           </select>
         </div>
         <button class="btn btn--primary" id="uploadPhotoBtn">Hochladen / Upload</button>
         <div class="admin-success" id="uploadSuccess">Foto gespeichert! / Photo saved!</div>
       </div>
 
-      <!-- Post Update Tab -->
+      <!-- Post Update -->
       <div class="admin-tab-content" id="admin-tab-post">
         <div class="form-group">
           <label class="form-label">Titel / Title</label>
@@ -98,11 +147,13 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Tag</label>
-            <select class="form-select" id="postTag">
+            <label class="form-label">Kategorie / Category</label>
+            <select class="form-select" id="postCategory">
+              <option value="News">News</option>
+              <option value="Projekt">Projekt / Project</option>
               <option value="Forschung">Forschung / Research</option>
               <option value="Feldbericht">Feldbericht / Field Report</option>
-              <option value="Projekt">Projekt / Project</option>
+              <option value="Allgemein">Allgemein / General</option>
             </select>
           </div>
           <div class="form-group">
@@ -114,17 +165,48 @@
         <div class="admin-success" id="postSuccess">Beitrag gespeichert! / Post saved!</div>
       </div>
 
-      <!-- Manage Tab -->
-      <div class="admin-tab-content" id="admin-tab-manage">
-        <h3 style="margin-bottom:1rem;">Fotos / Photos</h3>
+      <!-- Inbox -->
+      <div class="admin-tab-content" id="admin-tab-inbox">
+        <h3 style="margin-bottom:1rem;">Kontaktanfragen / Contact Submissions</h3>
+        <div id="inboxList"></div>
+      </div>
+
+      <!-- Settings -->
+      <div class="admin-tab-content" id="admin-tab-settings">
+        <!-- Recipients -->
+        <h3 style="margin-bottom:1rem;">Benachrichtigungsempfänger / Notification Recipients</h3>
+        <div id="recipientsList"></div>
+        <div style="background:var(--bg-alt);border-radius:var(--radius-sm);padding:1.25rem;margin-top:1rem;">
+          <h4 style="margin-bottom:0.75rem;font-size:0.9rem;">Empfänger hinzufügen / Add Recipient</h4>
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <input class="form-input" type="text" id="recipientName" placeholder="Name">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <input class="form-input" type="email" id="recipientEmail" placeholder="E-Mail">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <input class="form-input" type="tel" id="recipientPhone" placeholder="Telefon / Phone">
+            </div>
+            <div class="form-group" style="margin-bottom:0.5rem;">
+              <button class="btn btn--primary" id="addRecipientBtn" style="width:100%;padding:0.85rem;">Hinzufügen / Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manage Content -->
+        <h3 style="margin:2.5rem 0 1rem;">Inhalte verwalten / Manage Content</h3>
+        <h4 style="margin-bottom:0.75rem;font-size:0.9rem;color:var(--text-muted);">Fotos / Photos</h4>
         <div id="managePhotos"></div>
-        <h3 style="margin:2rem 0 1rem;">Beiträge / Updates</h3>
+        <h4 style="margin:1.5rem 0 0.75rem;font-size:0.9rem;color:var(--text-muted);">Beiträge / Updates</h4>
         <div id="manageUpdates"></div>
       </div>
+
     </div>
   </div>
 
-  <!-- ── Footer ──────────────────────────────────────────── -->
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__bottom">
