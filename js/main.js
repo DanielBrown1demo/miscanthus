@@ -201,18 +201,42 @@
     if (!canvas) return;
 
     var ctx = canvas.getContext('2d');
-    var W, H;
+    var W, H, dpr;
     var mouseX = 0.5, mouseY = 0.5;
     var time = 0;
+    var sceneReady = false;
 
     var clouds = [];
     var turbines = [];
     var fieldStrips = [];
 
     function resize() {
-      W = canvas.width = canvas.parentElement.offsetWidth;
-      H = canvas.height = canvas.parentElement.offsetHeight;
-      initScene();
+      dpr = window.devicePixelRatio || 1;
+      var displayW = canvas.parentElement.offsetWidth;
+      var displayH = canvas.parentElement.offsetHeight;
+      canvas.width = displayW * dpr;
+      canvas.height = displayH * dpr;
+      canvas.style.width = displayW + 'px';
+      canvas.style.height = displayH + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      W = displayW;
+      H = displayH;
+      if (!sceneReady) {
+        initScene();
+        sceneReady = true;
+      } else {
+        // Re-position elements proportionally without re-randomizing
+        rescaleScene();
+      }
+    }
+
+    function rescaleScene() {
+      // Update turbine positions for new W/H
+      var tPos = [0.22, 0.52, 0.82];
+      turbines.forEach(function (t, i) {
+        t.x = tPos[i] * W;
+        t.y = getHillY(tPos[i] * W, 0);
+      });
     }
 
     function initScene() {
@@ -220,21 +244,21 @@
       clouds = [];
       for (var i = 0; i < 6; i++) {
         var bubbles = [];
-        var cw = 100 + Math.random() * 180;
+        var cw = 80 + Math.random() * 140;
         var numBubbles = 5 + Math.floor(Math.random() * 4);
         for (var b = 0; b < numBubbles; b++) {
           bubbles.push({
-            ox: (Math.random() - 0.5) * cw * 0.7,
-            oy: (Math.random() - 0.5) * cw * 0.15,
-            rx: cw * (0.15 + Math.random() * 0.25),
-            ry: cw * (0.08 + Math.random() * 0.12)
+            ox: (Math.random() - 0.5) * cw * 0.6,
+            oy: (Math.random() - 0.5) * cw * 0.12,
+            rx: cw * (0.15 + Math.random() * 0.22),
+            ry: cw * (0.08 + Math.random() * 0.1)
           });
         }
         clouds.push({
-          x: Math.random() * W * 1.5 - W * 0.25,
-          y: H * 0.06 + Math.random() * H * 0.18,
-          speed: 0.03 + Math.random() * 0.05,
-          alpha: 0.35 + Math.random() * 0.25,
+          xFrac: Math.random(),
+          yFrac: 0.06 + Math.random() * 0.16,
+          speed: 0.02 + Math.random() * 0.03,
+          alpha: 0.4 + Math.random() * 0.2,
           bubbles: bubbles
         });
       }
@@ -246,10 +270,10 @@
         turbines.push({
           x: xp * W,
           y: getHillY(xp * W, 0),
-          height: 40 + Math.random() * 20,
-          bladeLen: 18 + Math.random() * 10,
+          height: 35 + Math.random() * 15,
+          bladeLen: 16 + Math.random() * 8,
           angle: Math.random() * Math.PI * 2,
-          speed: 0.008 + Math.random() * 0.004
+          speed: 0.006 + Math.random() * 0.003
         });
       });
 
@@ -260,21 +284,17 @@
                    'miscanthus', 'crop', 'wheat', 'miscanthus', 'soil', 'crop'];
       for (var s = 0; s < types.length; s++) {
         var t = types[s];
-        var col, colDark;
+        var col;
         if (t === 'miscanthus') {
-          col = 'hsla(' + (130 + Math.random() * 10) + ', 55%, ' + (28 + Math.random() * 6) + '%, 1)';
-          colDark = 'hsla(' + (130 + Math.random() * 10) + ', 55%, ' + (22 + Math.random() * 4) + '%, 1)';
+          col = 'hsl(' + (130 + Math.random() * 10) + ', 55%, ' + (28 + Math.random() * 6) + '%)';
         } else if (t === 'wheat') {
-          col = 'hsla(' + (68 + Math.random() * 15) + ', 50%, ' + (42 + Math.random() * 8) + '%, 1)';
-          colDark = 'hsla(' + (68 + Math.random() * 15) + ', 45%, ' + (36 + Math.random() * 6) + '%, 1)';
+          col = 'hsl(' + (68 + Math.random() * 15) + ', 50%, ' + (42 + Math.random() * 8) + '%)';
         } else if (t === 'soil') {
-          col = 'hsla(' + (30 + Math.random() * 10) + ', 30%, ' + (35 + Math.random() * 8) + '%, 1)';
-          colDark = 'hsla(' + (30 + Math.random() * 10) + ', 28%, ' + (28 + Math.random() * 6) + '%, 1)';
+          col = 'hsl(' + (30 + Math.random() * 10) + ', 30%, ' + (35 + Math.random() * 8) + '%)';
         } else {
-          col = 'hsla(' + (105 + Math.random() * 15) + ', 45%, ' + (38 + Math.random() * 8) + '%, 1)';
-          colDark = 'hsla(' + (105 + Math.random() * 15) + ', 40%, ' + (32 + Math.random() * 6) + '%, 1)';
+          col = 'hsl(' + (105 + Math.random() * 15) + ', 45%, ' + (38 + Math.random() * 8) + '%)';
         }
-        fieldStrips.push({ type: t, col: col, colDark: colDark });
+        fieldStrips.push({ type: t, col: col });
       }
     }
 
@@ -381,42 +401,39 @@
 
     function drawClouds() {
       clouds.forEach(function (c) {
-        if (!prefersReducedMotion) c.x += c.speed;
-        if (c.x > W + 200) c.x = -250;
-        var px = c.x + (mouseX - 0.5) * -5;
+        if (!prefersReducedMotion) c.xFrac += c.speed / W;
+        if (c.xFrac > 1.3) c.xFrac = -0.3;
+        var px = c.xFrac * W + (mouseX - 0.5) * -5;
+        var py = c.yFrac * H;
         ctx.fillStyle = 'rgba(255, 255, 255, ' + c.alpha + ')';
         c.bubbles.forEach(function (b) {
           ctx.beginPath();
-          ctx.ellipse(px + b.ox, c.y + b.oy, b.rx, b.ry, 0, 0, Math.PI * 2);
+          ctx.ellipse(px + b.ox, py + b.oy, b.rx, b.ry, 0, 0, Math.PI * 2);
           ctx.fill();
         });
       });
     }
 
     function drawFields() {
-      var fieldTop = H * 0.56;
-      var fieldBot = H;
-      var vanishY = H * 0.42;
+      var fieldTop = H * 0.58;
+      var fieldBot = H + 20; // extend past canvas to avoid cutoff
       var vanishX = W * 0.5;
       var stripCount = fieldStrips.length;
-      var botW = W * 1.4;
-      var botLeft = -W * 0.2;
-      var parallax = (mouseX - 0.5) * -12;
+      var botW = W * 1.6;
+      var botLeft = -W * 0.3;
+      var parallax = (mouseX - 0.5) * -10;
 
       for (var i = 0; i < stripCount; i++) {
         var strip = fieldStrips[i];
         var frac0 = i / stripCount;
         var frac1 = (i + 1) / stripCount;
 
-        // Bottom edge positions (wide, close)
         var bx0 = botLeft + frac0 * botW + parallax;
         var bx1 = botLeft + frac1 * botW + parallax;
 
-        // Top edge positions (converge toward vanishing point)
-        var tx0 = vanishX + (bx0 - vanishX) * 0.35;
-        var tx1 = vanishX + (bx1 - vanishX) * 0.35;
+        var tx0 = vanishX + (bx0 - vanishX) * 0.3;
+        var tx1 = vanishX + (bx1 - vanishX) * 0.3;
 
-        // Draw strip trapezoid
         ctx.beginPath();
         ctx.moveTo(bx0, fieldBot);
         ctx.lineTo(bx1, fieldBot);
@@ -426,49 +443,21 @@
         ctx.fillStyle = strip.col;
         ctx.fill();
 
-        // Shadow edge between strips
+        // Subtle shadow edge
         ctx.beginPath();
         ctx.moveTo(bx1, fieldBot);
         ctx.lineTo(tx1, fieldTop);
-        ctx.strokeStyle = 'rgba(0, 20, 0, 0.12)';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(0, 20, 0, 0.1)';
+        ctx.lineWidth = 0.5;
         ctx.stroke();
-
-        // Row texture for miscanthus strips
-        if (strip.type === 'miscanthus') {
-          for (var row = 0; row < 8; row++) {
-            var rf = (row + 0.5) / 8;
-            var ry = fieldTop + (fieldBot - fieldTop) * rf;
-            var lx = bx0 + (tx0 - bx0) * (1 - rf);
-            var rx = bx1 + (tx1 - bx1) * (1 - rf);
-            ctx.beginPath();
-            ctx.moveTo(lx, ry);
-            ctx.lineTo(rx, ry);
-            ctx.strokeStyle = 'rgba(0, 40, 10, 0.06)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-
-        // Wheat texture - small dashes
-        if (strip.type === 'wheat') {
-          ctx.fillStyle = 'rgba(180, 170, 80, 0.08)';
-          for (var wr = 0; wr < 6; wr++) {
-            var wf = (wr + 0.5) / 6;
-            var wy = fieldTop + (fieldBot - fieldTop) * wf;
-            var wlx = bx0 + (tx0 - bx0) * (1 - wf);
-            var wrx = bx1 + (tx1 - bx1) * (1 - wf);
-            ctx.fillRect(wlx, wy - 0.5, wrx - wlx, 1);
-          }
-        }
       }
 
-      // Subtle ground gradient at very bottom for depth
-      var gndGrad = ctx.createLinearGradient(0, H * 0.85, 0, H);
-      gndGrad.addColorStop(0, 'rgba(20, 50, 20, 0)');
-      gndGrad.addColorStop(1, 'rgba(20, 50, 20, 0.15)');
-      ctx.fillStyle = gndGrad;
-      ctx.fillRect(0, H * 0.85, W, H * 0.15);
+      // Bottom fade to dark green (matches section below)
+      var fadeGrad = ctx.createLinearGradient(0, H * 0.88, 0, H);
+      fadeGrad.addColorStop(0, 'rgba(30, 60, 30, 0)');
+      fadeGrad.addColorStop(1, 'rgba(30, 60, 30, 0.35)');
+      ctx.fillStyle = fadeGrad;
+      ctx.fillRect(0, H * 0.88, W, H * 0.12);
     }
 
     function drawOverlay() {
