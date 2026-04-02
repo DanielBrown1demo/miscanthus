@@ -229,10 +229,10 @@ button {
 }
 
 .navbar--on-hero {
-  background: rgba(26, 58, 92, 0.3);
+  background: rgba(20, 45, 70, 0.45);
   border-bottom-color: transparent;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .navbar--on-hero.scrolled {
@@ -365,9 +365,10 @@ button {
 }
 
 .navbar--on-hero:not(.scrolled) .lang-toggle {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 0.85rem;
 }
 
 .lang-toggle:hover {
@@ -396,7 +397,8 @@ button {
 
 .navbar__hamburger span {
   display: block;
-  height: 2px;
+  height: 2.5px;
+  width: 100%;
   background: var(--text);
   border-radius: 2px;
   transition: all var(--transition);
@@ -404,6 +406,7 @@ button {
 
 .navbar--on-hero:not(.scrolled) .navbar__hamburger span {
   background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .navbar__hamburger.active span:nth-child(1) {
