@@ -376,7 +376,13 @@ button {
   border-color: var(--primary);
 }
 
-/* Mobile menu toggle */
+/* Navbar actions (lang toggle always visible, hamburger on mobile) */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .navbar__hamburger {
   display: none;
   flex-direction: column;
