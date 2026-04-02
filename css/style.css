@@ -691,6 +691,26 @@ button {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+  align-items: stretch;
+}
+
+.grid-3 > .flip-card {
+  display: flex;
+}
+
+.grid-3 > .flip-card .flip-card__inner {
+  width: 100%;
+  display: flex;
+}
+
+.grid-3 > .flip-card .flip-card__front {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-3 > .flip-card .card__text {
+  flex: 1;
 }
 
 .grid-2 {
