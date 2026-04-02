@@ -1084,7 +1084,7 @@ button {
 
 /* ── Page Hero (subpages) ──────────────────────────────────── */
 .page-hero {
-  background: linear-gradient(to bottom, #1a3a5c, #2d5a7b, #4a7a6a);
+  background: linear-gradient(to bottom, #1a3a5c, #2d5a7b, #4a88b0);
   color: #fff;
   padding: 10rem 0 6rem;
   text-align: center;
