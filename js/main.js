@@ -5,9 +5,12 @@
 (function () {
   'use strict';
 
+  /* ── Reduced Motion Preference ────────────────────────── */
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   /* ── Language Toggle ───────────────────────────────────── */
-  const LANG_KEY = 'lang';
-  let currentLang = localStorage.getItem(LANG_KEY) || 'de';
+  var LANG_KEY = 'lang';
+  var currentLang = localStorage.getItem(LANG_KEY) || 'de';
 
   function applyLanguage(lang) {
     currentLang = lang;
@@ -80,6 +83,27 @@
     }
   });
 
+  /* ── Navbar Hero Transparency ─────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var navbar = document.getElementById('navbar');
+    var hero = document.querySelector('.hero');
+    if (!navbar || !hero) return;
+
+    navbar.classList.add('navbar--on-hero');
+
+    var heroObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          navbar.classList.add('navbar--on-hero');
+        } else {
+          navbar.classList.remove('navbar--on-hero');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    heroObserver.observe(hero);
+  });
+
   /* ── Scroll Reveal (IntersectionObserver) ──────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var reveals = document.querySelectorAll('.reveal');
@@ -96,6 +120,33 @@
 
     reveals.forEach(function (el) {
       observer.observe(el);
+    });
+
+    /* ── Staggered Reveal Delays ──────────────────────────── */
+    var staggerParentClasses = ['grid-3', 'goals-grid', 'steps', 'gallery-grid'];
+
+    reveals.forEach(function (el) {
+      var parent = el.parentElement;
+      if (!parent) return;
+
+      var isStaggerParent = staggerParentClasses.some(function (cls) {
+        return parent.classList.contains(cls);
+      });
+
+      if (isStaggerParent) {
+        var siblings = parent.querySelectorAll('.reveal');
+        var index = -1;
+        for (var i = 0; i < siblings.length; i++) {
+          if (siblings[i] === el) {
+            index = i;
+            break;
+          }
+        }
+        if (index >= 0) {
+          var delay = Math.min(index + 1, 3);
+          el.setAttribute('data-delay', delay);
+        }
+      }
     });
   });
 
@@ -120,8 +171,13 @@
     function animateCounter(el) {
       var target = parseInt(el.getAttribute('data-count'), 10);
       var suffix = el.getAttribute('data-suffix') || '';
+
+      if (prefersReducedMotion) {
+        el.textContent = target + suffix;
+        return;
+      }
+
       var duration = 1500;
-      var start = 0;
       var startTime = null;
 
       function step(timestamp) {
@@ -139,19 +195,22 @@
     }
   });
 
-  /* ── Hero Canvas — Animated Grass ──────────────────────── */
+  /* ── Hero Canvas — Animated Grass + Particles ─────────── */
   document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById('heroCanvas');
     if (!canvas) return;
 
     var ctx = canvas.getContext('2d');
     var blades = [];
-    var bladeCount = 120;
+    var particles = [];
+    var bladeCount = 250;
+    var particleCount = 40;
 
     function resize() {
       canvas.width = canvas.parentElement.offsetWidth;
       canvas.height = canvas.parentElement.offsetHeight;
       initBlades();
+      initParticles();
     }
 
     function initBlades() {
@@ -160,15 +219,29 @@
         blades.push({
           x: Math.random() * canvas.width,
           y: canvas.height,
-          height: 60 + Math.random() * 120,
-          width: 1.5 + Math.random() * 2,
+          height: 80 + Math.random() * 180,
+          width: 1.5 + Math.random() * 2.5,
           sway: Math.random() * Math.PI * 2,
           swaySpeed: 0.005 + Math.random() * 0.01,
           swayAmount: 8 + Math.random() * 15,
           hue: 140 + Math.random() * 30,
           saturation: 40 + Math.random() * 30,
-          lightness: 20 + Math.random() * 15,
-          alpha: 0.15 + Math.random() * 0.25
+          lightness: 25 + Math.random() * 20,
+          alpha: 0.25 + Math.random() * 0.35
+        });
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (var i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: 1 + Math.random() * 2,
+          speed: 0.2 + Math.random() * 0.5,
+          alpha: 0.1 + Math.random() * 0.15,
+          drift: (Math.random() - 0.5) * 0.6
         });
       }
     }
@@ -192,12 +265,50 @@
         ctx.stroke();
       });
 
+      if (!prefersReducedMotion) {
+        particles.forEach(function (p) {
+          p.y -= p.speed;
+          p.x += p.drift;
+
+          if (p.y < -10) {
+            p.y = canvas.height + 10;
+            p.x = Math.random() * canvas.width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(16, 185, 129, ' + p.alpha + ')';
+          ctx.fill();
+        });
+      }
+
       requestAnimationFrame(draw);
     }
 
     resize();
     window.addEventListener('resize', resize);
-    requestAnimationFrame(draw);
+
+    if (!prefersReducedMotion) {
+      requestAnimationFrame(draw);
+    } else {
+      // Draw a single static frame without animation
+      draw(0);
+    }
+  });
+
+  /* ── Hero Parallax ────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var hero = document.querySelector('.hero');
+    var heroContent = hero ? hero.querySelector('.hero__content') : null;
+
+    if (!hero || !heroContent || prefersReducedMotion) return;
+
+    window.addEventListener('scroll', function () {
+      if (window.scrollY < window.innerHeight) {
+        heroContent.style.transform = 'translateY(' + (window.scrollY * 0.3) + 'px)';
+        heroContent.style.opacity = 1 - (window.scrollY / window.innerHeight) * 0.5;
+      }
+    });
   });
 
   /* ── Tabs (Gallery page) ───────────────────────────────── */
