@@ -1751,6 +1751,19 @@ button {
   color: var(--secondary);
 }
 
+.footer__funding {
+  padding: 2rem 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.footer__funding img {
+  max-width: 450px;
+  width: 100%;
+  opacity: 0.85;
+  filter: brightness(1.2);
+}
+
 .footer__bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 2rem;
