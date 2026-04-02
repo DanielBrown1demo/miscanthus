@@ -1693,21 +1693,8 @@ button {
 .footer {
   background: var(--hero-bg);
   color: rgba(255, 255, 255, 0.7);
-  padding: 7rem 0 2.5rem;
+  padding: 5rem 0 2.5rem;
   position: relative;
-  margin-top: 0;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -5%;
-  width: 110%;
-  height: 60px;
-  background: var(--bg);
-  border-radius: 0 0 50% 50%;
-  z-index: 1;
 }
 
 
