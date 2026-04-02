@@ -44,6 +44,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  background: #1a3a5c;
 }
 
 body {
@@ -52,7 +53,6 @@ body {
   line-height: 1.8;
   color: var(--text);
   background: var(--bg);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f4f1e8'/%3E%3Crect width='1' height='1' fill='%23ebe7d8' opacity='0.5'/%3E%3C/svg%3E");
   overflow-x: hidden;
   font-feature-settings: 'liga' 1, 'kern' 1;
 }
@@ -186,6 +186,7 @@ button {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 .navbar.scrolled {
@@ -380,6 +381,7 @@ button {
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -387,6 +389,7 @@ button {
   color: #fff;
   text-align: center;
   padding-top: 80px;
+  padding-top: calc(80px + env(safe-area-inset-top, 0px));
   overflow: hidden;
 }
 
