@@ -391,11 +391,10 @@
       drawSky();
       drawBlades();
 
-      // Ground cover at very bottom - blends to #3d6040 to match CSS curve
-      var gnd = ctx.createLinearGradient(0, H * 0.88, 0, H);
-      gnd.addColorStop(0, 'rgba(61, 96, 64, 0)');
-      gnd.addColorStop(0.6, 'rgba(61, 96, 64, 0.5)');
-      gnd.addColorStop(1, 'rgba(61, 96, 64, 1)');
+      // Ground shadow at very bottom
+      var gnd = ctx.createLinearGradient(0, H * 0.90, 0, H);
+      gnd.addColorStop(0, 'rgba(20, 50, 30, 0)');
+      gnd.addColorStop(1, 'rgba(20, 50, 30, 0.4)');
       ctx.fillStyle = gnd;
       ctx.fillRect(0, H * 0.92, W, H * 0.08);
 
